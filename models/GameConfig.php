@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Class GameConfig
  * Класс для работы с файлами конфигурации
  */
-
-class GameConfig extends JSONModel {
+class GameConfig extends JSONModel
+{
     /**
      * @var int ИД игры
      */
@@ -16,16 +17,16 @@ class GameConfig extends JSONModel {
     private $config_name = 'main';
 
     /**
-     * @var array Наборы параметров
+     * @var [] Наборы параметров
      */
-    private $parameters = array();
+    private $parameters = [ ];
 
     /**
      * Конструктор модели
      *
-     * @param null|integer $game_id
+     * @param int $game_id
      */
-    public function __construct($game_id)
+    public function __construct( $game_id )
     {
         $this->$game_id = $game_id;
     }
@@ -33,19 +34,19 @@ class GameConfig extends JSONModel {
     /**
      * Загрузка файла или файлов конфигурации в модель
      *
-     * @param string|array $config
+     * @param string|[] $config
      * @param null|integer $game_id
      *
-     * @return P13Config
+     * @return GameConfig
      */
-    public function load($config, $game_id = null)
+    public function load( $config, $game_id = null )
     {
-        if(!is_array($config)){
-            $config = array($config);
+        if ( ! is_array( $config )) {
+            $config = [ $config ];
         }
-        foreach($config as $config_name){
+        foreach ($config as $config_name) {
             $this->config_name = $config_name;
-            $this->setPaths($game_id);
+            $this->setPaths( $game_id );
             $this->loadFromFile();
         }
 
@@ -53,13 +54,11 @@ class GameConfig extends JSONModel {
     }
 
     /**
-     * Условие для получения конфига конкретной игры
-     *
      * @param integer $game_id
      *
-     * @return $this
+     * @return GameConfig
      */
-    public function setGameId($game_id)
+    public function setGameId( $game_id )
     {
         $this->game_id = $game_id;
 
@@ -69,18 +68,17 @@ class GameConfig extends JSONModel {
     /**
      * Установка путей к папке и файлу
      *
-     * @param string $config_name
      * @param null|integer $game_id
      */
-    protected function setPaths($config_name, $game_id = null)
+    protected function setPaths( $game_id = null )
     {
-        $this->setGameId($game_id);
+        $this->setGameId( $game_id );
 
-        $this->model_file = $this->config_name.".json";
+        $this->model_file = $this->config_name . ".json";
 
-        $this->model_path = Yii::app()->getModulePath()."/project13/data/games/".$this->game_id."/config/";
-        if(!$this->fileExists()){
-            $this->model_path = Yii::app()->getModulePath()."/project13/data/common/";
+        $this->model_path = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->game_id . "/config/";
+        if ( ! $this->fileExists()) {
+            $this->model_path = Yii::app()->getModulePath() . "/vestria/data/common/";
         }
     }
 
@@ -88,15 +86,16 @@ class GameConfig extends JSONModel {
      * Возвращает запрошенный конфиг в виде массива
      *
      * @param $config_name
+     *
      * @return null
      */
-    public function getConfigAsArray($config_name)
+    public function getConfigAsArray( $config_name )
     {
-        if(isset($this->parameters[$config_name])){
+        if (isset( $this->parameters[$config_name] )) {
             return $this->parameters[$config_name];
         } else {
-            $this->load($config_name);
-            return isset($this->parameters[$config_name]) ? $this->parameters[$config_name] : null;
+            $this->load( $config_name );
+            return isset( $this->parameters[$config_name] ) ? $this->parameters[$config_name] : null;
         }
     }
 
