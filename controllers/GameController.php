@@ -105,8 +105,11 @@ class GameController extends Controller
     {
         // Сначала проверяем роль
         if (Yii::app()->user->getState( 'game_role' ) == Game_roles::GM_ROLE) {
-            $game_data = new Game( $this->game_model->id, $this->game_model->last_turn );
-            $this->render( 'gm', [ ] );
+            $game = new Game( $this->game_model->id, $this->game_model->last_turn );
+            $this->render( 'gm', [
+                'game' => $game,
+                'players' => $this->game_model->players_users
+            ] );
         } else {
             $this->actionNoAccess();
         }

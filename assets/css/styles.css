@@ -1,11 +1,12 @@
 body{
     background-color: DarkRed;
+    background-image: url('../images/design/bg2.jpg');
 }
 #page{
     width: 1200px;
     background-image: url('../images/design/bg1.jpg');
     border: 1px solid black;
-    margin: 0 auto;
+    margin: 30px auto;
 }
 #inner_content{
     min-height: 700px;

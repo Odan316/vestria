@@ -56,29 +56,6 @@ class Game extends JSONModel
         $this->config = new GameConfig( $this->id );
     }
 
-    /**
-     * @param integer $game_id
-     *
-     * @return Game
-     */
-    public function setId( $game_id )
-    {
-        $this->id = $game_id;
-
-        return $this;
-    }
-
-    /**
-     * @param integer $turn
-     *
-     * @return Game
-     */
-    public function setTurn( $turn )
-    {
-        $this->turn = $turn;
-
-        return $this;
-    }
 
     /**
      * Установка путей к папке и файлу
@@ -144,5 +121,86 @@ class Game extends JSONModel
     public function createNewGame()
     {
         $this->save();
+    }
+
+
+    /**
+     * @param int $game_id
+     *
+     * @return Game
+     */
+    public function setId( $game_id )
+    {
+        $this->id = $game_id;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param integer $turn
+     *
+     * @return Game
+     */
+    public function setTurn( $turn )
+    {
+        $this->turn = $turn;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTurn()
+    {
+        return $this->turn;
+    }
+
+    /**
+     * @return GameConfig
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return Province[]
+     */
+    public function getProvinces()
+    {
+        return $this->provinces;
+    }
+
+    /**
+     * @return Character[]
+     */
+    public function getCharacters()
+    {
+        return $this->characters;
+    }
+
+    /**
+     * @return Faction[]
+     */
+    public function getFactions()
+    {
+        return $this->factions;
+    }
+
+    /**
+     * @return Army[]
+     */
+    public function getArmies()
+    {
+        return $this->armies;
     }
 } 
