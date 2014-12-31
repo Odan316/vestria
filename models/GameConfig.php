@@ -99,6 +99,19 @@ class GameConfig extends JSONModel
         }
     }
 
+    public function getConfigAsList($config_name)
+    {
+        $config = $this->getConfigAsArray($config_name);
+
+        $list = [];
+        if(isset($config['listed']) && $config['listed'] == 1){
+            foreach($config['elements'] as $element){
+                $list[$element['id']] = $element['name'];
+            }
+        }
+        return $list;
+    }
+
     /**
      * Загрузка сырых данных в массив параметров
      */

@@ -105,10 +105,18 @@ class GameController extends Controller
     {
         // Сначала проверяем роль
         if (Yii::app()->user->getState( 'game_role' ) == Game_roles::GM_ROLE) {
+            /** @var $ClientScript CClientScript */
+            $ClientScript = Yii::app()->clientScript;
+            $ClientScript->registerScriptFile($this->module->assetsBase.'/js/gm.js');
+
             $game = new Game( $this->game_model->id, $this->game_model->last_turn );
+
+            $classes_list = $game->getConfig()->getConfigAsList("character_classes");
+
             $this->render( 'gm', [
                 'game' => $game,
-                'players' => $this->game_model->players_users
+                'players' => $this->game_model->players_users,
+                'classes_list' => $classes_list
             ] );
         } else {
             $this->actionNoAccess();

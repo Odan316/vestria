@@ -12,18 +12,26 @@ class Character extends JSONModel {
     private $id;
     /** @var string */
     private $name;
-    private $class;
-    private $ambition;
-    private $trait;
+    /** @var int */
+    private $classId;
+    /** @var  int */
+    private $ambitionId;
+    /** @var  int */
+    private $traitId;
+    /** @var  int */
     private $popularity;
+    /** @var  int */
     private $cash;
-    private $faction;
+    /** @var  int */
+    private $factionId;
 
     /** @var int */
-    private $player_id;
+    private $playerId;
 
     /** @var Users */
     private $player;
+    /** @var  CharacterClass */
+    private $class;
 
     public function getName()
     {
@@ -33,7 +41,15 @@ class Character extends JSONModel {
     public function getPlayer()
     {
         if(empty($this->player))
-            $this->player = Users::model()->findByPk($this->player_id);
+            $this->player = Users::model()->findByPk($this->playerId);
+
+        return $this->player;
+    }
+
+    public function getClass()
+    {
+        if(empty($this->player))
+            $this->player = Users::model()->findByPk($this->playerId);
 
         return $this->player;
     }
