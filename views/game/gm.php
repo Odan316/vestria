@@ -2,59 +2,61 @@
 /**
  * @var $this GameController
  * @var $players Users[] Список игроков, с племенами
- * @var $game Game
- * @var $classes_list []
+ * @var $classesList []
  */
-$this->setPageTitle( $this->game_title . ' - Кабинет Ведущего' );
+$this->setPageTitle( $this->gameTitle . ' - Кабинет Ведущего' );
 ?>
 <div id="gm_players_list">
     <h2>Игроки</h2>
+    <?=CHtml::hiddenField("player_id")?>
     <?php foreach ($players as $player) {
-        $has_char = false;
+        $hasChar = false;
         ?>
-        <p>
+        <p data-player-id="<?= $player->id?>">
             <?= $player->person->nickname ?>
-            <?php foreach ($game->getCharacters() as $character) { ?>
+            <?php foreach ($this->game->getCharacters() as $character) { ?>
                 <?php if ($character->getPlayer()->id == $player->id) {
-                    $has_char = true;
+                    $hasChar = true;
                     ?>
-                    <?= $character->getName() ?>
-                    <button id="edit_character">Изменить персонажа</button>
+                    <span>(<?= $character->getName() ?>)</span>
+                    <button class="edit_character">Изменить персонажа</button>
                 <?php } ?>
             <?php } ?>
-            <?php if ( ! $has_char) { ?>
-                <button id="add_character">Добавить персонажа</button>
+            <?php if ( ! $hasChar) { ?>
+                <button class="add_character">Добавить персонажа</button>
             <?php } ?>
         </p>
     <?php } ?>
 </div>
 
-<div class="edit_char">
-    <?=CHtml::hiddenField("player_id")?>
+<div id="edit_character" class="modal">
+    <div class="modal_close"></div>
+    <h2>Персонаж</h2>
     <?=CHtml::hiddenField("character_id")?>
     <div class="b_new_char_set">
     </div>
-    <p>Имя:</p>
+    <label>Игрок:</label>
+    <p id="character_player"></p>
+    <label for="character_name">Имя:</label>
     <?=CHtml::textField("character_name")?>
-    <p>Класс:</p>
-    <?=CHtml::dropDownList("character_class", 0, $classes_list)?>
-    <p>Черта:</p>
-    <?=CHtml::dropDownList("character_trait", 0, [])?>
-    <p>Амбиция:</p>
-    <?=CHtml::dropDownList("character_ambition", 0, [])?>
-    <div class="b_new_tribe_set">
-        <p>Координаты первой общины:</p>
-        x:<?=CHtml::textField("tribe_start_x", "", array("style" => "width:60px;"))?>
-        y:<?=CHtml::textField("tribe_start_y", "", array("style" => "width:60px;"))?>
-    </div>
+    <br/>
+    <label for="class_id">Класс:</label>
+    <?=CHtml::dropDownList("class_id", 0, $classesList)?>
+    <br/>
+    <label for="trait_id">Черта:</label>
+    <?=CHtml::dropDownList("trait_id", 0, [])?>
+    <br/>
+    <label for="ambition_id">Амбиция:</label>
+    <?=CHtml::dropDownList("ambition_id", 0, [])?>
+    <br/>
     <?
-    $this->widget('bootstrap.widgets.TbButton',array(
+    $this->widget('bootstrap.widgets.TbButton',[
         'label' => 'Сохранить',
         'type' => 'secondary',
         'size' => 'small',
-        "htmlOptions" => array(
-            'class' => "but_gm_tribe_save"
-        )
-    ));
+        "htmlOptions" => [
+            'class' => "but_gm_character_save"
+        ]
+    ]);
     ?>
 </div>

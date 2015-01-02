@@ -10,6 +10,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?=CHtml::encode($this->pageTitle); ?></title>
     <link href="<?= Yii::app()->request->baseUrl; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <script>
+        <?php if(strpos($_SERVER['HTTP_HOST'], 'local') !== false){ ?>
+        window.url_root = "/vestria/";
+        <?php } else { ?>
+        window.url_root = "/diplomacy/vestria/";
+        <?php } ?>
+    </script>
 </head>
 
 <body>
@@ -21,7 +28,7 @@
     <div class="clear"></div>
 
     <div id="footer">
-        "<?=$this->game_title ?>" Copyright by Onad &copy; <?= date('Y'); ?>. No Rights Reserved.<br/>
+        "<?=$this->gameTitle ?>" Copyright by Onad &copy; <?= date('Y'); ?>. No Rights Reserved.<br/>
 		<?= Yii::powered(); ?>
 	</div>
 

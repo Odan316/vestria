@@ -1,44 +1,164 @@
 $(function(){
-    $('.add_character').on('click', function(){
-        $(this).parents('#b_gm_players').find('.edit_tribe').detach();
-        $('.but_gm_tribe_edit').show();
-        $(this).hide();
-        tribe_info = $(this).parents('.b_gm_tribe_info');
-        $('.edit_tribe').clone().appendTo(tribe_info).show()
-            .find('input[name=player_id]').val(tribe_info.data("player-id"));
-        if(tribe_info.data('tribe-tag') != ""){
-            tribe_info.find(".b_new_tribe_set").hide();
-        }
+    refreshLists();
+    $(document).on('click', '.modal_close', function(){
+        $(this).parents('.modal').hide();
     });
-    $(document).on('click', '.but_gm_tribe_save', function(){
-        tribe_form = $(this).parent('.edit_tribe');
-        saveTribe(tribe_form);
+    $(document).on('click', '.add_character', function(){
+        var playerId = $(this).parents("p").data("player-id");
+        var playerData = getPlayerData(playerId);
+        var characterData = getCharacterDataByPlayerId(playerId);
+        fillCharacterFrom(playerData, characterData);
+        $('#edit_character').show();
+    });
+    $(document).on('change', '#class_id', function(){
+        refreshLists();
+    });
+    $(document).on('click', '.but_gm_character_save', function(){
+        var characterData = readCharacterForm();
+        saveCharacter(characterData);
         $(this).parents('.b_gm_tribe_info').find('.but_gm_tribe_edit').show();
-        tribe_form.detach();
     })
 });
 
-function saveTribe(tribe_form){
+function getPlayerData(playerId)
+{
+    var playerData = null;
+
     $.ajax({
         type: "POST",
         async: false,
-        url: window.url_root+"project13/game/GMSaveTribe",
+        context: this,
+        url: window.url_root + "game/getPlayerData",
         dataType: 'json',
         data: {
-            "player_id": tribe_form.find('input[name=player_id]').val(),
-            "tribe_tag": tribe_form.find('input[name=tribe_tag]').val(),
-            "tribe_name": tribe_form.find('input[name=tribe_name]').val(),
-            "tribe_color": tribe_form.find('input[name=tribe_color]').val(),
-            "tribe_start_x": tribe_form.find('input[name=tribe_start_x]').val(),
-            "tribe_start_y": tribe_form.find('input[name=tribe_start_y]').val()
+            "playerId": playerId
         },
+        success: function (data) {
+            if (data != null) {
+                playerData = data;
+            }
+        }
+    });
+
+    return playerData;
+}
+function getCharacterDataByPlayerId(playerId)
+{
+    var characterData = null;
+
+    $.ajax({
+        type: "POST",
+        async: false,
+        context: this,
+        url: window.url_root + "game/getCharacterDataByPlayerId",
+        dataType: 'json',
+        data: {
+            "playerId": playerId
+        },
+        success: function (data) {
+            if (data != null) {
+                characterData = data;
+            }
+        }
+    });
+
+    return characterData;
+}
+function refreshLists()
+{
+    var classId = $("#class_id").val();
+    console.log(classId);
+    var traits = getTraitsByClassId(classId);
+    createList("trait_id", 0, traits);
+    var ambitions = getAmbitionsByClassId(classId);
+    createList("ambition_id", 0, ambitions);
+}
+function getTraitsByClassId(classId)
+{
+    var list = [];
+
+    $.ajax({
+        type: "POST",
+        async: false,
+        context: this,
+        url: window.url_root + "game/getTraitsByClassId",
+        dataType: 'json',
+        data: {
+            "classId": classId
+        },
+        success: function (data) {
+            if (data != null) {
+                for(var i = 0; i < data.length; i++)
+                    list[data[i].id] = data[i].name;
+            }
+        }
+    });
+
+    return list;
+}
+function getAmbitionsByClassId(classId)
+{
+    var list = [];
+
+    $.ajax({
+        type: "POST",
+        async: false,
+        context: this,
+        url: window.url_root + "game/getAmbitionsByClassId",
+        dataType: 'json',
+        data: {
+            "classId": classId
+        },
+        success: function (data) {
+            if (data != null) {
+                for(var i = 0; i < data.length; i++)
+                    list[data[i].id] = data[i].name;
+            }
+        }
+    });
+
+    return list;
+}
+function fillCharacterFrom(playerData, characterData)
+{
+    if(playerData != null){
+        $("#character_player").text(playerData.nickname);
+        $("#player_id").val(playerData.id);
+        if(characterData != null){
+
+        }
+    } else {
+        $("#player_id").val("");
+        $("#character_player").html('<span class="alert">Игрок не найден!</span>');
+    }
+}
+function readCharacterForm()
+{
+    return {
+        'playerId': $("#player_id").val(),
+        'name': $("#character_name").val(),
+        'class_id': $("#class_id").val(),
+        'traitIdd': $("#trait_id").val(),
+        'ambitionId': $("#ambition_id").val()
+    }
+}
+
+function saveCharacter(characterData)
+{
+    $.ajax({
+        type: "POST",
+        async: false,
+        url: window.url_root+"game/GMSaveCharacter",
+        dataType: 'json',
+        data: characterData,
         success: function(data){
             if(data.result == true){
                 location.reload();
             }
             else{
-                alert("Не удалось сохранить Племя");
+                alert("Не удалось сохранить персонажа");
             }
         }
     });
 }
+

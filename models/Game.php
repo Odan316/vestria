@@ -45,12 +45,12 @@ class Game extends JSONModel
     /**
      * Конструктор модели
      *
-     * @param integer $game_id
+     * @param integer $gameId
      * @param integer $turn
      */
-    public function __construct( $game_id, $turn = 0 )
+    public function __construct( $gameId, $turn = 0 )
     {
-        $this->id   = $game_id;
+        $this->id   = $gameId;
         $this->turn = $turn;
         $this->load();
         $this->config = new GameConfig( $this->id );
@@ -63,8 +63,8 @@ class Game extends JSONModel
     protected function setPaths()
     {
         if ( ! empty( $this->id )) {
-            $this->model_path = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->id . "/turns/" . (integer) $this->turn . "/";
-            $this->model_file = "main_save.json";
+            $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->id . "/turns/" . (integer) $this->turn . "/";
+            $this->modelFile = "main_save.json";
         }
     }
 
@@ -106,13 +106,13 @@ class Game extends JSONModel
      */
     protected function parseRawData()
     {
-        $this->raw_data['id']   = $this->id;
-        $this->raw_data['turn'] = $this->turn;
+        $this->rawData['id']   = $this->id;
+        $this->rawData['turn'] = $this->turn;
         // TODO: update as possible
-        $this->raw_data['provinces']  = [ ];
-        $this->raw_data['characters'] = [ ];
-        $this->raw_data['factions']   = [ ];
-        $this->raw_data['armies']     = [ ];
+        $this->rawData['provinces']  = [ ];
+        $this->rawData['characters'] = [ ];
+        $this->rawData['factions']   = [ ];
+        $this->rawData['armies']     = [ ];
     }
 
     /**
@@ -125,13 +125,13 @@ class Game extends JSONModel
 
 
     /**
-     * @param int $game_id
+     * @param int $gameId
      *
      * @return Game
      */
-    public function setId( $game_id )
+    public function setId( $gameId )
     {
-        $this->id = $game_id;
+        $this->id = $gameId;
 
         return $this;
     }
@@ -202,5 +202,20 @@ class Game extends JSONModel
     public function getArmies()
     {
         return $this->armies;
+    }
+
+    /**
+     * @param $playerId
+     *
+     * @return Character|null
+     */
+    public function getCharacterByPlayerId($playerId)
+    {
+        foreach($this->characters as $character){
+            if($character->getPlayer()->id == $playerId){
+                return $character;
+            }
+        }
+        return null;
     }
 } 

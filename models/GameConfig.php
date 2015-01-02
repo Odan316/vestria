@@ -9,12 +9,12 @@ class GameConfig extends JSONModel
     /**
      * @var int ИД игры
      */
-    private $game_id;
+    private $gameId;
 
     /**
      * @var string Имя конфига
      */
-    private $config_name = 'main';
+    private $configName = 'main';
 
     /**
      * @var [] Наборы параметров
@@ -24,29 +24,29 @@ class GameConfig extends JSONModel
     /**
      * Конструктор модели
      *
-     * @param int $game_id
+     * @param int $gameId
      */
-    public function __construct( $game_id )
+    public function __construct( $gameId )
     {
-        $this->$game_id = $game_id;
+        $this->$gameId = $gameId;
     }
 
     /**
      * Загрузка файла или файлов конфигурации в модель
      *
      * @param string|[] $config
-     * @param null|integer $game_id
+     * @param null|integer $gameId
      *
      * @return GameConfig
      */
-    public function load( $config, $game_id = null )
+    public function load( $config, $gameId = null )
     {
         if ( ! is_array( $config )) {
             $config = [ $config ];
         }
-        foreach ($config as $config_name) {
-            $this->config_name = $config_name;
-            $this->setPaths( $game_id );
+        foreach ($config as $configName) {
+            $this->configName = $configName;
+            $this->setPaths( $gameId );
             $this->loadFromFile();
         }
 
@@ -54,13 +54,13 @@ class GameConfig extends JSONModel
     }
 
     /**
-     * @param integer $game_id
+     * @param integer $gameId
      *
      * @return GameConfig
      */
-    public function setGameId( $game_id )
+    public function setGameId( $gameId )
     {
-        $this->game_id = $game_id;
+        $this->gameId = $gameId;
 
         return $this;
     }
@@ -68,44 +68,51 @@ class GameConfig extends JSONModel
     /**
      * Установка путей к папке и файлу
      *
-     * @param null|integer $game_id
+     * @param null|integer $gameId
      */
-    protected function setPaths( $game_id = null )
+    protected function setPaths( $gameId = null )
     {
-        $this->setGameId( $game_id );
+        $this->setGameId( $gameId );
 
-        $this->model_file = $this->config_name . ".json";
+        $this->modelFile = $this->configName . ".json";
 
-        $this->model_path = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->game_id . "/config/";
+        $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->gameId . "/config/";
         if ( ! $this->fileExists()) {
-            $this->model_path = Yii::app()->getModulePath() . "/vestria/data/common/";
+            $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/common/";
         }
     }
 
     /**
      * Возвращает запрошенный конфиг в виде массива
      *
-     * @param $config_name
+     * @param $configName
      *
      * @return null
      */
-    public function getConfigAsArray( $config_name )
+    public function getConfigAsArray( $configName )
     {
-        if (isset( $this->parameters[$config_name] )) {
-            return $this->parameters[$config_name];
+        if (isset( $this->parameters[$configName] )) {
+            return $this->parameters[$configName];
         } else {
-            $this->load( $config_name );
-            return isset( $this->parameters[$config_name] ) ? $this->parameters[$config_name] : null;
+            $this->load( $configName );
+            return isset( $this->parameters[$configName] ) ? $this->parameters[$configName] : null;
         }
     }
 
-    public function getConfigAsList($config_name)
+    /**
+     * Возвращает запрошенный конфиг в формате id - name для создания селекта
+     *
+     * @param $configName
+     *
+     * @return array
+     */
+    public function getConfigAsList( $configName )
     {
-        $config = $this->getConfigAsArray($config_name);
+        $config = $this->getConfigAsArray( $configName );
 
-        $list = [];
-        if(isset($config['listed']) && $config['listed'] == 1){
-            foreach($config['elements'] as $element){
+        $list = [ ];
+        if (isset( $config['listed'] ) && $config['listed'] == 1) {
+            foreach ($config['elements'] as $element) {
                 $list[$element['id']] = $element['name'];
             }
         }
@@ -117,6 +124,6 @@ class GameConfig extends JSONModel
      */
     protected function processRawData()
     {
-        $this->parameters[$this->config_name] = $this->raw_data;
+        $this->parameters[$this->configName] = $this->rawData;
     }
 } 

@@ -11,18 +11,24 @@ class GameController extends Controller
      * Модель пользователя (из базового движка)
      * @var Users $user_model
      */
-    private $user_model;
+    protected $userModel;
 
     /**
      * Модель игры (из базового движка)
      * @var Games $game_model
      */
-    private $game_model;
+    protected $gameModel;
+
+    /**
+     * Объект игры
+     * @var Game
+     */
+    protected $game;
 
     /**
      * @var string Название модуля для отображения в тайтле страницы
      */
-    public $game_title = "Вестрия: Время Перемен";
+    public $gameTitle = "Вестрия: Время Перемен";
 
     /**
      * Перед загрузкой контроллера необходимо
@@ -51,35 +57,37 @@ class GameController extends Controller
      */
     public function beforeAction( $action )
     {
-        $game_id = false;
+        $gameId = false;
         /** @var $user CWebUser */
         $user = Yii::app()->user;
         if (isset( $this->actionParams['id'] )) {
-            $game_id                                = $this->actionParams['id'];
-            $cookie                                 = new CHttpCookie( 'game_id', $game_id );
+            $gameId                                = $this->actionParams['id'];
+            $cookie                                 = new CHttpCookie( 'gameId', $gameId );
             $cookie->expire                         = time() + 60 * 60 * 24 * 30;
-            Yii::app()->request->cookies['game_id'] = $cookie;
-        } elseif (isset( Yii::app()->request->cookies['game_id'] )) {
-            $game_id = Yii::app()->request->cookies['game_id']->value;
-        } elseif ( ! $user->getState( 'game_id' )) {
+            Yii::app()->request->cookies['gameId'] = $cookie;
+        } elseif (isset( Yii::app()->request->cookies['gameId'] )) {
+            $gameId = Yii::app()->request->cookies['gameId']->value;
+        } elseif ( ! $user->getState( 'gameId' )) {
             $this->redirect( $this->createUrl( 'cabinet/no_such_game' ) );
         }
 
-        if ( ! $user->getState( 'game_role' )) {
-            $user_role = Users2games::model()->findByAttributes( [
+        if ( ! $user->getState( 'gameRole' )) {
+            $userRole = Users2games::model()->findByAttributes( [
                 'user_id' => $user->getState( 'uid' ),
-                'game_id' => $game_id
+                'game_id' => $gameId
             ] );
-            if ( ! $user_role) {
+            if ( ! $userRole) {
                 $this->redirect( $this->createUrl( 'cabinet/game_access_denied' ) );
             } else {
-                $user->setState( 'game_role', $user_role->role_id );
+                $user->setState( 'game_role', $userRole->role_id );
             }
         }
-        $this->user_model = Users::model()->with( 'person' )->findByPk( $user->getState( 'uid' ) );
-        $this->game_model = Games::model()
+        $this->userModel = Users::model()->with( 'person' )->findByPk( $user->getState( 'uid' ) );
+        $this->gameModel = Games::model()
                                  ->with( 'master_user', 'players_users' )
-                                 ->findByPk( $game_id );
+                                 ->findByPk( $gameId );
+
+        $this->game = new Game( $this->gameModel->id, $this->gameModel->last_turn );
 
         return parent::beforeAction( $action );
     }
@@ -109,14 +117,9 @@ class GameController extends Controller
             $ClientScript = Yii::app()->clientScript;
             $ClientScript->registerScriptFile($this->module->assetsBase.'/js/gm.js');
 
-            $game = new Game( $this->game_model->id, $this->game_model->last_turn );
-
-            $classes_list = $game->getConfig()->getConfigAsList("character_classes");
-
             $this->render( 'gm', [
-                'game' => $game,
-                'players' => $this->game_model->players_users,
-                'classes_list' => $classes_list
+                'players' => $this->gameModel->players_users,
+                'classesList' => $this->game->getConfig()->getConfigAsList("character_classes")
             ] );
         } else {
             $this->actionNoAccess();
@@ -128,10 +131,7 @@ class GameController extends Controller
      */
     public function actionPlayer()
     {
-        $game_data = new Game( $this->game_model->id, $this->game_model->last_turn );
         $this->render( 'player', [
-            'user_model' => $this->user_model,
-            'game_model' => $this->game_model
         ] );
     }
 
@@ -141,5 +141,53 @@ class GameController extends Controller
     public function actionNoAccess()
     {
         $this->render( 'no_access' );
+    }
+
+    public function actionGetCharacterDataByPlayerId()
+    {
+        $playerId = htmlspecialchars($_POST['playerId']);
+
+        $character = $this->game->getCharacterByPlayerId($playerId);
+
+        echo json_encode($character);
+    }
+
+    public function actionGetPlayerData()
+    {
+        $playerId = htmlspecialchars($_POST['playerId']);
+
+        $player = Users::model()->findByPk($playerId);
+
+        echo json_encode($player);
+    }
+
+    public function actionGetTraitsByClassId()
+    {
+        $classId = htmlspecialchars($_POST['classId']);
+
+        $list = [];
+        $traitsConfig = $this->game->getConfig()->getConfigAsArray('character_traits');
+        foreach($traitsConfig['elements'] as $key => $values){
+            if(in_array($classId, $values['classes'])){
+                $list[] = ["id" => $values['id'], "name" => $values['name']];
+            }
+        }
+
+        echo json_encode($list);
+    }
+
+    public function actionGetAmbitionsByClassId()
+    {
+        $classId = htmlspecialchars($_POST['classId']);
+
+        $list = [];
+        $ambitionsConfig = $this->game->getConfig()->getConfigAsArray('character_ambitions');
+        foreach($ambitionsConfig['elements'] as $key => $values){
+            if(in_array($classId, $values['classes'])){
+                $list[] = ["id" => $values['id'], "name" => $values['name']];
+            }
+        }
+
+        echo json_encode($list);
     }
 }
