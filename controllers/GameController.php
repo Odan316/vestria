@@ -190,4 +190,15 @@ class GameController extends Controller
 
         echo json_encode($list);
     }
+
+    public function actionSaveCharacter()
+    {
+        $playerId = htmlspecialchars($_POST['playerId']);
+        $characterData = array_merge($_POST['Character'], ['playerId' => $playerId]);
+        if(!empty($characterData['id'])){
+            echo $this->game->updateCharacter($characterData);
+        } else {
+            echo $this->game->createCharacter($characterData);
+        }
+    }
 }

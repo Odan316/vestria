@@ -56,18 +56,6 @@ class Game extends JSONModel
         $this->config = new GameConfig( $this->id );
     }
 
-
-    /**
-     * Установка путей к папке и файлу
-     */
-    protected function setPaths()
-    {
-        if ( ! empty( $this->id )) {
-            $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->id . "/turns/" . (integer) $this->turn . "/";
-            $this->modelFile = "main_save.json";
-        }
-    }
-
     /**
      * Загрузка игрового файла в модель
      */
@@ -91,6 +79,32 @@ class Game extends JSONModel
     }
 
     /**
+     * Установка путей к папке и файлу
+     */
+    protected function setPaths()
+    {
+        if ( ! empty( $this->id )) {
+            $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->id . "/turns/" . (integer) $this->turn . "/";
+            $this->modelFile = "main_save.json";
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "turn" => $this->turn,
+            "provinces" => [],
+            "characters" => [],
+            "factions" => [],
+            "armies" => []
+        ];
+    }
+
+    /**
      * Загрузка сырых данных в свойства модели
      */
     protected function processRawData()
@@ -99,20 +113,6 @@ class Game extends JSONModel
         $this->characters = [ ];
         $this->factions   = [ ];
         $this->armies     = [ ];
-    }
-
-    /**
-     * Выгрузка свойств модели в сырые данные
-     */
-    protected function parseRawData()
-    {
-        $this->rawData['id']   = $this->id;
-        $this->rawData['turn'] = $this->turn;
-        // TODO: update as possible
-        $this->rawData['provinces']  = [ ];
-        $this->rawData['characters'] = [ ];
-        $this->rawData['factions']   = [ ];
-        $this->rawData['armies']     = [ ];
     }
 
     /**
@@ -217,5 +217,32 @@ class Game extends JSONModel
             }
         }
         return null;
+    }
+
+    /**
+     * @param [] $data
+     *
+     * @return bool
+     */
+    public function createCharacter($data)
+    {
+        $this->characters[] = new Character($data);
+        return $this->save();
+    }
+
+    /**
+     * @param [] $data
+     *
+     * @return bool
+     */
+    public function updateCharacter($data)
+    {
+        foreach($this->characters as $character){
+            if($character->getId() == $data['id']){
+                $this->setAttributes($data);
+                return $this->save();
+            }
+        }
+        return false;
     }
 } 

@@ -10,7 +10,7 @@ $(function(){
         fillCharacterFrom(playerData, characterData);
         $('#edit_character').show();
     });
-    $(document).on('change', '#class_id', function(){
+    $(document).on('change', '#Character_classId', function(){
         refreshLists();
     });
     $(document).on('click', '.but_gm_character_save', function(){
@@ -66,12 +66,11 @@ function getCharacterDataByPlayerId(playerId)
 }
 function refreshLists()
 {
-    var classId = $("#class_id").val();
-    console.log(classId);
+    var classId = $("#Character_classId").val();
     var traits = getTraitsByClassId(classId);
-    createList("trait_id", 0, traits);
+    createList("Character_traitId", 0, traits);
     var ambitions = getAmbitionsByClassId(classId);
-    createList("ambition_id", 0, ambitions);
+    createList("Character_ambitionId", 0, ambitions);
 }
 function getTraitsByClassId(classId)
 {
@@ -122,24 +121,27 @@ function getAmbitionsByClassId(classId)
 function fillCharacterFrom(playerData, characterData)
 {
     if(playerData != null){
-        $("#character_player").text(playerData.nickname);
+        $("#character_player_name").text(playerData.nickname);
         $("#player_id").val(playerData.id);
         if(characterData != null){
 
         }
     } else {
         $("#player_id").val("");
-        $("#character_player").html('<span class="alert">Игрок не найден!</span>');
+        $("#character_player_name").html('<span class="alert">Игрок не найден!</span>');
     }
 }
 function readCharacterForm()
 {
     return {
         'playerId': $("#player_id").val(),
-        'name': $("#character_name").val(),
-        'class_id': $("#class_id").val(),
-        'traitIdd': $("#trait_id").val(),
-        'ambitionId': $("#ambition_id").val()
+        'Character': {
+            'id': $("#Character_id").val(),
+            'name': $("#Character_name").val(),
+            'classId': $("#Character_classId").val(),
+            'traitId': $("#Character_traitId").val(),
+            'ambitionId': $("#Character_ambitionId").val()
+        }
     }
 }
 
@@ -148,7 +150,7 @@ function saveCharacter(characterData)
     $.ajax({
         type: "POST",
         async: false,
-        url: window.url_root+"game/GMSaveCharacter",
+        url: window.url_root+"game/saveCharacter",
         dataType: 'json',
         data: characterData,
         success: function(data){

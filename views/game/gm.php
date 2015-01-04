@@ -32,22 +32,22 @@ $this->setPageTitle( $this->gameTitle . ' - Кабинет Ведущего' );
 <div id="edit_character" class="modal">
     <div class="modal_close"></div>
     <h2>Персонаж</h2>
-    <?=CHtml::hiddenField("character_id")?>
+    <?=CHtml::hiddenField("Character[id]")?>
     <div class="b_new_char_set">
     </div>
     <label>Игрок:</label>
-    <p id="character_player"></p>
-    <label for="character_name">Имя:</label>
-    <?=CHtml::textField("character_name")?>
+    <p id="character_player_name"></p>
+    <label for="Character_name">Имя:</label>
+    <?=CHtml::textField("Character[name]")?>
     <br/>
-    <label for="class_id">Класс:</label>
-    <?=CHtml::dropDownList("class_id", 0, $classesList)?>
+    <label for="Character_classId">Класс:</label>
+    <?=CHtml::dropDownList("Character[classId]", 0, $classesList)?>
     <br/>
-    <label for="trait_id">Черта:</label>
-    <?=CHtml::dropDownList("trait_id", 0, [])?>
+    <label for="Character_traitId">Черта:</label>
+    <?=CHtml::dropDownList("Character[traitId]", 0, [])?>
     <br/>
-    <label for="ambition_id">Амбиция:</label>
-    <?=CHtml::dropDownList("ambition_id", 0, [])?>
+    <label for="Character_ambitionId">Амбиция:</label>
+    <?=CHtml::dropDownList("Character[ambitionId]", 0, [])?>
     <br/>
     <?
     $this->widget('bootstrap.widgets.TbButton',[

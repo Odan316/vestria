@@ -25,7 +25,7 @@
         <?= $content; ?>
     </div>
 
-    <div class="clear"></div>
+    <div class="clearfix"></div>
 
     <div id="footer">
         "<?=$this->gameTitle ?>" Copyright by Onad &copy; <?= date('Y'); ?>. No Rights Reserved.<br/>

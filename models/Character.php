@@ -1,55 +1,86 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: onag
  * Date: 27.12.14
  * Time: 13:24
  */
-
-class Character extends JSONModel {
+class Character extends JSONModel
+{
 
     /** @var int */
-    private $id;
+    protected $id;
     /** @var string */
-    private $name;
+    protected $name;
     /** @var int */
-    private $classId;
-    /** @var  int */
-    private $ambitionId;
-    /** @var  int */
-    private $traitId;
-    /** @var  int */
-    private $popularity;
-    /** @var  int */
-    private $cash;
-    /** @var  int */
-    private $factionId;
+    protected $playerId;
+    /** @var int */
+    protected $factionId;
+    /** @var int */
+    protected $classId;
+    /** @var int */
+    protected $ambitionId;
+    /** @var int */
+    protected $traitId;
+    /** @var int */
+    protected $popularity;
+    /** @var int */
+    protected $cash;
 
-    /** @var int */
-    private $playerId;
 
     /** @var Users */
     private $player;
-    /** @var  CharacterClass */
+    /** @var CharacterClass */
     private $class;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param $name
+     *
+     * @return Game
+     */
+    public function setName( $name )
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @return Users|static
+     */
     public function getPlayer()
     {
-        if(empty($this->player))
-            $this->player = Users::model()->findByPk($this->playerId);
+        if (empty( $this->player )) {
+            $this->player = Users::model()->findByPk( $this->playerId );
+        }
 
         return $this->player;
     }
 
+    /**
+     * @return Users|static
+     */
     public function getClass()
     {
-        if(empty($this->player))
-            $this->player = Users::model()->findByPk($this->playerId);
+        if (empty( $this->player )) {
+            $this->player = Users::model()->findByPk( $this->playerId );
+        }
 
         return $this->player;
     }
