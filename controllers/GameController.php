@@ -113,18 +113,14 @@ class GameController extends Controller
     {
         // Сначала проверяем роль
         if (Yii::app()->user->getState( 'game_role' ) == Game_roles::GM_ROLE) {
-            if ( ! $this->game->setupFinished()) {
+            /** @var $ClientScript CClientScript */
+            $ClientScript = Yii::app()->clientScript;
+            $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/gm.js' );
 
-            } else {
-                /** @var $ClientScript CClientScript */
-                $ClientScript = Yii::app()->clientScript;
-                $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/gm.js' );
-
-                $this->render( 'gm', [
-                    'players'     => $this->gameModel->players_users,
-                    'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" )
-                ] );
-            }
+            $this->render( 'gm', [
+                'players'     => $this->gameModel->players_users,
+                'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" )
+            ] );
         } else {
             $this->actionNoAccess();
         }
@@ -203,6 +199,26 @@ class GameController extends Controller
             echo $this->game->updateCharacter( $characterData );
         } else {
             echo $this->game->createCharacter( $characterData );
+        }
+    }
+
+
+    public function actionGetFactionData()
+    {
+        $factionId = htmlspecialchars( $_POST['factionId'] );
+
+        $faction = $this->game->getFaction( $factionId );
+
+        echo json_encode( $faction );
+    }
+
+    public function actionSaveFaction()
+    {
+        $factionData = $_POST['Faction'];
+        if ( ! empty( $factionData['id'] )) {
+            echo $this->game->updateFaction( $factionData );
+        } else {
+            echo $this->game->createFaction( $factionData );
         }
     }
 }

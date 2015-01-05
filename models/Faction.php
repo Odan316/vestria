@@ -23,7 +23,7 @@ class Faction extends JSONModel
      * @param Game $game
      * @param [] $data
      */
-    public function __constructor( $game, $data = [ ] )
+    public function __construct( $game, $data = [ ] )
     {
         $this->game = $game;
         parent::__construct( $data );
@@ -57,6 +57,25 @@ class Faction extends JSONModel
     }
 
     /**
+     * @param int $characterId
+     *
+     * @return Faction
+     */
+    public function setLeaderId($characterId)
+    {
+        $this->leaderId = $characterId;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLeaderId()
+    {
+        return $this->leaderId;
+    }
+
+    /**
      * @return Character|null
      */
     public function getLeader()
@@ -66,5 +85,30 @@ class Faction extends JSONModel
         }
 
         return $this->leader;
+    }
+
+    /**
+     * Задает дефолтные параметры для персонажа
+     *
+     * @param int $id
+     *
+     * @return Faction
+     */
+    public function setupAsNew( $id )
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id"         => $this->id,
+            "name"       => $this->name,
+            "leaderId"   => $this->leaderId
+        ];
     }
 }

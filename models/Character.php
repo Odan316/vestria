@@ -280,7 +280,7 @@ class Character extends JSONModel
      *
      * @param int $id
      *
-     * @return $this
+     * @return Character
      */
     public function setupAsNew( $id )
     {

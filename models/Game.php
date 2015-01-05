@@ -11,12 +11,10 @@ class Game extends JSONModel
      * @var int ИД игры
      */
     protected $id;
-
     /**
      * @var GameConfig Конфиг
      */
     protected $config;
-
     /**
      * @var int ИД хода
      */
@@ -26,17 +24,14 @@ class Game extends JSONModel
      * @var Province[] Провинции
      */
     protected $provinces = [ ];
-
     /**
      * @var Character[] Персонажи игроков
      */
     protected $characters = [ ];
-
     /**
      * @var Faction[] Фракции
      */
     protected $factions = [ ];
-
     /**
      * @var Army[] Армии
      */
@@ -119,12 +114,22 @@ class Game extends JSONModel
      */
     protected function processRawData()
     {
+        foreach ($this->rawData['provinces'] as $data) {
+            $this->provinces[] = new Province( $this, $data );
+        }
         foreach ($this->rawData['characters'] as $data) {
             $this->characters[] = new Character( $this, $data );
         }
-        $this->provinces = [ ];
-        $this->factions  = [ ];
-        $this->armies    = [ ];
+        foreach ($this->rawData['factions'] as $data) {
+            $this->factions[] = new Faction( $this, $data );
+        }
+        foreach ($this->rawData['armies'] as $data) {
+            $this->armies[] = new Army( $this, $data );
+        }
+
+        $this->lastCharacterId = $this->rawData['lastCharacterId'];
+        $this->lastFactionId = $this->rawData['lastFactionId'];
+        $this->lastArmyId = $this->rawData['lastArmyId'];
     }
 
     /**
@@ -137,17 +142,11 @@ class Game extends JSONModel
 
     /**
      * Проверяет, соответствует ли состояние игры минимально играбельному
-     * 1) у всех фракций есть лидеры
      *
      * @return bool
      */
-    public function setupFinished()
+    public function isReady()
     {
-        foreach ($this->factions as $faction) {
-            if ( ! $faction->getLeaderId()) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -224,11 +223,39 @@ class Game extends JSONModel
     }
 
     /**
-     * @return Character[]
+     * @param bool $as_array
+     *
+     * @return Character[]|[]
      */
-    public function getCharacters()
+    public function getCharacters( $as_array = false )
     {
-        return $this->characters;
+        if ( ! $as_array) {
+            return $this->characters;
+        } else {
+            $list = [ ];
+            foreach ($this->characters as $character) {
+                $list[] = $character->jsonSerialize();
+            }
+            return $list;
+        }
+    }
+
+    /**
+     * Возвращает список персонажей без фракции
+     *
+     * @param bool $as_array
+     *
+     * @return Character[]|[]
+     */
+    public function getCharactersWithoutFaction( $as_array = false )
+    {
+        $list = [ ];
+        foreach ($this->characters as $character) {
+            if ( ! $character->getFactionId()) {
+                $list[] = ( $as_array ? $character->jsonSerialize() : $character );
+            }
+        }
+        return $list;
     }
 
     /**
@@ -321,10 +348,10 @@ class Game extends JSONModel
      */
     public function createCharacter( $data )
     {
-        $character = new Character( $data );
+        $model = new Character( $data );
         $this->lastCharacterId ++;
-        $character->setupAsNew( $this->lastCharacterId );
-        $this->characters[] = $character;
+        $model->setupAsNew( $this->lastCharacterId );
+        $this->characters[] = $model;
 
         return $this->save();
     }
@@ -338,9 +365,47 @@ class Game extends JSONModel
      */
     public function updateCharacter( $data )
     {
-        $character = $this->getCharacter( $data['id'] );
-        if ( ! empty( $character )) {
-            $character->setAttributes( $data );
+        $model = $this->getCharacter( $data['id'] );
+        if ( ! empty( $model )) {
+            $model->setAttributes( $data );
+            return $this->save();
+        }
+        return false;
+    }
+
+    /**
+     * Создает новую фракцию и сохраняет игру
+     *
+     * @param [] $data
+     *
+     * @return bool
+     */
+    public function createFaction( $data )
+    {
+        $model = new Faction( $data );
+        $this->lastFactionId ++;
+        $model->setupAsNew( $this->lastFactionId );
+        $this->factions[] = $model;
+
+        return $this->save();
+    }
+
+    /**
+     * Находит существующую фракцию по ее ИД в $data и обновляет переданные параметры
+     *
+     * @param [] $data
+     *
+     * @return bool
+     */
+    public function updateFaction( $data )
+    {
+        $model = $this->getFaction( $data['id'] );
+        if ( ! empty( $model )) {
+            if($model->getLeaderId() != $data['leaderId']){
+                $newLeader = $this->getCharacter($data['leaderId']);
+                $newLeader->setFactionId($model->getId());
+            }
+            $model->setAttributes( $data );
             return $this->save();
         }
         return false;
