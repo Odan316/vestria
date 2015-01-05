@@ -2,6 +2,7 @@
 
 /**
  * Class GameConfig
+ *
  * Класс для работы с файлами конфигурации
  */
 class GameConfig extends JSONModel
@@ -117,6 +118,29 @@ class GameConfig extends JSONModel
             }
         }
         return $list;
+    }
+
+    /**
+     * Возвращает элемент запрошенного конфига, содержащего список элементов по его ИД
+     *
+     * @param $configName
+     * @param $elementId
+     *
+     * @return mixed|null
+     */
+    public function getConfigElementById( $configName, $elementId )
+    {
+        $config = $this->getConfigAsArray( $configName );
+
+        if (isset( $config['listed'] ) && $config['listed'] == 1) {
+            foreach ($config['elements'] as $element) {
+                if ($element['id'] == $elementId) {
+                    return $element;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -62,8 +62,8 @@ class GameController extends Controller
         $user = Yii::app()->user;
         if (isset( $this->actionParams['id'] )) {
             $gameId                                = $this->actionParams['id'];
-            $cookie                                 = new CHttpCookie( 'gameId', $gameId );
-            $cookie->expire                         = time() + 60 * 60 * 24 * 30;
+            $cookie                                = new CHttpCookie( 'gameId', $gameId );
+            $cookie->expire                        = time() + 60 * 60 * 24 * 30;
             Yii::app()->request->cookies['gameId'] = $cookie;
         } elseif (isset( Yii::app()->request->cookies['gameId'] )) {
             $gameId = Yii::app()->request->cookies['gameId']->value;
@@ -84,8 +84,8 @@ class GameController extends Controller
         }
         $this->userModel = Users::model()->with( 'person' )->findByPk( $user->getState( 'uid' ) );
         $this->gameModel = Games::model()
-                                 ->with( 'master_user', 'players_users' )
-                                 ->findByPk( $gameId );
+                                ->with( 'master_user', 'players_users' )
+                                ->findByPk( $gameId );
 
         $this->game = new Game( $this->gameModel->id, $this->gameModel->last_turn );
 
@@ -113,14 +113,18 @@ class GameController extends Controller
     {
         // Сначала проверяем роль
         if (Yii::app()->user->getState( 'game_role' ) == Game_roles::GM_ROLE) {
-            /** @var $ClientScript CClientScript */
-            $ClientScript = Yii::app()->clientScript;
-            $ClientScript->registerScriptFile($this->module->assetsBase.'/js/gm.js');
+            if ( ! $this->game->setupFinished()) {
 
-            $this->render( 'gm', [
-                'players' => $this->gameModel->players_users,
-                'classesList' => $this->game->getConfig()->getConfigAsList("character_classes")
-            ] );
+            } else {
+                /** @var $ClientScript CClientScript */
+                $ClientScript = Yii::app()->clientScript;
+                $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/gm.js' );
+
+                $this->render( 'gm', [
+                    'players'     => $this->gameModel->players_users,
+                    'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" )
+                ] );
+            }
         } else {
             $this->actionNoAccess();
         }
@@ -145,60 +149,60 @@ class GameController extends Controller
 
     public function actionGetCharacterDataByPlayerId()
     {
-        $playerId = htmlspecialchars($_POST['playerId']);
+        $playerId = htmlspecialchars( $_POST['playerId'] );
 
-        $character = $this->game->getCharacterByPlayerId($playerId);
+        $character = $this->game->getCharacterByPlayerId( $playerId );
 
-        echo json_encode($character);
+        echo json_encode( $character );
     }
 
     public function actionGetPlayerData()
     {
-        $playerId = htmlspecialchars($_POST['playerId']);
+        $playerId = htmlspecialchars( $_POST['playerId'] );
 
-        $player = Users::model()->findByPk($playerId);
+        $player = Users::model()->findByPk( $playerId );
 
-        echo json_encode($player);
+        echo json_encode( $player );
     }
 
     public function actionGetTraitsByClassId()
     {
-        $classId = htmlspecialchars($_POST['classId']);
+        $classId = htmlspecialchars( $_POST['classId'] );
 
-        $list = [];
-        $traitsConfig = $this->game->getConfig()->getConfigAsArray('character_traits');
-        foreach($traitsConfig['elements'] as $key => $values){
-            if(in_array($classId, $values['classes'])){
-                $list[] = ["id" => $values['id'], "name" => $values['name']];
+        $list         = [ ];
+        $traitsConfig = $this->game->getConfig()->getConfigAsArray( 'character_traits' );
+        foreach ($traitsConfig['elements'] as $key => $values) {
+            if (in_array( $classId, $values['classes'] )) {
+                $list[] = [ "id" => $values['id'], "name" => $values['name'] ];
             }
         }
 
-        echo json_encode($list);
+        echo json_encode( $list );
     }
 
     public function actionGetAmbitionsByClassId()
     {
-        $classId = htmlspecialchars($_POST['classId']);
+        $classId = htmlspecialchars( $_POST['classId'] );
 
-        $list = [];
-        $ambitionsConfig = $this->game->getConfig()->getConfigAsArray('character_ambitions');
-        foreach($ambitionsConfig['elements'] as $key => $values){
-            if(in_array($classId, $values['classes'])){
-                $list[] = ["id" => $values['id'], "name" => $values['name']];
+        $list            = [ ];
+        $ambitionsConfig = $this->game->getConfig()->getConfigAsArray( 'character_ambitions' );
+        foreach ($ambitionsConfig['elements'] as $key => $values) {
+            if (in_array( $classId, $values['classes'] )) {
+                $list[] = [ "id" => $values['id'], "name" => $values['name'] ];
             }
         }
 
-        echo json_encode($list);
+        echo json_encode( $list );
     }
 
     public function actionSaveCharacter()
     {
-        $playerId = htmlspecialchars($_POST['playerId']);
-        $characterData = array_merge($_POST['Character'], ['playerId' => $playerId]);
-        if(!empty($characterData['id'])){
-            echo $this->game->updateCharacter($characterData);
+        $playerId      = htmlspecialchars( $_POST['playerId'] );
+        $characterData = array_merge( $_POST['Character'], [ 'playerId' => $playerId ] );
+        if ( ! empty( $characterData['id'] )) {
+            echo $this->game->updateCharacter( $characterData );
         } else {
-            echo $this->game->createCharacter($characterData);
+            echo $this->game->createCharacter( $characterData );
         }
     }
 }

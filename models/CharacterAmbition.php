@@ -1,17 +1,19 @@
 <?php
 
 /**
- * Class CharacterClass
+ * Class CharacterAmbition
  *
- * Класс Класса персонажа (конфиг)
+ * Класс Амбиции персонажа (конфиг)
  */
-class CharacterClass extends JSONModel
+class CharacterAmbition extends JSONModel
 {
 
     /** @var  int */
     protected $id;
     /** @var  string */
     protected $name;
+    /** @var [] */
+    protected $classes = [ ];
 
     /**
      * @return int
@@ -24,7 +26,7 @@ class CharacterClass extends JSONModel
     /**
      * @param string $name
      *
-     * @return CharacterClass
+     * @return CharacterAmbition
      */
     public function setName( $name )
     {

@@ -119,12 +119,12 @@ class Game extends JSONModel
      */
     protected function processRawData()
     {
-        foreach($this->rawData['characters'] as $data){
-            $this->characters[] = new Character($data);
+        foreach ($this->rawData['characters'] as $data) {
+            $this->characters[] = new Character( $this, $data );
         }
-        $this->provinces  = [ ];
-        $this->factions   = [ ];
-        $this->armies     = [ ];
+        $this->provinces = [ ];
+        $this->factions  = [ ];
+        $this->armies    = [ ];
     }
 
     /**
@@ -135,6 +135,21 @@ class Game extends JSONModel
         $this->save();
     }
 
+    /**
+     * Проверяет, соответствует ли состояние игры минимально играбельному
+     * 1) у всех фракций есть лидеры
+     *
+     * @return bool
+     */
+    public function setupFinished()
+    {
+        foreach ($this->factions as $faction) {
+            if ( ! $faction->getLeaderId()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * @param int $gameId
@@ -193,11 +208,43 @@ class Game extends JSONModel
     }
 
     /**
+     * @param int $provinceId
+     *
+     * @return null|Province
+     */
+    public function getProvince( $provinceId )
+    {
+        foreach ($this->provinces as $province) {
+            if ($province->getId() == $provinceId) {
+                return $province;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return Character[]
      */
     public function getCharacters()
     {
         return $this->characters;
+    }
+
+    /**
+     * @param int $characterId
+     *
+     * @return null|Character
+     */
+    public function getCharacter( $characterId )
+    {
+        foreach ($this->characters as $character) {
+            if ($character->getId() == $characterId) {
+                return $character;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -209,6 +256,22 @@ class Game extends JSONModel
     }
 
     /**
+     * @param int $factionId
+     *
+     * @return null|Faction
+     */
+    public function getFaction( $factionId )
+    {
+        foreach ($this->factions as $faction) {
+            if ($faction->getId() == $factionId) {
+                return $faction;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return Army[]
      */
     public function getArmies()
@@ -217,9 +280,25 @@ class Game extends JSONModel
     }
 
     /**
+     * @param int $armyId
+     *
+     * @return Army|null
+     */
+    public function getArmy( $armyId )
+    {
+        foreach ($this->armies as $army) {
+            if ($army->getId() == $armyId) {
+                return $army;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Находит персонада по ИД его игрока
      *
-     * @param $playerId
+     * @param int $playerId
      *
      * @return Character|null
      */
@@ -243,8 +322,8 @@ class Game extends JSONModel
     public function createCharacter( $data )
     {
         $character = new Character( $data );
-        $this->lastCharacterId++;
-        $character->setupAsNew($this->lastCharacterId);
+        $this->lastCharacterId ++;
+        $character->setupAsNew( $this->lastCharacterId );
         $this->characters[] = $character;
 
         return $this->save();
@@ -259,12 +338,10 @@ class Game extends JSONModel
      */
     public function updateCharacter( $data )
     {
-        foreach ($this->characters as $character) {
-            if ($character->getId() == $data['id']) {
-                CVarDumper::dump("HERE");
-                $character->setAttributes( $data );
-                return $this->save();
-            }
+        $character = $this->getCharacter( $data['id'] );
+        if ( ! empty( $character )) {
+            $character->setAttributes( $data );
+            return $this->save();
         }
         return false;
     }

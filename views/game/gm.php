@@ -18,7 +18,7 @@ $this->setPageTitle( $this->gameTitle . ' - Кабинет Ведущего' );
                 <?php if ($character->getPlayer()->id == $player->id) {
                     $hasChar = true;
                     ?>
-                    <span>(<?= $character->getName() ?>)</span>
+                    <span>(<?= $character->getName();?> - <?= ($character->getFaction() ? $character->getFaction()->getName() : "Нет фракции")?>)</span>
                     <button class="edit_character">Изменить персонажа</button>
                 <?php } ?>
             <?php } ?>
