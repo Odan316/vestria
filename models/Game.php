@@ -10,37 +10,44 @@ class Game extends JSONModel
     /**
      * @var int ИД игры
      */
-    private $id;
+    protected $id;
 
     /**
      * @var GameConfig Конфиг
      */
-    private $config;
+    protected $config;
 
     /**
      * @var int ИД хода
      */
-    private $turn;
+    protected $turn;
 
     /**
      * @var Province[] Провинции
      */
-    private $provinces = [ ];
+    protected $provinces = [ ];
 
     /**
      * @var Character[] Персонажи игроков
      */
-    private $characters = [ ];
+    protected $characters = [ ];
 
     /**
      * @var Faction[] Фракции
      */
-    private $factions = [ ];
+    protected $factions = [ ];
 
     /**
      * @var Army[] Армии
      */
-    private $armies = [ ];
+    protected $armies = [ ];
+
+    /** @var int */
+    private $lastCharacterId = 0;
+    /** @var int */
+    private $lastFactionId = 0;
+    /** @var int */
+    private $lastArmyId = 0;
 
     /**
      * Конструктор модели
@@ -95,12 +102,15 @@ class Game extends JSONModel
     public function jsonSerialize()
     {
         return [
-            "id" => $this->id,
-            "turn" => $this->turn,
-            "provinces" => [],
-            "characters" => [],
-            "factions" => [],
-            "armies" => []
+            "id"              => $this->id,
+            "turn"            => $this->turn,
+            "provinces"       => $this->provinces,
+            "characters"      => $this->characters,
+            "factions"        => $this->factions,
+            "armies"          => $this->armies,
+            "lastCharacterId" => $this->lastCharacterId,
+            "lastFactionId"   => $this->lastFactionId,
+            "lastArmyId"      => $this->lastArmyId
         ];
     }
 
@@ -109,8 +119,10 @@ class Game extends JSONModel
      */
     protected function processRawData()
     {
+        foreach($this->rawData['characters'] as $data){
+            $this->characters[] = new Character($data);
+        }
         $this->provinces  = [ ];
-        $this->characters = [ ];
         $this->factions   = [ ];
         $this->armies     = [ ];
     }
@@ -205,14 +217,16 @@ class Game extends JSONModel
     }
 
     /**
+     * Находит персонада по ИД его игрока
+     *
      * @param $playerId
      *
      * @return Character|null
      */
-    public function getCharacterByPlayerId($playerId)
+    public function getCharacterByPlayerId( $playerId )
     {
-        foreach($this->characters as $character){
-            if($character->getPlayer()->id == $playerId){
+        foreach ($this->characters as $character) {
+            if ($character->getPlayer()->id == $playerId) {
                 return $character;
             }
         }
@@ -220,26 +234,35 @@ class Game extends JSONModel
     }
 
     /**
+     * Создает нового персонажа и сохраняет игру
+     *
      * @param [] $data
      *
      * @return bool
      */
-    public function createCharacter($data)
+    public function createCharacter( $data )
     {
-        $this->characters[] = new Character($data);
+        $character = new Character( $data );
+        $this->lastCharacterId++;
+        $character->setupAsNew($this->lastCharacterId);
+        $this->characters[] = $character;
+
         return $this->save();
     }
 
     /**
+     * Находит существующего персонажа по его ИД в $data и обновляет переданные параметры
+     *
      * @param [] $data
      *
      * @return bool
      */
-    public function updateCharacter($data)
+    public function updateCharacter( $data )
     {
-        foreach($this->characters as $character){
-            if($character->getId() == $data['id']){
-                $this->setAttributes($data);
+        foreach ($this->characters as $character) {
+            if ($character->getId() == $data['id']) {
+                CVarDumper::dump("HERE");
+                $character->setAttributes( $data );
                 return $this->save();
             }
         }

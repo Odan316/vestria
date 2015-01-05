@@ -84,4 +84,36 @@ class Character extends JSONModel
 
         return $this->player;
     }
+
+    /**
+     * Задает дефолтные параметры для персонажа
+     *
+     * @param int $id
+     *
+     * @return $this
+     */
+    public function setupAsNew($id){
+        $this->id = $id;
+        $this->cash = 50;
+        $this->popularity = 20;
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id"         => $this->id,
+            "name"       => $this->name,
+            "playerId"   => $this->playerId,
+            "factionId"  => $this->factionId,
+            "classId"    => $this->classId,
+            "ambitionId" => $this->ambitionId,
+            "traitId"    => $this->traitId,
+            "popularity" => $this->popularity,
+            "cash"       => $this->cash
+        ];
+    }
 }

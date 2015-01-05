@@ -1,9 +1,8 @@
 $(function(){
-    refreshLists();
     $(document).on('click', '.modal_close', function(){
         $(this).parents('.modal').hide();
     });
-    $(document).on('click', '.add_character', function(){
+    $(document).on('click', '.add_character, .edit_character', function(){
         var playerId = $(this).parents("p").data("player-id");
         var playerData = getPlayerData(playerId);
         var characterData = getCharacterDataByPlayerId(playerId);
@@ -11,7 +10,8 @@ $(function(){
         $('#edit_character').show();
     });
     $(document).on('change', '#Character_classId', function(){
-        refreshLists();
+        var classId = $(this).val();
+        refreshCharacterLists(classId);
     });
     $(document).on('click', '.but_gm_character_save', function(){
         var characterData = readCharacterForm();
@@ -64,13 +64,12 @@ function getCharacterDataByPlayerId(playerId)
 
     return characterData;
 }
-function refreshLists()
+function refreshCharacterLists(classId, traitId, ambitionId)
 {
-    var classId = $("#Character_classId").val();
     var traits = getTraitsByClassId(classId);
-    createList("Character_traitId", 0, traits);
+    createList("Character_traitId", traitId, traits);
     var ambitions = getAmbitionsByClassId(classId);
-    createList("Character_ambitionId", 0, ambitions);
+    createList("Character_ambitionId", ambitionId, ambitions);
 }
 function getTraitsByClassId(classId)
 {
@@ -124,7 +123,10 @@ function fillCharacterFrom(playerData, characterData)
         $("#character_player_name").text(playerData.nickname);
         $("#player_id").val(playerData.id);
         if(characterData != null){
-
+            $("#Character_id").val(characterData.id);
+            $("#Character_name").val(characterData.name);
+            $("#Character_classId").val(characterData.classId);
+            refreshCharacterLists(characterData.classId, characterData.traitId, characterData.ambitionId);
         }
     } else {
         $("#player_id").val("");
@@ -154,7 +156,7 @@ function saveCharacter(characterData)
         dataType: 'json',
         data: characterData,
         success: function(data){
-            if(data.result == true){
+            if(data == 1){
                 location.reload();
             }
             else{
