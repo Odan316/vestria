@@ -401,10 +401,6 @@ class Game extends JSONModel
     {
         $model = $this->getFaction( $data['id'] );
         if ( ! empty( $model )) {
-            if($model->getLeaderId() != $data['leaderId']){
-                $newLeader = $this->getCharacter($data['leaderId']);
-                $newLeader->setFactionId($model->getId());
-            }
             $model->setAttributes( $data );
             return $this->save();
         }

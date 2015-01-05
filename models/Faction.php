@@ -111,4 +111,16 @@ class Faction extends JSONModel
             "leaderId"   => $this->leaderId
         ];
     }
+
+    protected function onAttributeChange($attributeName, $oldValue, $newValue)
+    {
+        switch($attributeName) {
+            case 'leaderId':
+                $newLeader = $this->game->getCharacter( $newValue );
+                $newLeader->setFactionId( $this->id );
+                break;
+            default:
+                break;
+        }
+    }
 }
