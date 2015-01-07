@@ -119,7 +119,9 @@ class GameController extends Controller
 
             $this->render( 'gm', [
                 'players'     => $this->gameModel->players_users,
-                'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" )
+                'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
+                'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" )
+
             ] );
         } else {
             $this->actionNoAccess();

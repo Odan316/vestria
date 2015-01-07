@@ -136,6 +136,7 @@ function fillCharacterFrom(playerData, characterData)
             $("#Character_id").val(characterData.id);
             $("#Character_name").val(characterData.name);
             $("#Character_classId").val(characterData.classId);
+            $("#Character_provinceId").val(characterData.provinceId);
             refreshCharacterLists(characterData.classId, characterData.traitId, characterData.ambitionId);
         }
     } else {
@@ -152,7 +153,8 @@ function readCharacterForm()
             'name': $("#Character_name").val(),
             'classId': $("#Character_classId").val(),
             'traitId': $("#Character_traitId").val(),
-            'ambitionId': $("#Character_ambitionId").val()
+            'ambitionId': $("#Character_ambitionId").val(),
+            'provinceId': $("#Character_provinceId").val()
         }
     }
 }

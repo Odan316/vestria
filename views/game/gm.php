@@ -92,6 +92,9 @@ $this->setPageTitle( $this->gameTitle . ' - Кабинет Ведущего' );
     <label for="Character_ambitionId">Амбиция:</label>
     <?= CHtml::dropDownList( "Character[ambitionId]", 0, [ ] ) ?>
     <br/>
+    <label for="Character_provinceId">Провинция:</label>
+    <?= CHtml::dropDownList( "Character[provinceId]", 0, $provincesList ) ?>
+    <br/>
     <?php
     $this->widget( 'bootstrap.widgets.TbButton', [
         'label'       => 'Сохранить',

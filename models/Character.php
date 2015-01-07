@@ -25,6 +25,8 @@ class Character extends JSONModel
     protected $popularity;
     /** @var int */
     protected $cash;
+    /** @var int */
+    protected $provinceId;
 
     /** @var Game */
     private $game;
@@ -38,6 +40,8 @@ class Character extends JSONModel
     private $trait;
     /** @var CharacterAmbition */
     private $ambition;
+    /** @var Province */
+    private $province;
 
     /**
      * Конструктор
@@ -212,6 +216,25 @@ class Character extends JSONModel
     }
 
     /**
+     * @param int $provinceId
+     *
+     * @return Character
+     */
+    public function setProvinceId( $provinceId )
+    {
+        $this->provinceId = $provinceId;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProvinceId()
+    {
+        return $this->provinceId;
+    }
+
+    /**
      * @return Users|static
      */
     public function getPlayer()
@@ -276,6 +299,18 @@ class Character extends JSONModel
     }
 
     /**
+     * @return Province
+     */
+    public function getProvince()
+    {
+        if (empty( $this->province )) {
+            $this->province = $this->game->getProvince( $this->provinceId );
+        }
+
+        return $this->province;
+    }
+
+    /**
      * Задает дефолтные параметры для персонажа
      *
      * @param int $id
@@ -304,7 +339,8 @@ class Character extends JSONModel
             "ambitionId" => $this->ambitionId,
             "traitId"    => $this->traitId,
             "popularity" => $this->popularity,
-            "cash"       => $this->cash
+            "cash"       => $this->cash,
+            "provinceId" => $this->provinceId
         ];
     }
 }
