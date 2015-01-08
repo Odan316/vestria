@@ -1,0 +1,24 @@
+{
+  "id": "18",
+  "turn": "0",
+  "provinces": [],
+  "characters": [
+    {
+      "id": 1,
+      "name": null,
+      "playerId": null,
+      "factionId": null,
+      "classId": null,
+      "ambitionId": null,
+      "traitId": null,
+      "popularity": 20,
+      "cash": 50,
+      "provinceId": null
+    }
+  ],
+  "factions": [],
+  "armies": [],
+  "lastCharacterId": 1,
+  "lastFactionId": 0,
+  "lastArmyId": 0
+}

@@ -44,6 +44,9 @@ class Game extends JSONModel
     /** @var int */
     private $lastArmyId = 0;
 
+    /** @var Map */
+    private $map;
+
     /**
      * Конструктор модели
      *
@@ -56,6 +59,7 @@ class Game extends JSONModel
         $this->turn = $turn;
         $this->load();
         $this->config = new GameConfig( $this->id );
+        $this->map = new Map($this->config->getConfigAsArray("map"));
     }
 
     /**
@@ -348,7 +352,8 @@ class Game extends JSONModel
      */
     public function createCharacter( $data )
     {
-        $model = new Character( $data );
+        $model = new Character( $this, $data );
+        CVarDumper::dump($model, 5, 1);
         $this->lastCharacterId ++;
         $model->setupAsNew( $this->lastCharacterId );
         $this->characters[] = $model;
@@ -382,7 +387,7 @@ class Game extends JSONModel
      */
     public function createFaction( $data )
     {
-        $model = new Faction( $data );
+        $model = new Faction( $this, $data );
         $this->lastFactionId ++;
         $model->setupAsNew( $this->lastFactionId );
         $this->factions[] = $model;
@@ -405,5 +410,13 @@ class Game extends JSONModel
             return $this->save();
         }
         return false;
+    }
+
+    /**
+     * @return Map
+     */
+    public function getMap()
+    {
+        return $this->map;
     }
 } 

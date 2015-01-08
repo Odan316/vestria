@@ -30,102 +30,12 @@ $(function(){
     });
 });
 
-function getPlayerData(playerId)
-{
-    var playerData = null;
-
-    $.ajax({
-        type: "POST",
-        async: false,
-        context: this,
-        url: window.url_root + "game/getPlayerData",
-        dataType: 'json',
-        data: {
-            "playerId": playerId
-        },
-        success: function (data) {
-            if (data != null) {
-                playerData = data;
-            }
-        }
-    });
-
-    return playerData;
-}
-function getCharacterDataByPlayerId(playerId)
-{
-    var characterData = null;
-
-    $.ajax({
-        type: "POST",
-        async: false,
-        context: this,
-        url: window.url_root + "game/getCharacterDataByPlayerId",
-        dataType: 'json',
-        data: {
-            "playerId": playerId
-        },
-        success: function (data) {
-            if (data != null) {
-                characterData = data;
-            }
-        }
-    });
-
-    return characterData;
-}
 function refreshCharacterLists(classId, traitId, ambitionId)
 {
     var traits = getTraitsByClassId(classId);
     createList("Character_traitId", traitId, traits);
     var ambitions = getAmbitionsByClassId(classId);
     createList("Character_ambitionId", ambitionId, ambitions);
-}
-function getTraitsByClassId(classId)
-{
-    var list = [];
-
-    $.ajax({
-        type: "POST",
-        async: false,
-        context: this,
-        url: window.url_root + "game/getTraitsByClassId",
-        dataType: 'json',
-        data: {
-            "classId": classId
-        },
-        success: function (data) {
-            if (data != null) {
-                for(var i = 0; i < data.length; i++)
-                    list[data[i].id] = data[i].name;
-            }
-        }
-    });
-
-    return list;
-}
-function getAmbitionsByClassId(classId)
-{
-    var list = [];
-
-    $.ajax({
-        type: "POST",
-        async: false,
-        context: this,
-        url: window.url_root + "game/getAmbitionsByClassId",
-        dataType: 'json',
-        data: {
-            "classId": classId
-        },
-        success: function (data) {
-            if (data != null) {
-                for(var i = 0; i < data.length; i++)
-                    list[data[i].id] = data[i].name;
-            }
-        }
-    });
-
-    return list;
 }
 function fillCharacterFrom(playerData, characterData)
 {
@@ -158,48 +68,8 @@ function readCharacterForm()
         }
     }
 }
-function saveCharacter(characterData)
-{
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: window.url_root+"game/saveCharacter",
-        dataType: 'json',
-        data: characterData,
-        success: function(data){
-            if(data == 1){
-                location.reload();
-            }
-            else{
-                alert("Не удалось сохранить персонажа");
-            }
-        }
-    });
-}
 
 
-function getFactionData(factionId) {
-    var factionData = null;
-    if (factionId) {
-        $.ajax({
-            type: "POST",
-            async: false,
-            context: this,
-            url: window.url_root + "game/getFactionData",
-            dataType: 'json',
-            data: {
-                "factionId": factionId
-            },
-            success: function (data) {
-                if (data != null) {
-                    factionData = data;
-                }
-            }
-        });
-    }
-
-    return factionData;
-}
 function fillFactionFrom(factionData)
 {
     if(factionData != null){
@@ -217,22 +87,4 @@ function readFactionForm()
             'leaderId': $("#Faction_leaderId").val()
         }
     }
-}
-function saveFaction(factionData)
-{
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: window.url_root+"game/saveFaction",
-        dataType: 'json',
-        data: factionData,
-        success: function(data){
-            if(data == 1){
-                location.reload();
-            }
-            else{
-                alert("Не удалось сохранить фракцию");
-            }
-        }
-    });
 }

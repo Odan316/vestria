@@ -3,6 +3,7 @@
  * @var $this GameController
  * @var $players Users[] Список игроков, с племенами
  * @var $classesList [] Список доступных классов для персонажей
+ * @var $provincesList [] Список доступных провинций
  */
 $this->setPageTitle( $this->gameTitle . ' - Кабинет Ведущего' );
 ?>

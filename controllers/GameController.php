@@ -41,6 +41,7 @@ class GameController extends Controller
         /** @var $ClientScript CClientScript */
         $ClientScript = Yii::app()->clientScript;
         $ClientScript->registerCssFile( $this->module->assetsBase . '/css/styles.css' );
+        $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/common.js' );
 
         parent::init();
     }
@@ -133,8 +134,30 @@ class GameController extends Controller
      */
     public function actionPlayer()
     {
-        $this->render( 'player', [
-        ] );
+        // Сначала проверяем роль
+        if (Yii::app()->user->getState( 'game_role' ) == Game_roles::PLAYER_ROLE) {
+            /** @var $ClientScript CClientScript */
+            $ClientScript = Yii::app()->clientScript;
+            $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/player.js' );
+
+            $mapSVG = "";
+            include_once(Yii::app()->getModulePath()."/vestria//data/common/map.php");
+
+            $character = $this->game->getCharacterByPlayerId(Yii::app()->user->getState( 'uid' ));
+            if(!$character){
+                $this->render( 'player_setup', [
+                    'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
+                    'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" )
+                ] );
+            } else {
+                $this->render( 'player', [
+                    'character' => $character,
+                    'mapSVG' => $this->game->getMap()->createMapAsSVG()
+                ] );
+            }
+        } else {
+            $this->actionNoAccess();
+        }
     }
 
     /**
@@ -195,8 +218,11 @@ class GameController extends Controller
 
     public function actionSaveCharacter()
     {
-        $playerId      = htmlspecialchars( $_POST['playerId'] );
-        $characterData = array_merge( $_POST['Character'], [ 'playerId' => $playerId ] );
+        $characterData = $_POST['Character'];
+        if(isset($_POST['playerId'])){
+            $playerId      = htmlspecialchars( $_POST['playerId'] );
+            $characterData = array_merge( $characterData, [ 'playerId' => $playerId ] );
+        }
         if ( ! empty( $characterData['id'] )) {
             echo $this->game->updateCharacter( $characterData );
         } else {

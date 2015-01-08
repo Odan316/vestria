@@ -9,14 +9,12 @@ body{
     margin: 30px auto;
 }
 #inner_content{
+    position: relative;
     min-height: 700px;
     padding: 0 10px;
 }
 #footer{
     text-align: center;
-}
-.clear_fix{
-    clear:both;
 }
 h2{
     text-align: center;
@@ -29,6 +27,9 @@ h2{
     top: 10px; right:10px;
     width:25px; height:25px;
     cursor: pointer;
+}
+.clearfix{
+    clear:both;
 }
 
 /*GM Page*/
@@ -58,4 +59,24 @@ h2{
 
 #edit_character_gm label, #edit_faction_gm label {
     font-weight: bold;
+}
+
+/* Player's Panel*/
+#left_panel, #central_panel, #right_panel {
+    height:100%;
+    margin: 5px;
+    border: 2px solid grey;
+}
+
+#players_map{
+    width:700px;
+    height: 500px;
+}
+
+
+
+/* Player setup */
+#new_character {
+    width: 500px;
+    margin: 0 auto;
 }
