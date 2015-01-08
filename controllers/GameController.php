@@ -140,9 +140,6 @@ class GameController extends Controller
             $ClientScript = Yii::app()->clientScript;
             $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/player.js' );
 
-            $mapSVG = "";
-            include_once(Yii::app()->getModulePath()."/vestria//data/common/map.php");
-
             $character = $this->game->getCharacterByPlayerId(Yii::app()->user->getState( 'uid' ));
             if(!$character){
                 $this->render( 'player_setup', [
@@ -152,7 +149,7 @@ class GameController extends Controller
             } else {
                 $this->render( 'player', [
                     'character' => $character,
-                    'mapSVG' => $this->game->getMap()->createMapAsSVG()
+                    'mapSVG' => $this->game->getMap()->getSVG()
                 ] );
             }
         } else {

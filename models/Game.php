@@ -59,7 +59,7 @@ class Game extends JSONModel
         $this->turn = $turn;
         $this->load();
         $this->config = new GameConfig( $this->id );
-        $this->map = new Map($this->config->getConfigAsArray("map"));
+        $this->map = new Map($this, $this->config->getConfigAsArray("map"));
     }
 
     /**

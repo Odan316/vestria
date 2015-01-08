@@ -12,6 +12,9 @@ class Province extends JSONModel
     /** @var string */
     protected $name;
 
+    /** @var Game */
+    private $game;
+
     /**
      * @param Game $game
      * @param [] $data
