@@ -123,7 +123,6 @@ class GameController extends Controller
                 'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
                 'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" ),
                 'mapSVG' => $this->game->getMap()->getSVG()
-
             ] );
         } else {
             $this->actionNoAccess();
@@ -176,11 +175,7 @@ class GameController extends Controller
 
     public function actionGetPlayerData()
     {
-        $playerId = htmlspecialchars( $_POST['playerId'] );
-
-        $player = Users::model()->findByPk( $playerId );
-
-        echo json_encode( $player );
+        echo json_encode( Users::model()->findByPk( htmlspecialchars( $_POST['id'] ) ) );
     }
 
     public function actionGetTraitsByClassId()
@@ -230,11 +225,7 @@ class GameController extends Controller
 
     public function actionGetFactionData()
     {
-        $factionId = htmlspecialchars( $_POST['factionId'] );
-
-        $faction = $this->game->getFaction( $factionId );
-
-        echo json_encode( $faction );
+        echo json_encode( $this->game->getFaction( htmlspecialchars( $_POST['id'] ) ) );
     }
 
     public function actionSaveFaction()
@@ -244,6 +235,21 @@ class GameController extends Controller
             echo $this->game->updateFaction( $factionData );
         } else {
             echo $this->game->createFaction( $factionData );
+        }
+    }
+
+    public function actionGetProvinceData()
+    {
+        echo json_encode( $this->game->getProvince( htmlspecialchars( $_POST['id'] ) ) );
+    }
+
+    public function actionSaveProvince()
+    {
+        $data = $_POST['Province'];
+        if ( ! empty( $data['id'] )) {
+            echo $this->game->updateProvince( $data );
+        } else {
+            echo false;
         }
     }
 }

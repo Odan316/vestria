@@ -2,28 +2,47 @@
  * Created by onag on 07.01.15.
  */
 
-function getPlayerData(playerId)
-{
-    var playerData = null;
+function getObjectData(className, id) {
+    var data = null;
+    if (id) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            context: this,
+            url: window.url_root + "game/get"+className+"Data",
+            dataType: 'json',
+            data: {
+                "id": id
+            },
+            success: function (response) {
+                if (response != null) {
+                    data = response;
+                }
+            }
+        });
+    }
 
+    return data;
+}
+function saveObject(className, data)
+{
     $.ajax({
         type: "POST",
         async: false,
-        context: this,
-        url: window.url_root + "game/getPlayerData",
+        url: window.url_root+"game/save"+className,
         dataType: 'json',
-        data: {
-            "playerId": playerId
-        },
-        success: function (data) {
-            if (data != null) {
-                playerData = data;
+        data: data,
+        success: function(data){
+            if(data == 1){
+                location.reload();
+            }
+            else{
+                alert("Не удалось сохранить!");
             }
         }
     });
-
-    return playerData;
 }
+
 function getCharacterDataByPlayerId(playerId)
 {
     var characterData = null;
@@ -45,65 +64,6 @@ function getCharacterDataByPlayerId(playerId)
     });
 
     return characterData;
-}
-function saveCharacter(characterData)
-{
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: window.url_root+"game/saveCharacter",
-        dataType: 'json',
-        data: characterData,
-        success: function(data){
-            if(data == 1){
-                location.reload();
-            }
-            else{
-                alert("Не удалось сохранить персонажа");
-            }
-        }
-    });
-}
-
-function getFactionData(factionId) {
-    var factionData = null;
-    if (factionId) {
-        $.ajax({
-            type: "POST",
-            async: false,
-            context: this,
-            url: window.url_root + "game/getFactionData",
-            dataType: 'json',
-            data: {
-                "factionId": factionId
-            },
-            success: function (data) {
-                if (data != null) {
-                    factionData = data;
-                }
-            }
-        });
-    }
-
-    return factionData;
-}
-function saveFaction(factionData)
-{
-    $.ajax({
-        type: "POST",
-        async: false,
-        url: window.url_root+"game/saveFaction",
-        dataType: 'json',
-        data: factionData,
-        success: function(data){
-            if(data == 1){
-                location.reload();
-            }
-            else{
-                alert("Не удалось сохранить фракцию");
-            }
-        }
-    });
 }
 
 function getTraitsByClassId(classId)

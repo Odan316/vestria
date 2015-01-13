@@ -4,9 +4,11 @@ $(function(){
     });
     $(document).on('click', '.add_character_gm, .edit_character_gm', function(){
         var playerId = $(this).parents("p").data("player-id");
-        var playerData = getPlayerData(playerId);
+        var playerData = getObjectData("Player", playerId);
         var characterData = getCharacterDataByPlayerId(playerId);
-        fillCharacterFrom(playerData, characterData);
+        var classId = $("#Character_classId").val();
+        refreshCharacterLists(classId);
+        fillCharacterForm(playerData, characterData);
         $('#edit_character_gm').show();
     });
     $(document).on('change', '#Character_classId', function(){
@@ -14,19 +16,28 @@ $(function(){
         refreshCharacterLists(classId);
     });
     $(document).on('click', '.but_character_save_gm', function(){
-        var characterData = readCharacterForm();
-        saveCharacter(characterData);
+        var data = readCharacterForm();
+        saveObject("Character", data);
     });
     $(document).on('click', '.add_faction_gm, .edit_faction_gm', function(){
         var factionId = $(this).parents("p").data("faction-id");
-        console.log(factionId);
-        var factionData = getFactionData(factionId);
-        fillFactionFrom(factionData);
+        var data = getObjectData("Faction", factionId);
+        fillFactionForm(data);
         $('#edit_faction_gm').show();
     });
     $(document).on('click', '.but_faction_save_gm', function(){
-        var factionData = readFactionForm();
-        saveFaction(factionData);
+        var data = readFactionForm();
+        saveObject("Faction", data);
+    });
+    $(document).on('click', '.edit_province_gm', function(){
+        var provinceId = $(this).parents("p").data("province-id");
+        var data = getObjectData("Province", provinceId);
+        fillProvinceForm(data);
+        $('#edit_province_gm').show();
+    });
+    $(document).on('click', '.but_province_save_gm', function(){
+        var data = readProvinceForm();
+        saveObject("Province", data);
     });
 });
 
@@ -37,7 +48,7 @@ function refreshCharacterLists(classId, traitId, ambitionId)
     var ambitions = getAmbitionsByClassId(classId);
     createList("Character_ambitionId", ambitionId, ambitions);
 }
-function fillCharacterFrom(playerData, characterData)
+function fillCharacterForm(playerData, characterData)
 {
     if(playerData != null){
         $("#character_player_name").text(playerData.nickname);
@@ -56,29 +67,35 @@ function fillCharacterFrom(playerData, characterData)
 }
 function readCharacterForm()
 {
-    return {
-        'playerId': $("#player_id").val(),
-        'Character': {
-            'id': $("#Character_id").val(),
-            'name': $("#Character_name").val(),
-            'classId': $("#Character_classId").val(),
-            'traitId': $("#Character_traitId").val(),
-            'ambitionId': $("#Character_ambitionId").val(),
-            'provinceId': $("#Character_provinceId").val()
-        }
-    }
+    var playerData = {'playerId': $("#player_id").val()};
+    var characterData = $("#Character_form").serializeArray();
+    $.extend(characterData, playerData);
+    return characterData;
 }
 
-
-function fillFactionFrom(factionData)
+function fillFactionForm(factionData)
 {
     if(factionData != null){
         $("#Faction_id").val(factionData.id);
         $("#Faction_name").val(factionData.name);
         $("#Faction_leaderId").val(factionData.leaderId);
+        $("#Faction_color").val(factionData.color);
     }
 }
 function readFactionForm()
 {
     return $("#Faction_form").serializeArray();
+}
+
+function fillProvinceForm(data)
+{
+    if(data != null){
+        $("#Province_id").val(data.id);
+        $("#Province_name").val(data.name);
+        $("#Province_ownerId").val(data.ownerId);
+    }
+}
+function readProvinceForm()
+{
+    return $("#Province_form").serializeArray();
 }

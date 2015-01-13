@@ -11,7 +11,7 @@ $this->setPageTitle($this->gameTitle.' - Панель игрока');
 <div class="central_panel">
     <div id="players_map">
         <!--<object type="image/svg+xml" data="<?/*=$this->module->assetsBase*/?>/images/misc/vestria_polit.svg">Your browser does not support SVG</object>-->
-        <?= $mapSVG;?>
+        <?= $this->game->getMap()->getSVG();?>
     </div>
     <div id="players_map_legend">
 

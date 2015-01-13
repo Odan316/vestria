@@ -141,6 +141,14 @@ class Game extends JSONModel
      */
     public function createNewGame()
     {
+        $provincesConfig = $this->getConfig()->getConfigAsArray("provinces");
+        foreach($provincesConfig['elements'] as $province){
+            $this->provinces[] = [
+                "id" => $province['id'],
+                "name" => $province['name'],
+                "ownerId" => null,
+            ];
+        }
         $this->save();
     }
 
@@ -279,11 +287,21 @@ class Game extends JSONModel
     }
 
     /**
+     * @param bool $as_array
+     *
      * @return Faction[]
      */
-    public function getFactions()
+    public function getFactions( $as_array = false )
     {
-        return $this->factions;
+        if ( ! $as_array) {
+            return $this->factions;
+        } else {
+            $list = [ ];
+            foreach ($this->factions as $faction) {
+                $list[] = $faction->jsonSerialize();
+            }
+            return $list;
+        }
     }
 
     /**
@@ -353,7 +371,6 @@ class Game extends JSONModel
     public function createCharacter( $data )
     {
         $model = new Character( $this, $data );
-        CVarDumper::dump($model, 5, 1);
         $this->lastCharacterId ++;
         $model->setupAsNew( $this->lastCharacterId );
         $this->characters[] = $model;
@@ -405,6 +422,23 @@ class Game extends JSONModel
     public function updateFaction( $data )
     {
         $model = $this->getFaction( $data['id'] );
+        if ( ! empty( $model )) {
+            $model->setAttributes( $data );
+            return $this->save();
+        }
+        return false;
+    }
+
+    /**
+     * Находит существующую провинцию по ее ИД в $data и обновляет переданные параметры
+     *
+     * @param [] $data
+     *
+     * @return bool
+     */
+    public function updateProvince($data)
+    {
+        $model = $this->getProvince( $data['id'] );
         if ( ! empty( $model )) {
             $model->setAttributes( $data );
             return $this->save();

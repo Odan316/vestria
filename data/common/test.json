@@ -1,24 +1,62 @@
 {
-  "id": "18",
-  "turn": "0",
-  "provinces": [],
-  "characters": [
+  "id": "19",
+  "turn": 0,
+  "provinces": [
     {
       "id": 1,
-      "name": null,
-      "playerId": null,
-      "factionId": null,
-      "classId": null,
-      "ambitionId": null,
-      "traitId": null,
-      "popularity": 20,
-      "cash": 50,
-      "provinceId": null
+      "name": "\u0418\u043b\u044c-\u0434\u0435-\u0412\u0435\u0441\u0442\u0440\u0438",
+      "controller": null
+    },
+    {
+      "id": 2,
+      "name": "\u041a\u0435\u043b\u044c\u0442\u0430\u043d\u044c",
+      "controller": null
+    },
+    {
+      "id": 3,
+      "name": "\u0411\u0443\u0440\u0436\u0435",
+      "controller": null
+    },
+    {
+      "id": 4,
+      "name": "\u041d\u043e\u0440\u0440-\u0434\u0435-\u041f\u0430",
+      "controller": null
+    },
+    {
+      "id": 5,
+      "name": "\u0420\u0430\u0430\u0441",
+      "controller": null
+    },
+    {
+      "id": 6,
+      "name": "\u0421\u0435\u043d-\u0413\u0430\u043b\u043b\u0435\u043d",
+      "controller": null
+    },
+    {
+      "id": 7,
+      "name": "\u041f\u0438\u0441\u0442\u043e\u043b\u0438\u044f",
+      "controller": null
+    },
+    {
+      "id": 8,
+      "name": "\u041d\u044c\u0435\u0441",
+      "controller": null
+    },
+    {
+      "id": 9,
+      "name": "\u0416\u0430\u043c\u0431\u043e\u043d\u044c",
+      "controller": null
+    },
+    {
+      "id": 10,
+      "name": "\u0410\u043a\u0432\u0438\u0441\u0435\u043d\u044c",
+      "controller": null
     }
   ],
+  "characters": [],
   "factions": [],
   "armies": [],
-  "lastCharacterId": 1,
+  "lastCharacterId": 0,
   "lastFactionId": 0,
   "lastArmyId": 0
 }

@@ -18,7 +18,7 @@ class Army extends JSONModel
      * @param Game $game
      * @param [] $data
      */
-    public function __constructor( $game, $data = [ ] )
+    public function __construct( $game, $data = [ ] )
     {
         $this->game = $game;
         parent::__construct( $data );

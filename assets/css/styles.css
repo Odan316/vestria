@@ -51,12 +51,33 @@ h2{
     min-height: 680px;
     width: 450px;
 }
+#gm_provinces_list {
+    float: right;
+    padding: 0 10px 10px 10px;
+    border: 2px solid grey;
+    margin: 10px 0;
+    min-height: 680px;
+    width: 450px;
+}
+#gm_map_outer {
+    float: left;
+    position: relative;
+    margin: 10px 0;
+    border: 2px solid grey;
+    height: 500px;
+    overflow: hidden;
+    width: 620px;
+}
+#gm_map_outer #mapSVG{
+    left: -50px;
+    position: relative;
+}
 
-#gm_players_list p .btn, #gm_factions_list p .btn {
+#gm_players_list p .btn, #gm_factions_list p .btn, #gm_provinces_list .btn {
     float:right;
 }
 
-#edit_character_gm, #edit_faction_gm{
+#edit_character_gm, #edit_faction_gm, #edit_province_gm{
     display: none;
     position: absolute;
     top: 100px; left:50%;
