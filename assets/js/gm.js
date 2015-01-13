@@ -67,7 +67,7 @@ function fillCharacterForm(playerData, characterData)
 }
 function readCharacterForm()
 {
-    var playerData = {'playerId': $("#player_id").val()};
+    var playerData = new Array({'name': 'Character[playerId]', 'value': $("#player_id").val()});
     var characterData = $("#Character_form").serializeArray();
     $.extend(characterData, playerData);
     return characterData;

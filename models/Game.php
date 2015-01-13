@@ -103,10 +103,10 @@ class Game extends JSONModel
         return [
             "id"              => $this->id,
             "turn"            => $this->turn,
-            "provinces"       => $this->provinces,
             "characters"      => $this->characters,
             "factions"        => $this->factions,
             "armies"          => $this->armies,
+            "provinces"       => $this->provinces,
             "lastCharacterId" => $this->lastCharacterId,
             "lastFactionId"   => $this->lastFactionId,
             "lastArmyId"      => $this->lastArmyId
@@ -143,11 +143,16 @@ class Game extends JSONModel
     {
         $provincesConfig = $this->getConfig()->getConfigAsArray("provinces");
         foreach($provincesConfig['elements'] as $province){
-            $this->provinces[] = [
+            $newProv = [
                 "id" => $province['id'],
                 "name" => $province['name'],
+                "nameX" => $province['nameX'],
+                "nameY" => $province['nameY'],
                 "ownerId" => null,
             ];
+            if(isset($province["nameSize"]))
+                $newProv["nameSize"] = $province['nameSize'];
+            $this->provinces[] = $newProv;
         }
         $this->save();
     }

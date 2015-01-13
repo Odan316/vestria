@@ -32,6 +32,12 @@ h2{
     clear:both;
 }
 
+svg text {
+    font-family: 'Marck Script', cursive;
+    font-size: 22px;
+}
+
+/** Bootstrap override **/
 .nav{
     margin-bottom: 0;
 }

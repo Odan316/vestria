@@ -13,6 +13,12 @@ class Province extends JSONModel
     protected $name;
     /** @var int */
     protected $ownerId;
+    /** @var int */
+    protected $nameX;
+    /** @var int */
+    protected $nameY;
+    /** @var string */
+    protected $nameSize;
 
     /** @var Game */
     private $game;
@@ -57,6 +63,30 @@ class Province extends JSONModel
     }
 
     /**
+     * @return int
+     */
+    public function getNameX()
+    {
+        return $this->nameX;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNameY()
+    {
+        return $this->nameY;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameSize()
+    {
+        return $this->nameSize;
+    }
+
+    /**
      * @param int $factionId
      *
      * @return Province
@@ -94,7 +124,10 @@ class Province extends JSONModel
         return [
             "id"      => $this->id,
             "name"    => $this->name,
-            "ownerId" => $this->ownerId
+            "ownerId" => $this->ownerId,
+            "nameX" => $this->nameX,
+            "nameY" => $this->nameY,
+            "nameSize" => $this->nameSize
         ];
     }
 }

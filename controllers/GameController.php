@@ -211,10 +211,6 @@ class GameController extends Controller
     public function actionSaveCharacter()
     {
         $characterData = $_POST['Character'];
-        if(isset($_POST['playerId'])){
-            $playerId      = htmlspecialchars( $_POST['playerId'] );
-            $characterData = array_merge( $characterData, [ 'playerId' => $playerId ] );
-        }
         if ( ! empty( $characterData['id'] )) {
             echo $this->game->updateCharacter( $characterData );
         } else {
