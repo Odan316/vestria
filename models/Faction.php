@@ -13,6 +13,8 @@ class Faction extends JSONModel
     protected $name;
     /** @var int */
     protected $leaderId;
+    /** @var string */
+    protected $color;
 
     /** @var Game */
     protected $game;
@@ -76,6 +78,25 @@ class Faction extends JSONModel
     }
 
     /**
+     * @param string $color
+     *
+     * @return Faction
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
      * @return Character|null
      */
     public function getLeader()
@@ -106,9 +127,10 @@ class Faction extends JSONModel
     public function jsonSerialize()
     {
         return [
-            "id"         => $this->id,
-            "name"       => $this->name,
-            "leaderId"   => $this->leaderId
+            "id"       => $this->id,
+            "name"     => $this->name,
+            "leaderId" => $this->leaderId,
+            "color"    => $this->color
         ];
     }
 

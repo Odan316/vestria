@@ -121,7 +121,8 @@ class GameController extends Controller
             $this->render( 'gm', [
                 'players'     => $this->gameModel->players_users,
                 'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
-                'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" )
+                'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" ),
+                'mapSVG' => $this->game->getMap()->getSVG()
 
             ] );
         } else {
@@ -149,7 +150,6 @@ class GameController extends Controller
             } else {
                 $this->render( 'player', [
                     'character' => $character,
-                    'mapSVG' => $this->game->getMap()->getSVG()
                 ] );
             }
         } else {

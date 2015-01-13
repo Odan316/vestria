@@ -11,7 +11,7 @@ body{
 #inner_content{
     position: relative;
     min-height: 700px;
-    padding: 0 10px;
+    padding: 10px;
 }
 #footer{
     text-align: center;
@@ -30,6 +30,16 @@ h2{
 }
 .clearfix{
     clear:both;
+}
+
+.nav{
+    margin-bottom: 0;
+}
+.nav-pills > .active > a, .nav-pills > .active > a:hover, .nav-pills > .active > a:focus {
+    background-color: #802420;
+}
+.nav > li > a {
+    color: #802420;
 }
 
 /*GM Page*/

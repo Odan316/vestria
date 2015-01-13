@@ -80,11 +80,5 @@ function fillFactionFrom(factionData)
 }
 function readFactionForm()
 {
-    return {
-        'Faction': {
-            'id': $("#Faction_id").val(),
-            'name': $("#Faction_name").val(),
-            'leaderId': $("#Faction_leaderId").val()
-        }
-    }
+    return $("#Faction_form").serializeArray();
 }
