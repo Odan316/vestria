@@ -4,9 +4,9 @@
   "elements": [
     {
       "id": 1,
-      "name": "Иль-де-Вестри",
-      "nameX": 317,
-      "nameY": 186,
+      "name": "Иль-де-Вест",
+      "nameX": 323,
+      "nameY": 189,
       "nameSize": "18px"
     },
     {

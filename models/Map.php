@@ -115,8 +115,8 @@ class Map extends JSONModel
     public function getSVG( $width = null )
     {
         if ($width != null) {
-            $svgNode                                                  = $this->XML->getElementById( "svg" );
-            $height                                                   = $width / $this->svg["ratio"];
+            $svgNode                                                  = $this->XML->getElementById( "mapSVG" );
+            $height                                                   = $width / $this->defaults["ratio"];
             $svgNode->attributes->getNamedItem( "width" )->nodeValue  = $width . "px";
             $svgNode->attributes->getNamedItem( "height" )->nodeValue = $height . "px";
         }
