@@ -101,6 +101,25 @@ class GameConfig extends JSONModel
     }
 
     /**
+     * Возвращает элементы запрошенного конфига в виде массива объектов
+     *
+     * @param $configName
+     *
+     * @return array
+     */
+    public function getConfigAsObjectsArray($configName)
+    {
+        $config = $this->getConfigAsArray($configName);
+        $list = [ ];
+        if (isset( $config['listed'] ) && $config['listed'] == 1) {
+            foreach ($config['elements'] as $element) {
+                $list[] = new $config["className"]($element);
+            }
+        }
+        return $list;
+    }
+
+    /**
      * Возвращает запрошенный конфиг в формате id - name для создания селекта
      *
      * @param $configName

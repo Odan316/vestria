@@ -1,9 +1,10 @@
 <?php
 /**
  * @var $this GameController
+ * @var $character Character
+ * @var $actions PlayerAction[]
  */
 $this->setPageTitle($this->gameTitle.' - Панель игрока');
-$character = $this->game->getCharacterByPlayerId(Yii::app()->user->getState('uid'));
 ?>
 
 <div id="left_panel">
@@ -26,6 +27,10 @@ $character = $this->game->getCharacterByPlayerId(Yii::app()->user->getState('uid
 </div>
 <div id="right_panel">
     <h2>Заявка</h2>
-
+<?php
+foreach($actions as $action){
+    echo $action->getName()."<br/>";
+}
+?>
 </div>
 <div class="clearfix"></div>

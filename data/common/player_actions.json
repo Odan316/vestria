@@ -1,0 +1,32 @@
+{
+  "className": "PlayerAction",
+  "listed": 1,
+  "elements": [
+    {
+      "id": 1,
+      "name": "Переехать в провинцию",
+      "conditions": [
+        {
+            "type": "propertyValue",
+            "object": "Character",
+            "property": "classId",
+            "in": [1]
+        }
+      ],
+      "parameters": [
+        "provinceId"
+      ],
+      "effects": [
+        {
+          "propertyChange": {
+            "object": "Character",
+            "property": "provinceId",
+            "value": {
+              "parameter": "provinceId"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

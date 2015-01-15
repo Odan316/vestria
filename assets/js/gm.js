@@ -69,7 +69,7 @@ function readCharacterForm()
 {
     var playerData = new Array({'name': 'Character[playerId]', 'value': $("#player_id").val()});
     var characterData = $("#Character_form").serializeArray();
-    $.extend(characterData, playerData);
+    characterData.concat(playerData);
     return characterData;
 }
 

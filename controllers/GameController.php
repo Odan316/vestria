@@ -149,6 +149,7 @@ class GameController extends Controller
             } else {
                 $this->render( 'player', [
                     'character' => $character,
+                    'actions' => (new PlayerActionFinder($this->game, $character))->getActions()
                 ] );
             }
         } else {
