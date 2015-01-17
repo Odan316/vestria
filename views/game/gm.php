@@ -5,7 +5,7 @@
  * @var $classesList [] Список доступных классов для персонажей
  * @var $provincesList [] Список доступных провинций
  */
-$this->setPageTitle( Yii::app()->name . ' - Кабинет Ведущего' );
+$this->setPageTitle( $this->getModule()->getTitle() . ' - Кабинет Ведущего' );
 ?>
 
 <?php
@@ -15,13 +15,16 @@ $this->widget(
         'type' => 'pills',
         'tabs' => [
             [
-                'label' => 'Игроки и фракции',
-                'content' => $this->renderPartial("gm/players",
-                    ["players" => $players, "classesList" => $classesList, "provincesList" => $provincesList], 1),
-                'active' => true
+                'label'   => 'Игроки и фракции',
+                'content' => $this->renderPartial( "gm/players",
+                    [ "players" => $players, "classesList" => $classesList, "provincesList" => $provincesList ], 1 ),
+                'active'  => true
             ],
-            ['label' => 'Провинции', 'content' => $this->renderPartial("gm/map",
-                ["provincesList" => $provincesList], 1)],
+            [
+                'label'   => 'Провинции',
+                'content' => $this->renderPartial( "gm/map",
+                    [ "provincesList" => $provincesList ], 1 )
+            ],
         ],
     ]
 );

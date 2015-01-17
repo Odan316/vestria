@@ -2,9 +2,13 @@
 
 class VestriaModule extends CWebModule
 {
+    /** @var string */
+    protected $title;
+
 	public function init()
 	{
         Yii::app()->name = 'Дипломатия: Вестрия';
+        $this->title = "Вестрия: Время Перемен";
 		// import the module-level models and components
 		$this->setImport(array(
 			'vestria.models.*',
@@ -26,5 +30,13 @@ class VestriaModule extends CWebModule
             );
         }
         return $this->_assetsBase;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

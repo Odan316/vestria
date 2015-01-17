@@ -4,6 +4,8 @@
  * Class GameController
  *
  * Контроллер для работы в Кабинете (Ведущего или Игрока)
+ *
+ * @method VestriaModule getModule()
  */
 class VesController extends DiploController
 {
@@ -24,11 +26,6 @@ class VesController extends DiploController
      * @var Game
      */
     protected $game;
-
-    /**
-     * @var string Название модуля для отображения в тайтле страницы
-     */
-    public $gameTitle = "Вестрия: Время Перемен";
 
     /**
      * Перед загрузкой контроллера необходимо

@@ -4,7 +4,7 @@
  * @var $character Character
  * @var $actions PlayerAction[]
  */
-$this->setPageTitle(Yii::app()->name.' - Панель игрока');
+$this->setPageTitle($this->getModule()->getTitle().' - Панель игрока');
 ?>
 
 <div id="left_panel">
