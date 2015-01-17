@@ -5,7 +5,7 @@
  *
  * Контроллер для работы в Кабинете (Ведущего или Игрока)
  */
-class GameController extends Controller
+class GameController extends DiploController
 {
     /**
      * Модель пользователя (из базового движка)
@@ -69,7 +69,14 @@ class GameController extends Controller
         } elseif (isset( Yii::app()->request->cookies['gameId'] )) {
             $gameId = Yii::app()->request->cookies['gameId']->value;
         } elseif ( ! $user->getState( 'gameId' )) {
-            $this->redirect( $this->createUrl( 'cabinet/no_such_game' ) );
+            $this->redirect( $this->createUrl( '/cabinet/no_such_game' ) );
+        }
+
+        $this->gameModel = Games::model()
+                                ->with( 'master_user', 'players_users' )
+                                ->findByPk( $gameId );
+        if(!$this->gameModel){
+            $this->redirect( $this->createUrl( '/cabinet/no_such_game' ) );
         }
 
         if ( ! $user->getState( 'gameRole' )) {
@@ -78,15 +85,12 @@ class GameController extends Controller
                 'game_id' => $gameId
             ] );
             if ( ! $userRole) {
-                $this->redirect( $this->createUrl( 'cabinet/game_access_denied' ) );
+                $this->redirect( $this->createUrl( '/cabinet/game_access_denied' ) );
             } else {
                 $user->setState( 'game_role', $userRole->role_id );
             }
         }
         $this->userModel = Users::model()->with( 'person' )->findByPk( $user->getState( 'uid' ) );
-        $this->gameModel = Games::model()
-                                ->with( 'master_user', 'players_users' )
-                                ->findByPk( $gameId );
 
         $this->game = new Game( $this->gameModel->id, $this->gameModel->last_turn );
 
