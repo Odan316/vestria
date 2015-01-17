@@ -9,7 +9,7 @@ function getObjectData(className, id) {
             type: "POST",
             async: false,
             context: this,
-            url: window.url_root + "game/get"+className+"Data",
+            url: window.url_root + "ajax/get"+className+"Data",
             dataType: 'json',
             data: {
                 "id": id
@@ -29,7 +29,7 @@ function saveObject(className, data)
     $.ajax({
         type: "POST",
         async: false,
-        url: window.url_root+"game/save"+className,
+        url: window.url_root+"ajax/save"+className,
         dataType: 'json',
         data: data,
         success: function(data){
@@ -51,7 +51,7 @@ function getCharacterDataByPlayerId(playerId)
         type: "POST",
         async: false,
         context: this,
-        url: window.url_root + "game/getCharacterDataByPlayerId",
+        url: window.url_root + "ajax/getCharacterDataByPlayerId",
         dataType: 'json',
         data: {
             "playerId": playerId
@@ -74,7 +74,7 @@ function getTraitsByClassId(classId)
         type: "POST",
         async: false,
         context: this,
-        url: window.url_root + "game/getTraitsByClassId",
+        url: window.url_root + "ajax/getTraitsByClassId",
         dataType: 'json',
         data: {
             "classId": classId
@@ -97,7 +97,7 @@ function getAmbitionsByClassId(classId)
         type: "POST",
         async: false,
         context: this,
-        url: window.url_root + "game/getAmbitionsByClassId",
+        url: window.url_root + "ajax/getAmbitionsByClassId",
         dataType: 'json',
         data: {
             "classId": classId

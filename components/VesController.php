@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class GameController
+ * Class VesController
  *
- * Контроллер для работы в Кабинете (Ведущего или Игрока)
+ * Переопределение класса контроллера под модуль
  *
  * @method VestriaModule getModule()
  */
