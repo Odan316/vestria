@@ -16,9 +16,9 @@ class PlayerActionFinder
      * @param Game $game
      * @param Character $character
      */
-    public function __construct($game, $character)
+    public function __construct( $game, $character )
     {
-        $this->game = $game;
+        $this->game      = $game;
         $this->character = $character;
     }
 
@@ -27,14 +27,14 @@ class PlayerActionFinder
      */
     public function getActions()
     {
-        $actions = $this->game->getConfig()->getConfigAsObjectsArray("player_actions");
-        $passedActions = [];
+        $actions       = $this->game->getConfig()->getConfigAsObjectsArray( "player_actions" );
+        $passedActions = [ ];
         /** @var PlayerAction $action */
-        foreach($actions as $action){
-            if($this->testConditions($action))
+        foreach ($actions as $action) {
+            if ($this->testConditions( $action )) {
                 $passedActions[] = $action;
+            }
         }
-
         return $passedActions;
     }
 
@@ -77,8 +77,8 @@ class PlayerActionFinder
                 }
                 // Если объект успешно получен - проверяем значение его свойства на соответствие условию
                 if (is_object( $object )) {
-                    $propertyGetter = "get".$condition["property"];
-                    $propertyValue = call_user_func([$object, $propertyGetter]);
+                    $propertyGetter = "get" . $condition["property"];
+                    $propertyValue  = call_user_func( [ $object, $propertyGetter ] );
                     if ( ! ( isset( $condition["in"] ) && in_array( $propertyValue, $condition["in"] ) )) {
                         $test = false;
                     }

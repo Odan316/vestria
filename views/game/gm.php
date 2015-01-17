@@ -5,7 +5,7 @@
  * @var $classesList [] Список доступных классов для персонажей
  * @var $provincesList [] Список доступных провинций
  */
-$this->setPageTitle( $this->gameTitle . ' - Кабинет Ведущего' );
+$this->setPageTitle( Yii::app()->name . ' - Кабинет Ведущего' );
 ?>
 
 <?php

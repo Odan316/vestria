@@ -4,7 +4,7 @@
  * @var $character Character
  * @var $actions PlayerAction[]
  */
-$this->setPageTitle($this->gameTitle.' - Панель игрока');
+$this->setPageTitle(Yii::app()->name.' - Панель игрока');
 ?>
 
 <div id="left_panel">
@@ -25,12 +25,18 @@ $this->setPageTitle($this->gameTitle.' - Панель игрока');
 
     </div>
 </div>
-<div id="right_panel">
+<div id="right_panel" class="requests_list">
     <h2>Заявка</h2>
-<?php
-foreach($actions as $action){
-    echo $action->getName()."<br/>";
-}
-?>
+    <div class="request_block">
+        <label for="requests[0]">1: </label>
+        <select id="requests[0]" class="reguest_position" name="requests[0]">
+            <option value="" selected="selected">Выбрать</option>
+            <?php
+            foreach($actions as $action){ ?>
+                <option value="<?= $action->getId();?>"><?= $action->getName(); ?></option>
+            <?php }?>
+        </select>
+        <div class="request_params"></div>
+    </div>
 </div>
 <div class="clearfix"></div>

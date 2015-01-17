@@ -29,7 +29,9 @@
     <div class="clearfix"></div>
 
     <div id="footer">
-        "<?=$this->gameTitle ?>" Copyright by Onad &copy; <?= date('Y'); ?>. No Rights Reserved.<br/>
+        "<?=Yii::app()->name ?>" Copyright by Onad &copy; <?= date('Y'); ?>. No Rights Reserved.
+        <a id="cabinet_link" href="/cabinet">Назад в кабинет</a>
+        <br/>
 		<?= Yii::powered(); ?>
 	</div>
 

@@ -14,7 +14,11 @@
         }
       ],
       "parameters": [
-        "provinceId"
+        {
+          "type": "select",
+          "name": "provinceId",
+          "objects": "Province"
+        }
       ],
       "effects": [
         {

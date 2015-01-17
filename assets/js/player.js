@@ -1,36 +1,33 @@
 $(function() {
-    refreshCharacterLists($("#Character_classId").val());
-    $(document).on('click', '.but_character_save_new', function () {
-        var characterData = readCharacterForm();
-        saveCharacter(characterData);
-    });
-    $(document).on('change', '#Character_classId', function(){
-        var classId = $(this).val();
-        refreshCharacterLists(classId);
-    });
     $(document).on('click', '#map_province_fill_4', function(){
         console.log("FINE");
-    })
+    });
+    $(document).on('click', '.reguest_position', function(){
+        var actionId = $(this).val();
+        paramsCode = getActionParametersCode(actionId);
+        $(this).next(".request_params").append($(paramsCode));
+    });
 });
 
-function readCharacterForm()
+function getActionParametersCode(actionId)
 {
-    return {
-        'Character': {
-            'playerId': $("#Character_playerId").val(),
-            'name': $("#Character_name").val(),
-            'classId': $("#Character_classId").val(),
-            'traitId': $("#Character_traitId").val(),
-            'ambitionId': $("#Character_ambitionId").val(),
-            'provinceId': $("#Character_provinceId").val()
-        }
+    var code = "";
+    if (id) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            context: this,
+            url: window.url_root + "ajax/getActionParametersCode",
+            dataType: 'json',
+            data: {
+                "id": actionId
+            },
+            success: function (response) {
+                if (response != null) {
+                    code = response;
+                }
+            }
+        });
     }
-}
-
-function refreshCharacterLists(classId, traitId, ambitionId)
-{
-    var traits = getTraitsByClassId(classId);
-    createList("Character_traitId", traitId, traits);
-    var ambitions = getAmbitionsByClassId(classId);
-    createList("Character_ambitionId", ambitionId, ambitions);
+    return code;
 }

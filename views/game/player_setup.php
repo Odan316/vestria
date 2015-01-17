@@ -4,9 +4,10 @@
  * @var $classesList [] Список доступных классов для персонажей
  * @var $provincesList [] Список доступных провинций
  */
-$this->setPageTitle($this->gameTitle.' - Создание нового персонажа');
+$this->setPageTitle(Yii::app()->name.' - Создание нового персонажа');
 ?>
 <div id="new_character">
+    <?= CHtml::beginForm("/", "POST", ["id" => "Character_form"]); ?>
     <?= CHtml::hiddenField( "Character[playerId]", Yii::app()->user->getState( 'uid' ) ) ?>
     <h2>Создание нового персонажа</h2>
     <label for="Character_name">Имя:</label>
@@ -23,6 +24,7 @@ $this->setPageTitle($this->gameTitle.' - Создание нового перс�
     <br/>
     <label for="Character_provinceId">Стартовая провинция:</label>
     <?= CHtml::dropDownList( "Character[provinceId]", 0, $provincesList ) ?>
+    <?= CHtml::endForm(); ?>
     <br/>
     <?php
     $this->widget( 'bootstrap.widgets.TbButton', [

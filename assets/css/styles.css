@@ -18,6 +18,11 @@ body {
 
 #footer {
     text-align: center;
+    padding: 0 20px;
+}
+#cabinet_link{
+    float:right;
+    color: #802420;
 }
 
 h2 {
@@ -145,7 +150,7 @@ svg text {
     font-weight: bold;
 }
 
-#left_panel p span{
+#left_panel p span {
     font-weight: normal !important;
     float: right;
 }
@@ -159,6 +164,7 @@ svg text {
     overflow: hidden;
     border-bottom: 1px solid grey;
 }
+
 #players_map_legend {
     min-height: 349px;
 }
@@ -167,6 +173,19 @@ svg text {
     left: -50px;
     top: -24px;
     position: relative;
+}
+
+.request_block {
+    border-bottom: 1px solid grey;
+}
+
+.request_block label {
+    display: inline;
+}
+
+.request_block select {
+    position: relative;
+    top: 4px;
 }
 
 /* Player setup */
