@@ -252,8 +252,7 @@ class Character extends JSONModel
     public function getClass()
     {
         if (empty( $this->class )) {
-            $data        = $this->game->getConfig()->getConfigElementById( "character_classes", $this->classId );
-            $this->class = new CharacterClass( $data );
+            $this->class        = $this->game->getConfig()->getConfigElementById( "character_classes", $this->classId );
         }
 
         return $this->class;
@@ -265,8 +264,7 @@ class Character extends JSONModel
     public function getTrait()
     {
         if (empty( $this->trait )) {
-            $data        = $this->game->getConfig()->getConfigElementById( "character_traits", $this->traitId );
-            $this->trait = new CharacterTrait( $data );
+            $this->trait        = $this->game->getConfig()->getConfigElementById( "character_traits", $this->traitId );
         }
 
         return $this->trait;
@@ -278,9 +276,8 @@ class Character extends JSONModel
     public function getAmbition()
     {
         if (empty( $this->ambition )) {
-            $data           = $this->game->getConfig()->getConfigElementById( "character_ambitions",
+            $this->ambition = $this->game->getConfig()->getConfigElementById( "character_ambitions",
                 $this->ambitionId );
-            $this->ambition = new CharacterAmbition( $data );
         }
 
         return $this->ambition;

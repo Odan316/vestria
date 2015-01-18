@@ -63,7 +63,7 @@ class GameController extends VesController
             } else {
                 $this->render( 'player', [
                     'character' => $character,
-                    'actions' => (new PlayerActionFinder($this->game, $character))->getActions()
+                    'actions' => (new PlayerActionHandler($this->game, $character))->getActions()
                 ] );
             }
         } else {

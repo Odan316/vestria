@@ -15,9 +15,10 @@
       ],
       "parameters": [
         {
-          "type": "select",
+          "type": "objectsSelect",
           "name": "provinceId",
-          "objects": "Province"
+          "objectsClass": "Province",
+          "objectsType": "save"
         }
       ],
       "effects": [

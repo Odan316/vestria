@@ -5,7 +5,7 @@
  *
  * Класс для получения действий игрока, подходящих ему
  */
-class PlayerActionFinder
+class PlayerActionHandler
 {
     /** @var Game */
     private $game;
@@ -91,5 +91,47 @@ class PlayerActionFinder
                 break;
         }
         return $test;
+    }
+
+    /**
+     * @param PlayerAction $action
+     *
+     * @return string
+     */
+    public function getParametersCode($action)
+    {
+        $code = "";
+        foreach($action->getParameters() as $parameter){
+            $code .= $this->getParameterCode($parameter);
+        }
+
+        return $code;
+    }
+
+    /**
+     * @param [] $parameter
+     *
+     * @return string
+     */
+    public function getParameterCode($parameter)
+    {
+        $code = "";
+        switch($parameter["type"]){
+            case "objectsSelect":
+                switch($parameter["objectsType"]){
+                    case "save":
+                        $objects = $this->game->getModels($parameter["objectsClass"], true);
+                        break;
+                    default:
+                        $objects = [];
+                        break;
+                }
+                $code .= CHtml::dropDownList( "request[][".$parameter["name"]."]", 0, CHtml::listData($objects, "id", "name") );
+                break;
+            default:
+                break;
+        }
+
+        return $code;
     }
 }

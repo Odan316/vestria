@@ -216,11 +216,17 @@ class Game extends JSONModel
     }
 
     /**
+     * @param bool $as_array
+     *
      * @return Province[]
      */
-    public function getProvinces()
+    public function getProvinces( $as_array = false )
     {
-        return $this->provinces;
+        if ( ! $as_array) {
+            return $this->provinces;
+        } else {
+            return $this->makeList($this->provinces);
+        }
     }
 
     /**
@@ -249,11 +255,7 @@ class Game extends JSONModel
         if ( ! $as_array) {
             return $this->characters;
         } else {
-            $list = [ ];
-            foreach ($this->characters as $character) {
-                $list[] = $character->jsonSerialize();
-            }
-            return $list;
+            return $this->makeList($this->characters);
         }
     }
 
@@ -301,11 +303,7 @@ class Game extends JSONModel
         if ( ! $as_array) {
             return $this->factions;
         } else {
-            $list = [ ];
-            foreach ($this->factions as $faction) {
-                $list[] = $faction->jsonSerialize();
-            }
-            return $list;
+            return $this->makeList($this->factions);
         }
     }
 
@@ -326,11 +324,17 @@ class Game extends JSONModel
     }
 
     /**
+     * @param bool $as_array
+     *
      * @return Army[]
      */
-    public function getArmies()
+    public function getArmies( $as_array = false )
     {
-        return $this->armies;
+        if ( ! $as_array) {
+            return $this->armies;
+        } else {
+            return $this->makeList($this->armies);
+        }
     }
 
     /**
@@ -364,6 +368,48 @@ class Game extends JSONModel
             }
         }
         return null;
+    }
+
+    /**
+     * Возвращает список запрошенных объектов
+     *
+     * @param $modelsName
+     * @param bool $as_array
+     *
+     * @return array
+     */
+    public function getModels( $modelsName, $as_array = false )
+    {
+        switch($modelsName){
+            case "Army":
+                return $this->getArmies($as_array);
+                break;
+            case "Character":
+                return $this->getCharacters($as_array);
+                break;
+            case "Faction":
+                return $this->getFactions($as_array);
+                break;
+            case "Province":
+                return $this->getProvinces($as_array);
+                break;
+            default:
+                return [];
+                break;
+        }
+    }
+
+    /**
+     * @param JSONModel[] $models
+     *
+     * @return array
+     */
+    public function makeList($models){
+        $list = [ ];
+        foreach ($models as $model) {
+            $list[] = $model->jsonSerialize();
+        }
+        return $list;
     }
 
     /**

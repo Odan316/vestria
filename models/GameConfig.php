@@ -152,9 +152,10 @@ class GameConfig extends JSONModel
         $config = $this->getConfigAsArray( $configName );
 
         if (isset( $config['listed'] ) && $config['listed'] == 1) {
+            $className = $config['className'];
             foreach ($config['elements'] as $element) {
                 if ($element['id'] == $elementId) {
-                    return $element;
+                    return new $className($element);
                 }
             }
         }
