@@ -1,5 +1,5 @@
 <?php
-use vestria\controllers\GameController;
+use diplomacy\modules\vestria\controllers\GameController;
 /**
  * @var $this GameController
  */

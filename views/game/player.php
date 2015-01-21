@@ -1,7 +1,7 @@
 <?php
-use vestria\controllers\GameController;
-use vestria\models\Character;
-use vestria\models\PlayerAction;
+use diplomacy\modules\vestria\controllers\GameController;
+use diplomacy\modules\vestria\models\Character;
+use diplomacy\modules\vestria\models\PlayerAction;
 /**
  * @var $this GameController
  * @var $character Character
