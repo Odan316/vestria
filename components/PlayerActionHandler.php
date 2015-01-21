@@ -130,7 +130,7 @@ class PlayerActionHandler
                         $objects = [];
                         break;
                 }
-                $code .= \CHtml::dropDownList( $parameter["name"], 0, \CHtml::listData($objects, "id", "name") );
+                $code .= \CHtml::dropDownList( $parameter["name"], 0, \CHtml::listData($objects, "id", "name"), ['class' => 'request_parameter'] );
                 break;
             default:
                 break;

@@ -5,9 +5,11 @@ $(function() {
     $(document).on('change', '.reguest_position', function(){
         var actionId = $(this).val();
         paramsCode = getActionParametersCode(actionId);
-        console.log($(this).next());
-        console.log(paramsCode);
-        $(this).next(".request_params").html(paramsCode);
+        $(this).parents(".request_block").find(".request_params").html(paramsCode);
+    });
+    $(document).on('click', '.but_request_save', function(){
+        var data = getRequestData();
+        saveObject("Request", data);
     });
 });
 
@@ -32,4 +34,23 @@ function getActionParametersCode(actionId)
         });
     }
     return code;
+}
+
+function getRequestData()
+{
+
+    var data = {
+        'positions': []
+    };
+    $('.request_block').each(function(){
+        var position = {
+            'actionId': $(this).find('.reguest_position').val()
+        };
+        $(this).find('.request_parameter').each(function(){
+            position[$(this).attr('name')] = $(this).val();
+        });
+        data.positions[data.positions.length] = position;
+    });
+
+    return data;
 }

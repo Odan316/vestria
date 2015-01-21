@@ -33,7 +33,7 @@ $this->setPageTitle($this->getModule()->getTitle().' - Панель игрока
     <?= CHtml::beginForm("/", "POST", ["id" => "Request_form"]); ?>
     <div class="request_block">
         <label>1:
-        <select class="reguest_position" name="requests[0]">
+        <select class="reguest_position" name="requests">
             <option value="" selected="selected">Выбрать</option>
             <?php
             foreach($actions as $action){ ?>

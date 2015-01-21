@@ -37,6 +37,10 @@ class Game extends \JSONModel implements \GameInterface
      * @var Army[] Армии
      */
     protected $armies = [ ];
+    /**
+     * @var Request[] Заявки
+     */
+    protected $requests = [ ];
 
     /** @var int */
     private $lastCharacterId = 0;
@@ -108,6 +112,7 @@ class Game extends \JSONModel implements \GameInterface
             "factions"        => $this->factions,
             "armies"          => $this->armies,
             "provinces"       => $this->provinces,
+            "requests"        => $this->requests,
             "lastCharacterId" => $this->lastCharacterId,
             "lastFactionId"   => $this->lastFactionId,
             "lastArmyId"      => $this->lastArmyId
@@ -130,6 +135,9 @@ class Game extends \JSONModel implements \GameInterface
         }
         foreach ($this->rawData['armies'] as $data) {
             $this->armies[] = new Army( $this, $data );
+        }
+        foreach ($this->rawData['requests'] as $data) {
+            $this->requests[] = new Request( $this, $data );
         }
 
         $this->lastCharacterId = $this->rawData['lastCharacterId'];
@@ -355,6 +363,20 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
+     * @param bool $as_array
+     *
+     * @return Request[]
+     */
+    public function getRequests( $as_array = false )
+    {
+        if ( ! $as_array) {
+            return $this->requests;
+        } else {
+            return $this->makeList($this->requests);
+        }
+    }
+
+    /**
      * Находит персонада по ИД его игрока
      *
      * @param int $playerId
@@ -366,6 +388,23 @@ class Game extends \JSONModel implements \GameInterface
         foreach ($this->characters as $character) {
             if ($character->getPlayer()->id == $playerId) {
                 return $character;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Находит заявку по ИД ее персонажа
+     *
+     * @param int $characterId
+     *
+     * @return Request|null
+     */
+    public function getRequestByCharacterId( $characterId )
+    {
+        foreach ($this->requests as $request) {
+            if ($request->getCharacter()->getId() == $characterId) {
+                return $request;
             }
         }
         return null;
@@ -393,6 +432,9 @@ class Game extends \JSONModel implements \GameInterface
                 break;
             case "Province":
                 return $this->getProvinces($as_array);
+                break;
+            case "Request":
+                return $this->getRequests($as_array);
                 break;
             default:
                 return [];
@@ -491,6 +533,38 @@ class Game extends \JSONModel implements \GameInterface
     public function updateProvince($data)
     {
         $model = $this->getProvince( $data['id'] );
+        if ( ! empty( $model )) {
+            $model->setAttributes( $data );
+            return $this->save();
+        }
+        return false;
+    }
+
+    /**
+     * Создает новую заявку и сохраняет игру
+     *
+     * @param [] $data
+     *
+     * @return bool
+     */
+    public function createRequest( $data )
+    {
+        $model = new Request( $this, $data );
+        $this->requests[] = $model;
+
+        return $this->save();
+    }
+
+    /**
+     * Находит существующую заявку по ИД ее персонажа в $data и обновляет переданные параметры
+     *
+     * @param [] $data
+     *
+     * @return bool
+     */
+    public function updateRequest( $data )
+    {
+        $model = $this->getRequestByCharacterId( $data['characterId'] );
         if ( ! empty( $model )) {
             $model->setAttributes( $data );
             return $this->save();
