@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class PlayerAction
  *
  * Класс действия игрока
  */
-class PlayerAction extends JSONModel
+class PlayerAction extends \JSONModel
 {
     /** @var int */
     protected $id;

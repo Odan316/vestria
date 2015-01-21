@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class Province
  *
  * Класс провинции
  */
-class Province extends JSONModel
+class Province extends \JSONModel
 {
     /** @var int */
     protected $id;

@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class CharacterAmbition
  *
  * Класс Амбиции персонажа (конфиг)
  */
-class CharacterAmbition extends JSONModel
+class CharacterAmbition extends \JSONModel
 {
 
     /** @var  int */

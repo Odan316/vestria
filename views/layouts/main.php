@@ -1,4 +1,5 @@
 <?php
+use vestria\controllers\GameController;
 /**
  * @var $this GameController
  * @var string $content
@@ -11,7 +12,7 @@
 	<title><?=CHtml::encode($this->pageTitle); ?></title>
     <link href='http://fonts.googleapis.com/css?family=Marck+Script&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <link href="<?= Yii::app()->request->baseUrl; ?>/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <script>
+    <script type="text/javascript">
         <?php if(strpos($_SERVER['HTTP_HOST'], 'local') !== false){ ?>
         window.url_root = "/vestria/";
         <?php } else { ?>

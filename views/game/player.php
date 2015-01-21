@@ -1,4 +1,7 @@
 <?php
+use vestria\controllers\GameController;
+use vestria\models\Character;
+use vestria\models\PlayerAction;
 /**
  * @var $this GameController
  * @var $character Character
@@ -27,16 +30,29 @@ $this->setPageTitle($this->getModule()->getTitle().' - Панель игрока
 </div>
 <div id="right_panel" class="requests_list">
     <h2>Заявка</h2>
+    <?= CHtml::beginForm("/", "POST", ["id" => "Request_form"]); ?>
     <div class="request_block">
-        <label for="requests[0]">1: </label>
-        <select id="requests[0]" class="reguest_position" name="requests[0]">
+        <label>1:
+        <select class="reguest_position" name="requests[0]">
             <option value="" selected="selected">Выбрать</option>
             <?php
             foreach($actions as $action){ ?>
                 <option value="<?= $action->getId();?>"><?= $action->getName(); ?></option>
             <?php }?>
         </select>
+        </label>
         <div class="request_params"></div>
     </div>
+    <br/>
+    <?php
+    $this->widget( 'bootstrap.widgets.TbButton', [
+        'label'       => 'Сохранить',
+        'type' => 'primary',
+        'size'        => 'mediium',
+        "htmlOptions" => [
+            'class' => "but_request_save"
+        ]
+    ] );
+    ?>
 </div>
 <div class="clearfix"></div>

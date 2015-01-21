@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class Map
  *
  * Класс строящий карту
  */
-class Map extends JSONModel
+class Map extends \JSONModel
 {
     /** @var [] */
     protected $defaults;
@@ -13,7 +13,7 @@ class Map extends JSONModel
     /** @var [] */
     protected $svg;
 
-    /** @var DOMDocument */
+    /** @var \DOMDocument */
     private $XML;
 
     /** @var Game */
@@ -38,7 +38,7 @@ class Map extends JSONModel
      */
     public function createMap()
     {
-        $this->XML = new DOMDocument();
+        $this->XML = new \DOMDocument();
         $svgNode   = $this->XML->createElement( "svg" );
         $svgNode->setAttribute( "id", "mapSVG" );
         $svgNode->setIdAttribute( 'id', true );

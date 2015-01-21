@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class Army
  *
  * Класс армии
  */
-class Army extends JSONModel
+class Army extends \JSONModel
 {
 
     /** @var int */

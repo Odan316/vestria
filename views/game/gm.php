@@ -1,4 +1,5 @@
 <?php
+use vestria\controllers\GameController;
 /**
  * @var $this GameController
  * @var $players Users[] Список игроков, с племенами

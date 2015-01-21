@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class GameConfig
  *
  * Класс для работы с файлами конфигурации
  */
-class GameConfig extends JSONModel
+class GameConfig extends \JSONModel
 {
     /**
      * @var int ИД игры
@@ -77,9 +77,9 @@ class GameConfig extends JSONModel
 
         $this->modelFile = $this->configName . ".json";
 
-        $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->gameId . "/config/";
+        $this->modelPath = \Yii::app()->getModulePath() . "/vestria/data/games/" . $this->gameId . "/config/";
         if ( ! $this->fileExists()) {
-            $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/common/";
+            $this->modelPath = \Yii::app()->getModulePath() . "/vestria/data/common/";
         }
     }
 
@@ -113,7 +113,8 @@ class GameConfig extends JSONModel
         $list = [ ];
         if (isset( $config['listed'] ) && $config['listed'] == 1) {
             foreach ($config['elements'] as $element) {
-                $list[] = new $config["className"]($element);
+                $configClass = "\\diplomacy\\modules\\vestria\\models\\".$config["className"];
+                $list[] = new $configClass($element);
             }
         }
         return $list;
@@ -152,10 +153,10 @@ class GameConfig extends JSONModel
         $config = $this->getConfigAsArray( $configName );
 
         if (isset( $config['listed'] ) && $config['listed'] == 1) {
-            $className = $config['className'];
+            $configClass = "\\diplomacy\\modules\\vestria\\models\\".$config["className"];
             foreach ($config['elements'] as $element) {
                 if ($element['id'] == $elementId) {
-                    return new $className($element);
+                    return new $configClass($element);
                 }
             }
         }

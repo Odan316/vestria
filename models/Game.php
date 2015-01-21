@@ -1,11 +1,12 @@
 <?php
+namespace diplomacy\modules\vestria\models;
 
 /**
  * Class Game
  *
  * Модель для работы с игрой
  */
-class Game extends JSONModel
+class Game extends \JSONModel implements \GameInterface
 {
     /**
      * @var int ИД игры
@@ -90,7 +91,7 @@ class Game extends JSONModel
     protected function setPaths()
     {
         if ( ! empty( $this->id )) {
-            $this->modelPath = Yii::app()->getModulePath() . "/vestria/data/games/" . $this->id . "/turns/" . (integer) $this->turn . "/";
+            $this->modelPath = \Yii::app()->getModulePath() . "/vestria/data/games/" . $this->id . "/turns/" . (integer) $this->turn . "/";
             $this->modelFile = "main_save.json";
         }
     }
@@ -400,7 +401,7 @@ class Game extends JSONModel
     }
 
     /**
-     * @param JSONModel[] $models
+     * @param \JSONModel[] $models
      *
      * @return array
      */

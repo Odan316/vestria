@@ -1,23 +1,25 @@
 <?php
+namespace diplomacy\modules\vestria\components;
 
+use diplomacy\modules\vestria\models\Game;
 /**
  * Class VesController
  *
  * Переопределение класса контроллера под модуль
  *
- * @method VestriaModule getModule()
+ * @method \diplomacy\modules\vestria\VestriaModule getModule()
  */
-class VesController extends DiploController
+class VesController extends \DiploController
 {
     /**
      * Модель пользователя (из базового движка)
-     * @var Users $user_model
+     * @var \Users $user_model
      */
     protected $userModel;
 
     /**
      * Модель игры (из базового движка)
-     * @var Games $game_model
+     * @var \Games $game_model
      */
     protected $gameModel;
 
@@ -35,8 +37,8 @@ class VesController extends DiploController
     public function init()
     {
         $this->layout = 'main';
-        /** @var $ClientScript CClientScript */
-        $ClientScript = Yii::app()->clientScript;
+        /** @var $ClientScript \CClientScript */
+        $ClientScript = \Yii::app()->clientScript;
         $ClientScript->registerCssFile( $this->module->assetsBase . '/css/styles.css' );
         $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/common.js' );
 
@@ -49,27 +51,27 @@ class VesController extends DiploController
      * - проверить права пользователя на доступ к игре
      * - загрузить базовые модели пользователя и игры
      *
-     * @param CAction $action
+     * @param \CAction $action
      *
      * @return bool
      */
     public function beforeAction( $action )
     {
         $gameId = false;
-        /** @var $user CWebUser */
-        $user = Yii::app()->user;
+        /** @var $user \CWebUser */
+        $user = \Yii::app()->user;
         if (isset( $this->actionParams['id'] )) {
             $gameId                                = $this->actionParams['id'];
-            $cookie                                = new CHttpCookie( 'gameId', $gameId );
+            $cookie                                = new \CHttpCookie( 'gameId', $gameId );
             $cookie->expire                        = time() + 60 * 60 * 24 * 30;
-            Yii::app()->request->cookies['gameId'] = $cookie;
-        } elseif (isset( Yii::app()->request->cookies['gameId'] )) {
-            $gameId = Yii::app()->request->cookies['gameId']->value;
+            \Yii::app()->request->cookies['gameId'] = $cookie;
+        } elseif (isset( \Yii::app()->request->cookies['gameId'] )) {
+            $gameId = \Yii::app()->request->cookies['gameId']->value;
         } elseif ( ! $user->getState( 'gameId' )) {
             $this->redirect( $this->createUrl( '/cabinet/no_such_game' ) );
         }
 
-        $this->gameModel = Games::model()
+        $this->gameModel = \Games::model()
                                 ->with( 'master_user', 'players_users' )
                                 ->findByPk( $gameId );
         if ( ! $this->gameModel) {
@@ -77,7 +79,7 @@ class VesController extends DiploController
         }
 
         if ( ! $user->getState( 'gameRole' )) {
-            $userRole = Users2games::model()->findByAttributes( [
+            $userRole = \Users2games::model()->findByAttributes( [
                 'user_id' => $user->getState( 'uid' ),
                 'game_id' => $gameId
             ] );
@@ -87,7 +89,7 @@ class VesController extends DiploController
                 $user->setState( 'game_role', $userRole->role_id );
             }
         }
-        $this->userModel = Users::model()->with( 'person' )->findByPk( $user->getState( 'uid' ) );
+        $this->userModel = \Users::model()->with( 'person' )->findByPk( $user->getState( 'uid' ) );
 
         $this->game = new Game( $this->gameModel->id, $this->gameModel->last_turn );
 

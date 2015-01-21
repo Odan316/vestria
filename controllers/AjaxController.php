@@ -1,5 +1,9 @@
 <?php
+namespace diplomacy\modules\vestria\controllers;
 
+use diplomacy\modules\vestria\components\VesController;
+use diplomacy\modules\vestria\components\PlayerActionHandler;
+use diplomacy\modules\vestria\models\PlayerAction;
 /**
  * Class AjaxController
  *
@@ -9,7 +13,7 @@ class AjaxController extends VesController
 {
     public function actionGetCharacterDataByPlayerId()
     {
-        $playerId = Yii::app()->request->getPost( "playerId", 0 );
+        $playerId = \Yii::app()->request->getPost( "playerId", 0 );
 
         $character = $this->game->getCharacterByPlayerId( $playerId );
 
@@ -18,12 +22,12 @@ class AjaxController extends VesController
 
     public function actionGetPlayerData()
     {
-        echo json_encode( Users::model()->findByPk( Yii::app()->request->getPost( "id", 0 ) ) );
+        echo json_encode( \Users::model()->findByPk( \Yii::app()->request->getPost( "id", 0 ) ) );
     }
 
     public function actionGetTraitsByClassId()
     {
-        $classId = Yii::app()->request->getPost( "classId", 0 );
+        $classId = \Yii::app()->request->getPost( "classId", 0 );
 
         $list         = [ ];
         $traitsConfig = $this->game->getConfig()->getConfigAsArray( 'character_traits' );
@@ -38,7 +42,7 @@ class AjaxController extends VesController
 
     public function actionGetAmbitionsByClassId()
     {
-        $classId = Yii::app()->request->getPost( "classId", 0 );
+        $classId = \Yii::app()->request->getPost( "classId", 0 );
 
         $list            = [ ];
         $ambitionsConfig = $this->game->getConfig()->getConfigAsArray( 'character_ambitions' );
@@ -53,7 +57,7 @@ class AjaxController extends VesController
 
     public function actionSaveCharacter()
     {
-        $data = Yii::app()->request->getPost( "Character", [ ] );
+        $data = \Yii::app()->request->getPost( "Character", [ ] );
         if ( ! empty( $data['id'] )) {
             echo $this->game->updateCharacter( $data );
         } else {
@@ -64,12 +68,12 @@ class AjaxController extends VesController
 
     public function actionGetFactionData()
     {
-        echo json_encode( $this->game->getFaction( Yii::app()->request->getPost( "id", 0 ) ) );
+        echo json_encode( $this->game->getFaction( \Yii::app()->request->getPost( "id", 0 ) ) );
     }
 
     public function actionSaveFaction()
     {
-        $data = Yii::app()->request->getPost( "Faction", [ ] );
+        $data = \Yii::app()->request->getPost( "Faction", [ ] );
         if ( ! empty( $data['id'] )) {
             echo $this->game->updateFaction( $data );
         } else {
@@ -79,12 +83,12 @@ class AjaxController extends VesController
 
     public function actionGetProvinceData()
     {
-        echo json_encode( $this->game->getProvince( Yii::app()->request->getPost( "id", 0 ) ) );
+        echo json_encode( $this->game->getProvince( \Yii::app()->request->getPost( "id", 0 ) ) );
     }
 
     public function actionSaveProvince()
     {
-        $data = Yii::app()->request->getPost( "Province", [ ] );
+        $data = \Yii::app()->request->getPost( "Province", [ ] );
         if ( ! empty( $data['id'] )) {
             echo $this->game->updateProvince( $data );
         } else {
@@ -94,12 +98,12 @@ class AjaxController extends VesController
 
     public function actionGetActionParametersCode()
     {
-        $actionId = Yii::app()->request->getPost( "actionId", 0 );
+        $actionId = \Yii::app()->request->getPost( "actionId", 0 );
 
         /** @var PlayerAction $action */
         $action = $this->game->getConfig()->getConfigElementById("player_actions", $actionId);
 
-        $character = $this->game->getCharacterByPlayerId(Yii::app()->user->getState( 'uid' ));
+        $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
 
         echo (new PlayerActionHandler($this->game, $character))->getParametersCode($action);
     }

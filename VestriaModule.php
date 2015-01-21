@@ -1,13 +1,19 @@
 <?php
+namespace diplomacy\modules\vestria;
 
-class VestriaModule extends CWebModule
+class VestriaModule extends \CWebModule
 {
+    /**
+     * Пространство имён для контроллеров
+     * @var string
+     */
+    public $controllerNamespace = '\diplomacy\modules\vestria\controllers';
     /** @var string */
     protected $title;
 
 	public function init()
 	{
-        Yii::app()->name = 'Дипломатия: Вестрия';
+        \Yii::app()->name = 'Дипломатия: Вестрия';
         $this->title = "Вестрия: Время Перемен";
 		// import the module-level models and components
 		$this->setImport(array(
@@ -22,8 +28,8 @@ class VestriaModule extends CWebModule
     public function getAssetsBase()
     {
         if ($this->_assetsBase === null) {
-            $this->_assetsBase = Yii::app()->assetManager->publish(
-                Yii::getPathOfAlias('vestria.assets'),
+            $this->_assetsBase = \Yii::app()->assetManager->publish(
+                \Yii::getPathOfAlias('vestria.assets'),
                 false,
                 -1,
                 YII_DEBUG

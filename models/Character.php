@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class Character
  *
  * Класс "Персонаж"
  */
-class Character extends JSONModel
+class Character extends \JSONModel
 {
     /** @var int */
     protected $id;
@@ -30,7 +30,7 @@ class Character extends JSONModel
 
     /** @var Game */
     private $game;
-    /** @var Users */
+    /** @var \Users */
     private $player;
     /** @var Faction */
     private $faction;
@@ -235,12 +235,12 @@ class Character extends JSONModel
     }
 
     /**
-     * @return Users|static
+     * @return \Users|static
      */
     public function getPlayer()
     {
         if (empty( $this->player )) {
-            $this->player = Users::model()->findByPk( $this->playerId );
+            $this->player = \Users::model()->findByPk( $this->playerId );
         }
 
         return $this->player;

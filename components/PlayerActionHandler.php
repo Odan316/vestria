@@ -1,5 +1,9 @@
 <?php
+namespace diplomacy\modules\vestria\components;
 
+use diplomacy\modules\vestria\models\Game;
+use diplomacy\modules\vestria\models\Character;
+use diplomacy\modules\vestria\models\PlayerAction;
 /**
  * Class PlayerActionFinder
  *
@@ -126,7 +130,7 @@ class PlayerActionHandler
                         $objects = [];
                         break;
                 }
-                $code .= CHtml::dropDownList( "request[][".$parameter["name"]."]", 0, CHtml::listData($objects, "id", "name") );
+                $code .= \CHtml::dropDownList( $parameter["name"], 0, \CHtml::listData($objects, "id", "name") );
                 break;
             default:
                 break;

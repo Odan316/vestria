@@ -1,11 +1,11 @@
 <?php
-
+namespace diplomacy\modules\vestria\models;
 /**
  * Class CharacterClass
  *
  * Класс Класса персонажа (конфиг)
  */
-class CharacterClass extends JSONModel
+class CharacterClass extends \JSONModel
 {
 
     /** @var  int */

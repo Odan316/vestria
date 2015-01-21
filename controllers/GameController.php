@@ -1,5 +1,8 @@
 <?php
+namespace diplomacy\modules\vestria\controllers;
 
+use diplomacy\modules\vestria\components\VesController;
+use diplomacy\modules\vestria\components\PlayerActionHandler;
 /**
  * Class GameController
  *
@@ -14,7 +17,7 @@ class GameController extends VesController
      */
     public function actionIndex()
     {
-        if (Yii::app()->user->getState( 'game_role' ) == Game_roles::GM_ROLE) {
+        if (\Yii::app()->user->getState( 'game_role' ) == \Game_roles::GM_ROLE) {
             $this->actionGM();
         } else {
             $this->actionPlayer();
@@ -27,9 +30,9 @@ class GameController extends VesController
     public function actionGM()
     {
         // Сначала проверяем роль
-        if (Yii::app()->user->getState( 'game_role' ) == Game_roles::GM_ROLE) {
-            /** @var $ClientScript CClientScript */
-            $ClientScript = Yii::app()->clientScript;
+        if (\Yii::app()->user->getState( 'game_role' ) == \Game_roles::GM_ROLE) {
+            /** @var $ClientScript \CClientScript */
+            $ClientScript = \Yii::app()->clientScript;
             $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/gm.js' );
 
             $this->render( 'gm', [
@@ -49,12 +52,12 @@ class GameController extends VesController
     public function actionPlayer()
     {
         // Сначала проверяем роль
-        if (Yii::app()->user->getState( 'game_role' ) == Game_roles::PLAYER_ROLE) {
-            /** @var $ClientScript CClientScript */
-            $ClientScript = Yii::app()->clientScript;
+        if (\Yii::app()->user->getState( 'game_role' ) == \Game_roles::PLAYER_ROLE) {
+            /** @var $ClientScript \CClientScript */
+            $ClientScript = \Yii::app()->clientScript;
             $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/player.js' );
 
-            $character = $this->game->getCharacterByPlayerId(Yii::app()->user->getState( 'uid' ));
+            $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
             if(!$character){
                 $this->render( 'player_setup', [
                     'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
