@@ -8,6 +8,8 @@ namespace diplomacy\modules\vestria\models;
 class RequestPosition extends \JSONModel
 {
     /** @var int */
+    protected $id;
+    /** @var int */
     protected $actionId;
 
     /** @var [] */
@@ -25,7 +27,16 @@ class RequestPosition extends \JSONModel
     public function __construct( $request, $data = [ ] )
     {
         $this->request = $request;
+        \CVarDumper::dump($data);
         parent::__construct( $data );
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -46,8 +57,6 @@ class RequestPosition extends \JSONModel
         return $this;
     }
 
-
-
     /**
      * @return PlayerAction|null
      */
@@ -57,5 +66,17 @@ class RequestPosition extends \JSONModel
             $this->action = $this->request->getGame()->getConfig()->getConfigElementById('player_actions', $this->actionId );
         }
         return $this->action;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id" => $this->id,
+            "actionId" => $this->actionId,
+            "parameters"   => $this->parameters
+        ];
     }
 }

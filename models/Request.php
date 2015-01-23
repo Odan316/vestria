@@ -13,6 +13,9 @@ class Request extends \JSONModel
     /** @var RequestPosition[] */
     protected $positions;
 
+    /** @var int */
+    private $lastPositionId = 0;
+
     /** @var Game */
     protected $game;
     /** @var Character */
@@ -27,7 +30,11 @@ class Request extends \JSONModel
         $this->game = $game;
         if(isset($data['positions'])){
             foreach($data['positions'] as $positionData){
-                $this->positions = new RequestPosition($positionData);
+                if(isset($positionData['id'])){
+                    $this->updatePosition($positionData);
+                } else {
+                    $this->createPosition($positionData);
+                }
             }
             unset($data['positions']);
         }
@@ -64,10 +71,64 @@ class Request extends \JSONModel
     }
 
     /**
+     * @return RequestPosition[]
+     */
+    public function getPositions()
+    {
+        return $this->positions;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return RequestPosition|null
+     */
+    public function getPosition($id)
+    {
+        foreach($this->positions as $position) {
+            if($position->getId() == $id)
+                return $position;
+        }
+        return null;
+    }
+
+    public function createPosition($data)
+    {
+        $this->lastPositionId ++;
+        $data['id'] = $this->lastPositionId;
+        $model = new RequestPosition($this, $data);
+        $this->positions[] = $model;
+    }
+
+    /**
+     * @param [] $data
+     *
+     * @return void
+     */
+    public function updatePosition($data)
+    {
+        $position = $this->getPosition($data['id']);
+        if($position){
+            $position->setAttributes($data);
+        }
+    }
+
+    /**
      * @return Game
      */
     public function getGame()
     {
         return $this->game;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "characterId" => $this->characterId,
+            "positions"   => $this->positions
+        ];
     }
 }

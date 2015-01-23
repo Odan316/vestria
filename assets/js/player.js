@@ -44,10 +44,11 @@ function getRequestData()
     };
     $('.request_block').each(function(){
         var position = {
-            'actionId': $(this).find('.reguest_position').val()
+            'actionId': $(this).find('.reguest_position').val(),
+            'parameters': {}
         };
         $(this).find('.request_parameter').each(function(){
-            position[$(this).attr('name')] = $(this).val();
+            position.parameters[$(this).attr('name')] = $(this).val();
         });
         data.positions[data.positions.length] = position;
     });

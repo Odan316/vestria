@@ -110,13 +110,13 @@ class AjaxController extends VesController
 
     public function actionSaveRequest()
     {
-        $positions = \Yii::app()->request->getPost( "request", [ ] );
+        $positions = \Yii::app()->request->getPost( "positions", [ ] );
         $character = $this->game->getCharacterByPlayerId( \Yii::app()->getUser()->getState('uid') );
         if(!empty($character)){
             $data = ["characterId" => $character->getId(), "positions" => $positions];
             $request = $this->game->getRequestByCharacterId($character->getId());
             if(!empty($request)){
-                echo $this->game->updateProvince( $data );
+                echo $this->game->updateRequest( $data );
             } else {
                 echo $this->game->createRequest( $data );
             }
