@@ -66,4 +66,15 @@ class PlayerAction extends \JSONModel
     {
         return $this->effects;
     }
+
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'conditions' => $this->conditions,
+            'parameters' => $this->parameters,
+            'effects' => $this->effects
+        ];
+    }
 }

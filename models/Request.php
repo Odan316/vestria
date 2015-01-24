@@ -11,7 +11,7 @@ class Request extends \JSONModel
     protected $characterId;
 
     /** @var RequestPosition[] */
-    protected $positions;
+    protected $positions = [];
 
     /** @var int */
     private $lastPositionId = 0;
@@ -28,9 +28,17 @@ class Request extends \JSONModel
     public function __construct( $game, $data = [ ] )
     {
         $this->game = $game;
+        parent::__construct( $data );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setAttributes($data)
+    {
         if(isset($data['positions'])){
             foreach($data['positions'] as $positionData){
-                if(isset($positionData['id'])){
+                if(isset($positionData['id']) && $this->getPosition($positionData['id'])){
                     $this->updatePosition($positionData);
                 } else {
                     $this->createPosition($positionData);
@@ -38,7 +46,7 @@ class Request extends \JSONModel
             }
             unset($data['positions']);
         }
-        parent::__construct( $data );
+        parent::setAttributes($data);
     }
 
     /**

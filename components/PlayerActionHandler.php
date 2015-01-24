@@ -29,7 +29,7 @@ class PlayerActionHandler
     /**
      * @return PlayerAction[]
      */
-    public function getActions()
+    public function getActions($as_array = false)
     {
         $actions       = $this->game->getConfig()->getConfigAsObjectsArray( "player_actions" );
         $passedActions = [ ];
@@ -39,7 +39,11 @@ class PlayerActionHandler
                 $passedActions[] = $action;
             }
         }
-        return $passedActions;
+        if(!$as_array){
+            return $passedActions;
+        } else {
+            return $this->game->makeList($passedActions);
+        }
     }
 
     /**
@@ -102,11 +106,12 @@ class PlayerActionHandler
      *
      * @return string
      */
-    public function getParametersCode($action)
+    public function getParametersCode($action, $values = [])
     {
         $code = "";
         foreach($action->getParameters() as $parameter){
-            $code .= $this->getParameterCode($parameter);
+            $value = isset($values[$parameter['name']]) ? $values[$parameter['name']] : null;
+            $code .= $this->getParameterCode($parameter, $value);
         }
 
         return $code;
@@ -117,7 +122,7 @@ class PlayerActionHandler
      *
      * @return string
      */
-    public function getParameterCode($parameter)
+    public function getParameterCode($parameter, $value = 0)
     {
         $code = "";
         switch($parameter["type"]){
@@ -130,7 +135,7 @@ class PlayerActionHandler
                         $objects = [];
                         break;
                 }
-                $code .= \CHtml::dropDownList( $parameter["name"], 0, \CHtml::listData($objects, "id", "name"), ['class' => 'request_parameter'] );
+                $code .= \CHtml::dropDownList( $parameter["name"], $value, \CHtml::listData($objects, "id", "name"), ['class' => 'request_parameter'] );
                 break;
             default:
                 break;

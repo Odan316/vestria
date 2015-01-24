@@ -443,19 +443,6 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param \JSONModel[] $models
-     *
-     * @return array
-     */
-    public function makeList($models){
-        $list = [ ];
-        foreach ($models as $model) {
-            $list[] = $model->jsonSerialize();
-        }
-        return $list;
-    }
-
-    /**
      * Создает нового персонажа и сохраняет игру
      *
      * @param [] $data

@@ -1,5 +1,7 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
+use diplomacy\modules\vestria\components\PlayerActionHandler;
 /**
  * Class RequestPosition
  *
@@ -27,7 +29,6 @@ class RequestPosition extends \JSONModel
     public function __construct( $request, $data = [ ] )
     {
         $this->request = $request;
-        \CVarDumper::dump($data);
         parent::__construct( $data );
     }
 
@@ -66,6 +67,22 @@ class RequestPosition extends \JSONModel
             $this->action = $this->request->getGame()->getConfig()->getConfigElementById('player_actions', $this->actionId );
         }
         return $this->action;
+    }
+
+    /**
+     * @return []
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParametersCode()
+    {
+        return (new PlayerActionHandler($this->request->getGame(), $this->request->getCharacter()))->getParametersCode($this->getAction(), $this->getParameters());
     }
 
     /**

@@ -35,7 +35,7 @@ class GameController extends VesController
             $ClientScript = \Yii::app()->clientScript;
             $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/gm.js' );
 
-            $this->render( 'gm', [
+            $this->render( 'gm/index', [
                 'players'     => $this->gameModel->players_users,
                 'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
                 'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" ),
@@ -64,9 +64,10 @@ class GameController extends VesController
                     'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" )
                 ] );
             } else {
-                $this->render( 'player', [
+                $this->render( 'player/index', [
                     'character' => $character,
-                    'actions' => (new PlayerActionHandler($this->game, $character))->getActions()
+                    'actions' => (new PlayerActionHandler($this->game, $character))->getActions(true),
+                    'request' => $this->game->getRequestByCharacterId($character->getId())
                 ] );
             }
         } else {

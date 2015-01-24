@@ -44,6 +44,7 @@ function getRequestData()
     };
     $('.request_block').each(function(){
         var position = {
+            'id': $(this).find('.positionId').val(),
             'actionId': $(this).find('.reguest_position').val(),
             'parameters': {}
         };

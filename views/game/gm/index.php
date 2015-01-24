@@ -17,13 +17,13 @@ $this->widget(
         'tabs' => [
             [
                 'label'   => 'Игроки и фракции',
-                'content' => $this->renderPartial( "gm/players",
+                'content' => $this->renderPartial( "gm/_players",
                     [ "players" => $players, "classesList" => $classesList, "provincesList" => $provincesList ], 1 ),
                 'active'  => true
             ],
             [
                 'label'   => 'Провинции',
-                'content' => $this->renderPartial( "gm/map",
+                'content' => $this->renderPartial( "gm/_map",
                     [ "provincesList" => $provincesList ], 1 )
             ],
         ],
