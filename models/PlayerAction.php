@@ -7,6 +7,11 @@ namespace diplomacy\modules\vestria\models;
  */
 class PlayerAction extends \JSONModel
 {
+
+    const TYPE_CHARACTERS = 1;
+    const TYPE_SPENDING = 2;
+    const TYPE_MANEUVRES = 3;
+
     /** @var int */
     protected $id;
     /** @var string */

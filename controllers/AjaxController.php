@@ -4,7 +4,6 @@ namespace diplomacy\modules\vestria\controllers;
 use diplomacy\modules\vestria\components\VesController;
 use diplomacy\modules\vestria\components\PlayerActionHandler;
 use diplomacy\modules\vestria\models\PlayerAction;
-use diplomacy\modules\vestria\models\RequestPosition;
 
 /**
  * Class AjaxController
@@ -66,7 +65,6 @@ class AjaxController extends VesController
             echo $this->game->createCharacter( $data );
         }
     }
-
 
     public function actionGetFactionData()
     {

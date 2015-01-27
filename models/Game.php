@@ -566,4 +566,5 @@ class Game extends \JSONModel implements \GameInterface
     {
         return $this->map;
     }
+
 } 

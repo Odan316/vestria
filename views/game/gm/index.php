@@ -16,16 +16,21 @@ $this->widget(
         'type' => 'pills',
         'tabs' => [
             [
+                'label'   => 'Ход',
+                'content' => $this->renderPartial( "gm/_turn",
+                    [], 1 ),
+                'active'  => true
+            ],
+            [
                 'label'   => 'Игроки и фракции',
                 'content' => $this->renderPartial( "gm/_players",
-                    [ "players" => $players, "classesList" => $classesList, "provincesList" => $provincesList ], 1 ),
-                'active'  => true
+                    [ "players" => $players, "classesList" => $classesList, "provincesList" => $provincesList ], 1 )
             ],
             [
                 'label'   => 'Провинции',
                 'content' => $this->renderPartial( "gm/_map",
                     [ "provincesList" => $provincesList ], 1 )
-            ],
+            ]
         ],
     ]
 );
