@@ -1,5 +1,5 @@
 <?php
-namespace diplomacy\modules\vestria\components;
+namespace diplomacy\modules\vestria\widgets;
 
 use diplomacy\modules\vestria\models\PlayerAction;
 use diplomacy\modules\vestria\models\RequestPosition;

@@ -114,7 +114,7 @@ class AjaxController extends VesController
     {
         $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
         $actions = (new PlayerActionHandler($this->game, $character))->getActions(true);
-        echo $this->widget( "diplomacy\\modules\\vestria\\components\\RequestPositionWidget",
+        echo $this->widget( "diplomacy\\modules\\vestria\\widgets\\RequestPositionWidget",
             [ "actions" => $actions, "position" => null, "i" => '' ], 1 );
     }
 

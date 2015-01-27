@@ -18,7 +18,7 @@ use diplomacy\modules\vestria\models\Request;
     foreach($request->getPositions() as $position){
         $i++;
         ?>
-        <?= $this->widget( "diplomacy\\modules\\vestria\\components\\RequestPositionWidget",
+        <?= $this->widget( "diplomacy\\modules\\vestria\\widgets\\RequestPositionWidget",
             [ "actions" => $actions, "position" => $position, "i" => $i ], 1 );
         ?>
     <?php } ?>
