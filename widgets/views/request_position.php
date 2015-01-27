@@ -14,6 +14,7 @@ $positionId = !empty($this->position) ? $this->position->getId() : 0;
 $actionsListData = \CMap::mergeArray([0 => "Выберите"], \CHtml::listData($this->actions, "id", "name"));
 ?>
 <div class="request_block">
+    <?= \CHtml::imageButton($this->getController()->getModule()->getAssetsBase()."/images/design/close.png", ["class" => "delete_request_position"])?>
     <?= \CHtml::hiddenField('id', $positionId, ["id" => "p".$positionId."Id", "class" => "positionId"]);?>
     <label><span class="position_num"><?= $this->i ?></span>:
         <?= \CHtml::dropDownList(

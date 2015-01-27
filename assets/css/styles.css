@@ -196,6 +196,12 @@ svg text {
     width: 40px !important;
 }
 
+.delete_request_position {
+    width:20px !important;
+    float: right;
+    margin: 10px;
+}
+
 /* Player setup */
 #new_character {
     width: 500px;

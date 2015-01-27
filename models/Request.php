@@ -122,6 +122,20 @@ class Request extends \JSONModel
     }
 
     /**
+     * @param int $id
+     */
+    public function deletePosition($id)
+    {
+        foreach($this->positions as $key => $position){
+            if($position->getId() == $id){
+                unset($this->positions[$key]);
+                $this->game->save();
+                break;
+            }
+        }
+    }
+
+    /**
      * @return Game
      */
     public function getGame()

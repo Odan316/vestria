@@ -9,6 +9,13 @@ $(function() {
         positionCode.find(".position_num").text(positionsCounter);
         $(this).before(positionCode);
     });
+    $(document).on('click', ".delete_request_position", function(){
+        var positionId = $(this).parent().find(".positionId").val();
+        if(positionId != ''){
+            deletePosition(positionId);
+        }
+        $(this).parent().detach();
+    });
     $(document).on('change', '.reguest_position', function(){
         var actionId = $(this).val();
         paramsCode = getActionParametersCode(actionId);
@@ -60,6 +67,23 @@ function getRequestPositionCode()
         }
     });
     return code;
+}
+
+function deletePosition(id)
+{
+    if (id) {
+        $.ajax({
+            type: "POST",
+            async: false,
+            context: this,
+            url: window.url_root + "ajax/deletePosition",
+            dataType: 'html',
+            data: {
+                "id": id
+            },
+            success: function (response) { }
+        });
+    }
 }
 
 function getRequestData()

@@ -118,6 +118,13 @@ class AjaxController extends VesController
             [ "actions" => $actions, "position" => null, "i" => '' ], 1 );
     }
 
+    public function actionDeletePosition()
+    {
+        $id = \Yii::app()->request->getPost( "id", 0 );
+        $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
+        $this->game->getRequestByCharacterId($character->getId())->deletePosition($id);
+    }
+
     public function actionSaveRequest()
     {
         $positions = \Yii::app()->request->getPost( "positions", [ ] );
