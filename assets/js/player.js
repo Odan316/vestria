@@ -1,6 +1,13 @@
 $(function() {
     $(document).on('click', '#map_province_fill_4', function(){
-        console.log("FINE");
+        //console.log("FINE");
+    });
+    $(document).on('click', ".add_request_position", function(){
+        var positionCode = getRequestPositionCode();
+        positionCode = $(positionCode);
+        var positionsCounter = $(".request_block").length + 1;
+        positionCode.find(".position_num").text(positionsCounter);
+        $(this).before(positionCode);
     });
     $(document).on('change', '.reguest_position', function(){
         var actionId = $(this).val();
@@ -33,6 +40,25 @@ function getActionParametersCode(actionId)
             }
         });
     }
+    return code;
+}
+
+function getRequestPositionCode()
+{
+    var code = "";
+    $.ajax({
+        type: "POST",
+        async: false,
+        context: this,
+        url: window.url_root + "ajax/getRequestPositionCode",
+        dataType: 'html',
+        data: {},
+        success: function (response) {
+            if (response != null) {
+                code = response;
+            }
+        }
+    });
     return code;
 }
 

@@ -19,6 +19,7 @@ class VestriaModule extends \CWebModule
 		$this->setImport(array(
 			'vestria.models.*',
 			'vestria.components.*',
+            //'vestria.widgets.*',
 		));
 	}
     /**
