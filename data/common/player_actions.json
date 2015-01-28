@@ -15,10 +15,10 @@
       "type": 1,
       "conditions": [
         {
-            "type": "propertyValue",
-            "object": "Character",
-            "property": "classId",
-            "in": [1]
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "in": [1]
         }
       ],
       "parameters": [
@@ -31,12 +31,11 @@
       ],
       "effects": [
         {
-          "propertyChange": {
-            "object": "Character",
-            "property": "provinceId",
-            "value": {
-              "parameter": "provinceId"
-            }
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "provinceId",
+          "value": {
+            "parameter": "provinceId"
           }
         }
       ]

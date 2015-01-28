@@ -1,5 +1,7 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
+use diplomacy\modules\vestria\components\PlayerActionHandler;
 /**
  * Class Character
  *
@@ -32,6 +34,8 @@ class Character extends \JSONModel
     private $game;
     /** @var \Users */
     private $player;
+    /** @var PlayerActionHandler */
+    private $actionHandler;
     /** @var Faction */
     private $faction;
     /** @var CharacterClass */
@@ -244,6 +248,18 @@ class Character extends \JSONModel
         }
 
         return $this->player;
+    }
+
+    /**
+     * @return PlayerActionHandler
+     */
+    public function getActionHandler()
+    {
+        if (empty( $this->actionHandler )) {
+            $this->actionHandler = new PlayerActionHandler($this->game, $this);
+        }
+
+        return $this->actionHandler;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace diplomacy\modules\vestria\components;
 use diplomacy\modules\vestria\models\Game;
 use diplomacy\modules\vestria\models\Character;
 use diplomacy\modules\vestria\models\PlayerAction;
+use diplomacy\modules\vestria\models\RequestPosition;
 /**
  * Class PlayerActionFinder
  *
@@ -142,5 +143,47 @@ class PlayerActionHandler
         }
 
         return $code;
+    }
+
+    /**
+     * @param RequestPosition $position
+     */
+    public function applicatePosition($position)
+    {
+        $parameters = $position->getParameters();
+        $effects = $position->getAction()->getEffects();
+        foreach($effects as $effect) {
+            switch ($effect['type']){
+                case "propertyChange":
+                    // Получаем объект
+                    switch ($effect["object"]) {
+                        case "Character":
+                            $object = $this->character;
+                            break;
+                        default:
+                            $object = null;
+                            break;
+                    }
+                    // Если объект успешно получен - проверяем значение его свойства на соответствие условию
+                    if (is_object( $object )) {
+                        $propertySetter = "set" . $effect["property"];
+                        $valueType = array_keys($effect['value'])[0];
+                        switch($valueType){
+                            case "parameter":
+                                $parameterName = $effect['value']['parameter'];
+                                $value = $parameters[$parameterName];
+                                break;
+                            default:
+                                $propertyGetter = "get" . $effect["property"];
+                                $value = call_user_func( [ $object, $propertyGetter ] );
+                                break;
+                        }
+                        call_user_func( [ $object, $propertySetter ], [$value] );
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

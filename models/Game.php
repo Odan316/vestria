@@ -573,4 +573,16 @@ class Game extends \JSONModel implements \GameInterface
         return $this->map;
     }
 
+    /**
+     * @return void
+     */
+    public function randomizeCharactersOrder()
+    {
+        shuffle($this->characters);
+    }
+
+    public function clearRequests()
+    {
+        $this->requests = [];
+    }
 } 
