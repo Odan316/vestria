@@ -16,6 +16,8 @@ class PlayerAction extends \JSONModel
     protected $id;
     /** @var string */
     protected $name;
+    /** @var int */
+    protected $type;
     /** @var [] */
     protected $conditions;
     /** @var [] */
@@ -48,6 +50,14 @@ class PlayerAction extends \JSONModel
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

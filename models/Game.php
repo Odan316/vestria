@@ -367,12 +367,18 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return Request[]
      */
-    public function getRequests( $as_array = false )
+    public function getRequests( $criteria = [], $as_array = false )
     {
+        $models = [];
+
+        foreach($this->requests as $model){
+            if($model->testCriteria($criteria)) $models[] = $model;
+        }
+
         if ( ! $as_array) {
-            return $this->requests;
+            return $models;
         } else {
-            return $this->makeList($this->requests);
+            return $this->makeList($models);
         }
     }
 
@@ -434,7 +440,7 @@ class Game extends \JSONModel implements \GameInterface
                 return $this->getProvinces($as_array);
                 break;
             case "Request":
-                return $this->getRequests($as_array);
+                return $this->getRequests([], $as_array);
                 break;
             default:
                 return [];

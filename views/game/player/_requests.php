@@ -15,13 +15,15 @@ use diplomacy\modules\vestria\models\Request;
     <h2>Заявка</h2>
     <?php
     $i = 0;
-    foreach($request->getPositions() as $position){
-        $i++;
-        ?>
-        <?= $this->widget( "diplomacy\\modules\\vestria\\widgets\\RequestPositionWidget",
-            [ "actions" => $actions, "position" => $position, "i" => $i ], 1 );
-        ?>
-    <?php } ?>
+    if ( ! empty( $request )) {
+        foreach ($request->getPositions() as $position) {
+            $i ++;
+            ?>
+            <?= $this->widget( "diplomacy\\modules\\vestria\\widgets\\RequestPositionWidget",
+                [ "actions" => $actions, "position" => $position, "i" => $i ], 1 );
+            ?>
+        <?php }
+    } ?>
     <?= \CHtml::imageButton($this->getModule()->getAssetsBase()."/images/design/add.png", ["class" => "add_request_position"])?>
     <div class="clearfix"></div>
     <?php

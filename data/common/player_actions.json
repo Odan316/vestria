@@ -1,10 +1,18 @@
 {
   "className": "PlayerAction",
   "listed": 1,
+  "info": {
+    "types": {
+      "1": "TYPE_CHARACTERS",
+      "2": "TYPE_SPENDING",
+      "3": "TYPE_MANEUVRES"
+    }
+  },
   "elements": [
     {
       "id": 1,
       "name": "Переехать в провинцию",
+      "type": 1,
       "conditions": [
         {
             "type": "propertyValue",

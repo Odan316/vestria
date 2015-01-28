@@ -43,6 +43,12 @@ class TurnController extends VesController
      */
     private function applicateRequests($types = [])
     {
+        $positions = [];
+        foreach($this->game->getRequests() as $request) {
+            $positions[] = $request->getPositions(['action.type' => $types]);
+        }
+
+        \CVarDumper::dump($positions, 5, 1); die();
 
     }
 
