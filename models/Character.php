@@ -29,6 +29,12 @@ class Character extends \JSONModel
     protected $cash;
     /** @var int */
     protected $provinceId;
+    /** @var int */
+    protected $estatesCount;
+    /** @var int */
+    protected $factoriesCount;
+    /** @var int */
+    protected $armyId;
 
     /** @var Game */
     private $game;
@@ -46,6 +52,8 @@ class Character extends \JSONModel
     private $ambition;
     /** @var Province */
     private $province;
+    /** @var Army */
+    private $army;
 
     /**
      * Конструктор
@@ -239,6 +247,64 @@ class Character extends \JSONModel
     }
 
     /**
+     * @param int $count
+     *
+     * @return Character
+     */
+    public function setEstatesCount( $count )
+    {
+        $this->estatesCount = $count;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEstatesCount()
+    {
+        return $this->estatesCount;
+    }
+
+    /**
+     * @param int $count
+     *
+     * @return Character
+     */
+    public function setFactoriesCount( $count )
+    {
+        $this->factoriesCount = $count;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getFactoriesCount()
+    {
+        return $this->factoriesCount;
+    }
+
+    /**
+     * @param int $armyId
+     *
+     * @return Character
+     */
+    public function setArmyId( $armyId )
+    {
+        $this->armyId = $armyId;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getArmyId()
+    {
+        return $this->armyId;
+    }
+
+
+    /**
      * @return \Users|static
      */
     public function getPlayer()
@@ -321,6 +387,18 @@ class Character extends \JSONModel
         }
 
         return $this->province;
+    }
+
+    /**
+     * @return Army
+     */
+    public function getArmy()
+    {
+        if (empty( $this->army )) {
+            $this->army = $this->game->getArmy( $this->armyId );
+        }
+
+        return $this->army;
     }
 
     /**
