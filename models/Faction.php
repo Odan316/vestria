@@ -17,9 +17,9 @@ class Faction extends \JSONModel
     protected $color;
 
     /** @var Game */
-    protected $game;
+    private $game;
     /** @var Character */
-    protected $leader;
+    private $leader;
 
     /**
      * @param Game $game

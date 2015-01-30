@@ -4,93 +4,237 @@
   "elements": [
     {
       "id": 1,
-      "classes": [1],
-      "name": "Близкий родственник короля"
+      "name": "Близкий родственник короля",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1]
+        }
+      ]
     },
     {
       "id": 2,
-      "classes": [1, 4, 5],
-      "name": "Любимец народа"
+      "name": "Любимец народа",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1, 4, 5]
+        }
+      ]
     },
     {
       "id": 3,
-      "classes": [1],
-      "name": "Обширные владения"
+      "name": "Обширные владения",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1]
+        }
+      ]
     },
     {
       "id": 4,
-      "classes": [1],
-      "name": "Талантливый управленец"
+      "name": "Талантливый управленец",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1]
+        }
+      ]
     },
     {
       "id": 5,
-      "classes": [1],
-      "name": "Милостивый"
+      "name": "Милостивый",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1]
+        }
+      ]
     },
     {
       "id": 6,
-      "classes": [1, 2],
-      "name": "Связи зарубежом"
+      "name": "Связи зарубежом",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1, 2]
+        }
+      ]
     },
     {
       "id": 7,
-      "classes": [2],
-      "name": "Популярный полководец"
+      "name": "Популярный полководец",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [2]
+        }
+      ]
     },
     {
       "id": 8,
-      "classes": [2],
-      "name": "Ветеран войны"
+      "name": "Ветеран войны",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [2]
+        }
+      ]
     },
     {
       "id": 9,
-      "classes": [2],
-      "name": "Восходящий военный гений"
+      "name": "Восходящий военный гений",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [2]
+        }
+      ]
     },
     {
       "id": 10,
-      "classes": [3],
-      "name": "Гений управления"
+      "name": "Гений управления",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3]
+        }
+      ]
     },
     {
       "id": 11,
-      "classes": [3],
-      "name": "Магнат"
+      "name": "Магнат",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3]
+        }
+      ]
     },
     {
       "id": 12,
-      "classes": [3, 4],
-      "name": "Популярность в низах"
+      "name": "Популярность в низах",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3, 4]
+        }
+      ]
     },
     {
       "id": 13,
-      "classes": [3],
-      "name": "Обширные связи"
+      "name": "Обширные связи",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3]
+        }
+      ]
     },
     {
       "id": 14,
-      "classes": [3, 4],
-      "name": "Выдающийся политик"
+      "name": "Выдающийся политик",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3, 4]
+        }
+      ]
     },
     {
       "id": 15,
-      "classes": [4],
-      "name": "Выдающийся оратор"
+      "name": "Выдающийся оратор",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [4]
+        }
+      ]
     },
     {
       "id": 16,
-      "classes": [5],
-      "name": "Аббат"
+      "name": "Аббат",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [5]
+        }
+      ]
     },
     {
       "id": 17,
-      "classes": [5],
-      "name": "Образец морали"
+      "name": "Образец морали",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [5]
+        }
+      ]
     },
     {
       "id": 18,
-      "classes": [5],
-      "name": "Воинствующий священник"
+      "name": "Воинствующий священник",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [5]
+        }
+      ]
     }
   ]
 }

@@ -12,8 +12,22 @@ class CharacterTrait extends \JSONModel {
     protected $id;
     /** @var  string */
     protected $name;
-    /** @var [] */
-    protected $classes = [];
+    /** @var Condition[] */
+    protected $takeConditions = [ ];
+
+    /**
+     * @inheritdoc
+     */
+    public function setAttributes( $data )
+    {
+        if (isset( $data['takeConditions'] )) {
+            foreach ($data['takeConditions'] as $conditionData) {
+                $this->takeConditions[] = new Condition( $conditionData );
+            }
+            unset( $data['takeConditions'] );
+        }
+        parent::setAttributes( $data );
+    }
 
     /**
      * @return int
@@ -24,21 +38,38 @@ class CharacterTrait extends \JSONModel {
     }
 
     /**
-     * @param $name
-     *
-     * @return CharacterTrait
-     */
-    public function setName( $name )
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param Character $character
+     *
+     * @return bool
+     */
+    public function canTake( $character )
+    {
+        $test = true;
+        foreach ($this->takeConditions as $condition) {
+            if ( ! $condition->test( $character )) {
+                $test = false;
+                break;
+            }
+        }
+        return $test;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id"   => $this->id,
+            "name" => $this->name
+        ];
     }
 }

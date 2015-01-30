@@ -38,6 +38,8 @@ class TurnController extends VesController
         // движения армий и сражения
         $this->applicateRequests([PlayerAction::TYPE_MANEUVRES]);
 
+        $this->checkAmbitions();
+
         $this->postprocessTurn();
 
         $this->game->save();
@@ -83,6 +85,11 @@ class TurnController extends VesController
      * Расчет рутинных доходов и расходов бюджета
      */
     private function budgetCalculation()
+    {
+
+    }
+
+    private function checkAmbitions()
     {
 
     }

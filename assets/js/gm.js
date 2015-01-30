@@ -6,14 +6,15 @@ $(function(){
         var playerId = $(this).parents("p").data("player-id");
         var playerData = getObjectData("Player", playerId);
         var characterData = getCharacterDataByPlayerId(playerId);
-        var classId = $("#Character_classId").val();
-        refreshCharacterLists(classId);
+        if(characterData == null){
+            refreshCharacterLists(0, 1);
+        }
         fillCharacterForm(playerData, characterData);
         $('#edit_character_gm').show();
     });
     $(document).on('change', '#Character_classId', function(){
         var classId = $(this).val();
-        refreshCharacterLists(classId);
+        refreshCharacterLists(0, classId);
     });
     $(document).on('click', '.but_character_save_gm', function(){
         var data = readCharacterForm();
@@ -41,12 +42,23 @@ $(function(){
     });
 });
 
-function refreshCharacterLists(classId, traitId, ambitionId)
+function refreshCharacterLists(characterId, classId, traitId, ambitionId)
 {
-    var traits = getTraitsByClassId(classId);
-    createList("Character_traitId", traitId, traits);
-    var ambitions = getAmbitionsByClassId(classId);
+    var ambitions;
+    if(characterId != 0 && characterId != ""){
+        ambitions = getAmbitionsByCharacterId(characterId);
+    } else {
+        ambitions = getAmbitionsByClassId(classId);
+    }
     createList("Character_ambitionId", ambitionId, ambitions);
+
+    var traits;
+    if(characterId != 0 && characterId != ""){
+        traits = getTraitsByCharacterId(characterId);
+    } else {
+        traits = getTraitsByClassId(classId);
+    }
+    createList("Character_traitId", traitId, traits);
 }
 function fillCharacterForm(playerData, characterData)
 {
@@ -58,7 +70,7 @@ function fillCharacterForm(playerData, characterData)
             $("#Character_name").val(characterData.name);
             $("#Character_classId").val(characterData.classId);
             $("#Character_provinceId").val(characterData.provinceId);
-            refreshCharacterLists(characterData.classId, characterData.traitId, characterData.ambitionId);
+            refreshCharacterLists(characterData.id, characterData.classId, characterData.traitId, characterData.ambitionId);
         }
     } else {
         $("#player_id").val("");

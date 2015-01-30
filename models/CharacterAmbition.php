@@ -1,5 +1,6 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
 /**
  * Class CharacterAmbition
  *
@@ -12,8 +13,29 @@ class CharacterAmbition extends \JSONModel
     protected $id;
     /** @var  string */
     protected $name;
-    /** @var [] */
-    protected $classes = [ ];
+    /** @var bool */
+    protected $makeLeader = false;
+    /** @var Condition[] */
+    protected $takeConditions = [ ];
+    /** @var Condition[] */
+    protected $meetConditions = [ ];
+
+    /**
+     * @inheritdoc
+     */
+    public function setAttributes( $data )
+    {
+        if (isset( $data['takeConditions'] )) {
+            foreach ($data['takeConditions'] as $conditionData) {
+                $this->takeConditions[] = new Condition( $conditionData );
+            }
+            foreach ($data['meetConditions'] as $conditionData) {
+                $this->meetConditions[] = new Condition( $conditionData );
+            }
+            unset( $data['takeConditions'], $data['meetConditions'] );
+        }
+        parent::setAttributes( $data );
+    }
 
     /**
      * @return int
@@ -24,21 +46,48 @@ class CharacterAmbition extends \JSONModel
     }
 
     /**
-     * @param string $name
-     *
-     * @return CharacterAmbition
-     */
-    public function setName( $name )
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
     }
+
+    /**
+     * @return bool
+     */
+    public function getMakeLeader()
+    {
+        return $this->makeLeader;
+    }
+
+    /**
+     * @param Character $character
+     *
+     * @return bool
+     */
+    public function canTake( $character )
+    {
+        $test = true;
+        foreach ($this->takeConditions as $condition) {
+            if ( ! $condition->test( $character )) {
+                $test = false;
+                break;
+            }
+        }
+        return $test;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return [
+            "id"   => $this->id,
+            "name" => $this->name
+        ];
+    }
+
+
 }

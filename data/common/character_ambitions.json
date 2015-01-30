@@ -4,58 +4,200 @@
   "elements": [
     {
       "id": 1,
-      "classes": [1],
-      "name": "Стать королем"
+      "name": "Стать королем",
+      "makeLeader": true,
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1]
+        }
+      ],
+      "meetConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Faction",
+          "property": "popularityRelative",
+          "is": "moreThan",
+          "value": 0.5
+        },
+        {
+          "type": "propertyValue",
+          "object": "Faction",
+          "property": "provincesCount",
+          "is": "moreThan",
+          "value": 5
+        },
+        {
+          "type": "offset",
+          "is": "equal",
+          "value": 3
+        }
+      ]
     },
     {
       "id": 2,
-      "classes": [1, 3, 4],
-      "name": "Стать премьер-министром"
+      "name": "Стать премьер-министром",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1, 3, 4]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 3,
-      "classes": [1],
-      "name": "Стать крупнейшим землевладельцем"
+      "name": "Стать крупнейшим землевладельцем",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 4,
-      "classes": [1, 2, 3, 4],
-      "name": "Стать богатейшим"
+      "name": "Стать богатейшим",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1, 2, 3, 4]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 5,
-      "classes": [2],
-      "name": "Стать Фельдмаршалом"
+      "name": "Стать Фельдмаршалом",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [2]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 6,
-      "classes": [2, 4],
-      "name": "Стать диктатором"
+      "name": "Стать диктатором",
+      "makeLeader": true,
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [2, 4]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 7,
-      "classes": [2, 4, 5],
-      "name": "Стать любимцем народа"
+      "name": "Стать любимцем народа",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [2, 4, 5]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 8,
-      "classes": [3],
-      "name": "Стать крупнейшим промышленником"
+      "name": "Стать крупнейшим промышленником",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 9,
-      "classes": [3, 4],
-      "name": "Стать президентом"
+      "name": "Стать президентом",
+      "makeLeader": true,
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3, 4]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 10,
-      "classes": [5],
-      "name": "Стать серым кардиналом"
+      "name": "Стать серым кардиналом",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [5]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     },
     {
       "id": 11,
-      "classes": [5],
-      "name": "Стать Архиепископом"
+      "name": "Стать Архиепископом",
+      "takeConditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [5]
+        }
+      ],
+      "meetConditions": [
+        {}
+      ]
     }
   ]
 }

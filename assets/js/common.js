@@ -2,6 +2,28 @@
  * Created by onag on 07.01.15.
  */
 
+function getObjectsList(modelName, data)
+{
+    var list = [];
+
+    $.ajax({
+        type: "POST",
+        async: false,
+        context: this,
+        url: window.url_root + "ajax/get"+modelName+"List",
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+            if (data != null) {
+                for(var i = 0; i < data.length; i++)
+                    list[data[i].id] = data[i].name;
+            }
+        }
+    });
+
+    return list;
+}
+
 function getObjectData(className, id) {
     var data = null;
     if (id) {
@@ -66,49 +88,24 @@ function getCharacterDataByPlayerId(playerId)
     return characterData;
 }
 
-function getTraitsByClassId(classId)
+function getTraitsByCharacterId(id)
 {
-    var list = [];
-
-    $.ajax({
-        type: "POST",
-        async: false,
-        context: this,
-        url: window.url_root + "ajax/getTraitsByClassId",
-        dataType: 'json',
-        data: {
-            "classId": classId
-        },
-        success: function (data) {
-            if (data != null) {
-                for(var i = 0; i < data.length; i++)
-                    list[data[i].id] = data[i].name;
-            }
-        }
-    });
-
-    return list;
+    var data = {"id":id};
+    return getObjectsList("Traits", data);
 }
-function getAmbitionsByClassId(classId)
+function getTraitsByClassId(id)
 {
-    var list = [];
+    var data = {"classId":id};
+    return getObjectsList("Traits", data);
+}
 
-    $.ajax({
-        type: "POST",
-        async: false,
-        context: this,
-        url: window.url_root + "ajax/getAmbitionsByClassId",
-        dataType: 'json',
-        data: {
-            "classId": classId
-        },
-        success: function (data) {
-            if (data != null) {
-                for(var i = 0; i < data.length; i++)
-                    list[data[i].id] = data[i].name;
-            }
-        }
-    });
-
-    return list;
+function getAmbitionsByCharacterId(id)
+{
+    var data = {"id":id};
+    return getObjectsList("Ambitions", data);
+}
+function getAmbitionsByClassId(id)
+{
+    var data = {"classId":id};
+    return getObjectsList("Ambitions", data);
 }

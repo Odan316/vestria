@@ -1,8 +1,10 @@
 <?php
 namespace diplomacy\modules\vestria\controllers;
 
+use diplomacy\modules\vestria\components\ModelsFinder;
 use diplomacy\modules\vestria\components\VesController;
 use diplomacy\modules\vestria\components\PlayerActionHandler;
+use diplomacy\modules\vestria\models\Character;
 use diplomacy\modules\vestria\models\PlayerAction;
 
 /**
@@ -41,17 +43,38 @@ class AjaxController extends VesController
         echo json_encode( $list );
     }
 
-    public function actionGetAmbitionsByClassId()
+    public function actionGetTraitsList()
     {
-        $classId = \Yii::app()->request->getPost( "classId", 0 );
-
-        $list            = [ ];
-        $ambitionsConfig = $this->game->getConfig()->getConfigAsArray( 'character_ambitions' );
-        foreach ($ambitionsConfig['elements'] as $key => $values) {
-            if (in_array( $classId, $values['classes'] )) {
-                $list[] = [ "id" => $values['id'], "name" => $values['name'] ];
-            }
+        $id = \Yii::app()->request->getPost( "id", 0 );
+        if(!empty($id)){
+            $character = $this->game->getCharacter($id);
+        } else {
+            $classId = \Yii::app()->request->getPost( "classId", 0 );
+            $character = new Character($this->game);
+            $character->setClassId($classId);
         }
+
+        $models = (new ModelsFinder($this->game))->findTraits($character);
+
+        $list = $this->game->makeList($models);
+
+        echo json_encode( $list );
+    }
+
+    public function actionGetAmbitionsList()
+    {
+        $id = \Yii::app()->request->getPost( "id", 0 );
+        if(!empty($id)){
+            $character = $this->game->getCharacter($id);
+        } else {
+            $classId = \Yii::app()->request->getPost( "classId", 0 );
+            $character = new Character($this->game);
+            $character->setClassId($classId);
+        }
+
+        $models = (new ModelsFinder($this->game))->findAmbitions($character);
+
+        $list = $this->game->makeList($models);
 
         echo json_encode( $list );
     }
