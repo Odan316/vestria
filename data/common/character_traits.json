@@ -13,6 +13,15 @@
           "is": "in",
           "value": [1]
         }
+      ],
+      "setupEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 20
+        }
       ]
     },
     {
@@ -25,6 +34,24 @@
           "property": "classId",
           "is": "in",
           "value": [1, 4, 5]
+        }
+      ],
+      "setupEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 10
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
         }
       ]
     },
@@ -39,6 +66,15 @@
           "is": "in",
           "value": [1]
         }
+      ],
+      "setupEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "estatesCount",
+          "operation": "add",
+          "value": 1
+        }
       ]
     },
     {
@@ -51,6 +87,15 @@
           "property": "classId",
           "is": "in",
           "value": [1]
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character",
+          "property": "estatesIncome",
+          "operation": "multiply",
+          "value": 0.2
         }
       ]
     },
@@ -65,6 +110,22 @@
           "is": "in",
           "value": [1]
         }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character",
+          "property": "estatesIncome",
+          "operation": "multiply",
+          "value": 0.1
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
+        }
       ]
     },
     {
@@ -77,6 +138,14 @@
           "property": "classId",
           "is": "in",
           "value": [1, 2]
+        }
+      ],
+      "setupEffects": [
+        {
+          "type": "flag",
+          "object": "Character",
+          "property": "canCallForeignIntervention",
+          "value": true
         }
       ]
     },
@@ -91,6 +160,24 @@
           "is": "in",
           "value": [2]
         }
+      ],
+      "setupEffects": [
+        {
+          "type": "propertyValue",
+          "object": "Character.Army",
+          "property": "strength",
+          "operation": "add",
+          "value": 200
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
+        }
       ]
     },
     {
@@ -103,6 +190,22 @@
           "property": "classId",
           "is": "in",
           "value": [2]
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character.Army",
+          "property": "morale",
+          "operation": "multiply",
+          "value": 0.1
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
         }
       ]
     },
@@ -117,6 +220,15 @@
           "is": "in",
           "value": [2]
         }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character.Army",
+          "property": "morale",
+          "operation": "multiply",
+          "value": 0.2
+        }
       ]
     },
     {
@@ -129,6 +241,24 @@
           "property": "classId",
           "is": "in",
           "value": [3]
+        }
+      ],
+      "setupEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "factoriesCount",
+          "operation": "add",
+          "value": 1
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character",
+          "property": "factoriesIncome",
+          "operation": "multiply",
+          "value": 0.1
         }
       ]
     },
@@ -143,6 +273,15 @@
           "is": "in",
           "value": [3]
         }
+      ],
+      "setupEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "factoriesCount",
+          "operation": "add",
+          "value": 3
+        }
       ]
     },
     {
@@ -155,6 +294,22 @@
           "property": "classId",
           "is": "in",
           "value": [3, 4]
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character.Faction",
+          "property": "recruit",
+          "operation": "multiply",
+          "value": 0.1
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
         }
       ]
     },
@@ -169,6 +324,23 @@
           "is": "in",
           "value": [3]
         }
+      ],
+      "setupEffects": [
+        {
+          "type": "flag",
+          "object": "Character",
+          "property": "canBoostPopularity",
+          "value": true
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
+        }
       ]
     },
     {
@@ -181,6 +353,22 @@
           "property": "classId",
           "is": "in",
           "value": [3, 4]
+        }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character",
+          "property": "recruit",
+          "operation": "multiply",
+          "value": 0.25
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
         }
       ]
     },
@@ -195,6 +383,15 @@
           "is": "in",
           "value": [4]
         }
+      ],
+      "onTurnEffects": [
+        {
+          "type": "bonus",
+          "object": "Character",
+          "property": "recruit",
+          "operation": "multiply",
+          "value": 0.5
+        }
       ]
     },
     {
@@ -207,6 +404,15 @@
           "property": "classId",
           "is": "in",
           "value": [5]
+        }
+      ],
+      "setupEffects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "estatesCount",
+          "operation": "add",
+          "value": 1
         }
       ]
     },
@@ -221,6 +427,15 @@
           "is": "in",
           "value": [5]
         }
+      ],
+      "onTurnEffect": [
+        {
+          "type": "propertyChange",
+          "object": "Character.Faction.Leader",
+          "property": "popularity",
+          "operation": "add",
+          "value": 10
+        }
       ]
     },
     {
@@ -233,6 +448,14 @@
           "property": "classId",
           "is": "in",
           "value": [5]
+        }
+      ],
+      "setupEffects": [
+        {
+          "type": "flag",
+          "object": "Character",
+          "property": "canLeadArmies",
+          "value": true
         }
       ]
     }
