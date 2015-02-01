@@ -432,7 +432,10 @@ class Character extends \JSONModel
             "traitId"    => $this->traitId,
             "popularity" => $this->popularity,
             "cash"       => $this->cash,
-            "provinceId" => $this->provinceId
+            "provinceId" => $this->provinceId,
+            "estatesCount" => $this->estatesCount,
+            "factoriesCount" => $this->factoriesCount,
+            "armyId"    => $this->armyId
         ];
     }
 }
