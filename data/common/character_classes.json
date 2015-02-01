@@ -25,8 +25,14 @@
     {
       "id": 2,
       "name": "Офицер",
-      "canLeadArmies": true,
-      "setupEffects": []
+      "setupEffects": [
+        {
+          "type": "flag",
+          "object": "Character",
+          "property": "canLeadArmies",
+          "value": true
+        }
+      ]
     },
     {
       "id": 3,

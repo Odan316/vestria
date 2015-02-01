@@ -28,15 +28,7 @@ class Effect extends \JSONModel
         switch ($this->type) {
             // Проверка на значение поля объекта
             case "propertyChange":
-                // Получаем объект
-                switch ($this->object) {
-                    case "Character":
-                        $model = $character;
-                        break;
-                    default:
-                        $model = null;
-                        break;
-                }
+                $model = $this->getObject($character);
                 // Если объект успешно получен - проверяем значение его свойства на соответствие условию
                 if (is_object( $model )) {
                     $propertySetter = "set" . $this->property;
@@ -54,8 +46,30 @@ class Effect extends \JSONModel
                     call_user_func( [ $model, $propertySetter ], $newValue );
                 }
                 break;
+            case "flag":
+                $model = $this->getObject($character);
+                $model->setFlag($this->property, $this->value);
+                break;
             default :
                 break;
         }
+    }
+
+    /**
+     * @return null|Character
+     */
+    private function getObject($character)
+    {
+        // Получаем объект
+        switch ($this->object) {
+            case "Character":
+                $model = $character;
+                break;
+            default:
+                $model = null;
+                break;
+        }
+
+        return $model;
     }
 }

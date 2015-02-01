@@ -29,10 +29,13 @@ class CharacterAmbition extends \JSONModel
             foreach ($data['takeConditions'] as $conditionData) {
                 $this->takeConditions[] = new Condition( $conditionData );
             }
+            unset( $data['takeConditions']);
+        }
+        if (isset( $data['meetConditions'] )) {
             foreach ($data['meetConditions'] as $conditionData) {
                 $this->meetConditions[] = new Condition( $conditionData );
             }
-            unset( $data['takeConditions'], $data['meetConditions'] );
+            unset( $data['meetConditions'] );
         }
         parent::setAttributes( $data );
     }

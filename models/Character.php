@@ -35,6 +35,8 @@ class Character extends \JSONModel
     protected $factoriesCount;
     /** @var int */
     protected $armyId;
+    /** @var [] */
+    protected $flags = [];
 
     /** @var Game */
     private $game;
@@ -303,6 +305,24 @@ class Character extends \JSONModel
         return $this->armyId;
     }
 
+    /**
+     * @param string $name
+     * @param bool $value
+     */
+    public function setFlag($name, $value)
+    {
+        $this->flags[$name] = $value;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasFlag($name)
+    {
+        return (isset($this->flags[$name]) && $this->flags[$name] == true);
+    }
 
     /**
      * @return \Users|static
@@ -423,19 +443,20 @@ class Character extends \JSONModel
     public function jsonSerialize()
     {
         return [
-            "id"         => $this->id,
-            "name"       => $this->name,
-            "playerId"   => $this->playerId,
-            "factionId"  => $this->factionId,
-            "classId"    => $this->classId,
-            "ambitionId" => $this->ambitionId,
-            "traitId"    => $this->traitId,
-            "popularity" => $this->popularity,
-            "cash"       => $this->cash,
-            "provinceId" => $this->provinceId,
-            "estatesCount" => $this->estatesCount,
+            "id"             => $this->id,
+            "name"           => $this->name,
+            "playerId"       => $this->playerId,
+            "factionId"      => $this->factionId,
+            "classId"        => $this->classId,
+            "ambitionId"     => $this->ambitionId,
+            "traitId"        => $this->traitId,
+            "popularity"     => $this->popularity,
+            "cash"           => $this->cash,
+            "provinceId"     => $this->provinceId,
+            "estatesCount"   => $this->estatesCount,
             "factoriesCount" => $this->factoriesCount,
-            "armyId"    => $this->armyId
+            "armyId"         => $this->armyId,
+            "flags"          => $this->flags
         ];
     }
 }
