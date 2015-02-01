@@ -1,11 +1,11 @@
 <?php
 namespace diplomacy\modules\vestria\models;
 /**
- * Class Condition
+ * Class Effect
  *
- * Класс условия для абмиций, трейтов и действий
+ * Класс эффекта для классов, трейтов и действий
  */
-class Condition extends \JSONModel
+class Effect extends \JSONModel
 {
     /** @var string */
     protected $type;
@@ -14,21 +14,20 @@ class Condition extends \JSONModel
     /** @var string */
     protected $property;
     /** @var string */
-    protected $is;
+    protected $operation;
     /** @var mixed */
     protected $value;
 
     /**
      * @param Character $character
      *
-     * @return bool
+     * @return void
      */
-    public function test($character)
+    public function apply($character)
     {
-        $test = false;
         switch ($this->type) {
             // Проверка на значение поля объекта
-            case "propertyValue":
+            case "propertyChange":
                 // Получаем объект
                 switch ($this->object) {
                     case "Character":
@@ -40,20 +39,23 @@ class Condition extends \JSONModel
                 }
                 // Если объект успешно получен - проверяем значение его свойства на соответствие условию
                 if (is_object( $model )) {
+                    $propertySetter = "set" . $this->property;
                     $propertyGetter = "get" . $this->property;
                     $propertyValue  = call_user_func( [ $model, $propertyGetter ] );
-                    switch($this->is){
-                        case "in":
-                            $test = in_array( $propertyValue, $this->value );
+
+                    switch($this->operation){
+                        case "add":
+                            $newValue = $propertyValue + $this->value;
                             break;
                         default :
+                            $newValue = $propertyValue;
                             break;
                     }
+                    call_user_func( [ $model, $propertySetter ], $newValue );
                 }
                 break;
             default :
                 break;
         }
-        return $test;
     }
 }
