@@ -14,6 +14,10 @@ class CharacterTrait extends \JSONModel {
     protected $name;
     /** @var Condition[] */
     protected $takeConditions = [ ];
+    /** @var Effect[] */
+    protected $setupEffects;
+    /** @var Effect[] */
+    protected $onTurnEffects;
 
     /**
      * @inheritdoc
@@ -25,6 +29,18 @@ class CharacterTrait extends \JSONModel {
                 $this->takeConditions[] = new Condition( $conditionData );
             }
             unset( $data['takeConditions'] );
+        }
+        if (isset( $data['setupEffects'] )) {
+            foreach ($data['setupEffects'] as $effectData) {
+                $this->setupEffects[] = new Effect( $effectData );
+            }
+            unset( $data['setupEffects'] );
+        }
+        if (isset( $data['onTurnEffects'] )) {
+            foreach ($data['onTurnEffects'] as $effectData) {
+                $this->onTurnEffects[] = new Effect( $effectData );
+            }
+            unset( $data['onTurnEffects'] );
         }
         parent::setAttributes( $data );
     }
@@ -60,6 +76,18 @@ class CharacterTrait extends \JSONModel {
             }
         }
         return $test;
+    }
+
+    /**
+     * @param $character
+     *
+     * @return void
+     */
+    public function applySetupEffects($character)
+    {
+        foreach($this->setupEffects as $effect) {
+            $effect->apply($character);
+        }
     }
 
     /**

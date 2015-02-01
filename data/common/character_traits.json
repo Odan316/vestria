@@ -428,7 +428,7 @@
           "value": [5]
         }
       ],
-      "onTurnEffect": [
+      "onTurnEffects": [
         {
           "type": "propertyChange",
           "object": "Character.Faction.Leader",

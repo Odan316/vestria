@@ -434,6 +434,7 @@ class Character extends \JSONModel
         $this->cash       = 50;
         $this->popularity = 20;
         $this->getClass()->applySetupEffects($this);
+        $this->getTrait()->applySetupEffects($this);
         return $this;
     }
 
