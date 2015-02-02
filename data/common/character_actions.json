@@ -1,5 +1,5 @@
 {
-  "className": "PlayerAction",
+  "className": "CharacterAction",
   "listed": 1,
   "info": {
     "types": {
@@ -18,15 +18,15 @@
           "type": "propertyValue",
           "object": "Character",
           "property": "classId",
-          "in": [1]
+          "is": "in",
+          "value": [1]
         }
       ],
       "parameters": [
         {
           "type": "objectsSelect",
           "name": "provinceId",
-          "objectsClass": "Province",
-          "objectsType": "save"
+          "object": "Config.Province"
         }
       ],
       "effects": [
@@ -34,9 +34,8 @@
           "type": "propertyChange",
           "object": "Character",
           "property": "provinceId",
-          "value": {
-            "parameter": "provinceId"
-          }
+          "operation": "parameter",
+          "value": "provinceId"
         }
       ]
     }

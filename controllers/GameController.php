@@ -2,7 +2,7 @@
 namespace diplomacy\modules\vestria\controllers;
 
 use diplomacy\modules\vestria\components\VesController;
-use diplomacy\modules\vestria\components\PlayerActionHandler;
+use diplomacy\modules\vestria\components\ModelsFinder;
 /**
  * Class GameController
  *
@@ -66,7 +66,7 @@ class GameController extends VesController
             } else {
                 $this->render( 'player/index', [
                     'character' => $character,
-                    'actions' => (new PlayerActionHandler($this->game, $character))->getActions(true),
+                    'actions' => (new ModelsFinder($this->game))->findActions($character),
                     'request' => $this->game->getRequestByCharacterId($character->getId())
                 ] );
             }

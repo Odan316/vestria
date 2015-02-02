@@ -1,17 +1,17 @@
 <?php
 use diplomacy\modules\vestria\widgets\RequestPositionWidget;
-use diplomacy\modules\vestria\models\PlayerAction;
+use diplomacy\modules\vestria\models\CharacterAction;
 use diplomacy\modules\vestria\models\RequestPosition;
 /**
  * @var $this RequestPositionWidget
- * @var $actions PlayerAction[]
+ * @var $actions CharacterAction[]
  * @var $position RequestPosition|null
  * @var $i int
  */
 ?>
 <?php
 $positionId = !empty($this->position) ? $this->position->getId() : 0;
-$actionsListData = \CMap::mergeArray([0 => "Выберите"], \CHtml::listData($this->actions, "id", "name"));
+$actionsListData = \CMap::mergeArray([0 => "Выберите"], \CHtml::listData(\JSONModel::makeList($this->actions), "id", "name"));
 ?>
 <div class="request_block">
     <?= \CHtml::imageButton($this->getController()->getModule()->getAssetsBase()."/images/design/close.png", ["class" => "delete_request_position"])?>

@@ -79,7 +79,7 @@ class CharacterTrait extends \JSONModel {
     }
 
     /**
-     * @param $character
+     * @param Character $character
      *
      * @return void
      */

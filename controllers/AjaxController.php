@@ -5,7 +5,7 @@ use diplomacy\modules\vestria\components\ModelsFinder;
 use diplomacy\modules\vestria\components\VesController;
 use diplomacy\modules\vestria\components\PlayerActionHandler;
 use diplomacy\modules\vestria\models\Character;
-use diplomacy\modules\vestria\models\PlayerAction;
+use diplomacy\modules\vestria\models\CharacterAction;
 
 /**
  * Class AjaxController
@@ -123,8 +123,8 @@ class AjaxController extends VesController
     {
         $actionId = \Yii::app()->request->getPost( "actionId", 0 );
 
-        /** @var PlayerAction $action */
-        $action = $this->game->getConfig()->getConfigElementById("player_actions", $actionId);
+        /** @var CharacterAction $action */
+        $action = $this->game->getConfig()->getConfigElementById("character_actions", $actionId);
 
         $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
 
@@ -134,7 +134,7 @@ class AjaxController extends VesController
     public function actionGetRequestPositionCode()
     {
         $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
-        $actions = (new PlayerActionHandler($this->game, $character))->getActions(true);
+        $actions = (new ModelsFinder($this->game))->findActions($character);
         echo $this->widget( "diplomacy\\modules\\vestria\\widgets\\RequestPositionWidget",
             [ "actions" => $actions, "position" => null, "i" => '' ], 1 );
     }

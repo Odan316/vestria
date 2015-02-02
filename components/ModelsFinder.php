@@ -12,6 +12,7 @@ use diplomacy\modules\vestria\models\Game;
 use diplomacy\modules\vestria\models\Character;
 use diplomacy\modules\vestria\models\CharacterAmbition;
 use diplomacy\modules\vestria\models\CharacterTrait;
+use diplomacy\modules\vestria\models\CharacterAction;
 
 class ModelsFinder {
     /** @var Game */
@@ -31,7 +32,7 @@ class ModelsFinder {
     {
         $list = [];
 
-        /** @var CharacterAmbition[]  $models */
+        /** @var CharacterAmbition[] $models */
         $models = $this->game->getConfig()->getConfigAsObjectsArray( 'character_ambitions' );
         foreach ($models as $model) {
             if($model->canTake($character))
@@ -50,10 +51,29 @@ class ModelsFinder {
     {
         $list = [];
 
-        /** @var CharacterTrait[]  $models */
+        /** @var CharacterTrait[] $models */
         $models = $this->game->getConfig()->getConfigAsObjectsArray( 'character_traits' );
         foreach ($models as $model) {
             if($model->canTake($character))
+                $list[] = $model;
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param Character $character
+     *
+     * @return CharacterAction[]
+     */
+    public function findActions($character)
+    {
+        $list = [];
+
+        /** @var CharacterAction[] $models */
+        $models = $this->game->getConfig()->getConfigAsObjectsArray( 'character_actions' );
+        foreach ($models as $model) {
+            if($model->canUse($character))
                 $list[] = $model;
         }
 

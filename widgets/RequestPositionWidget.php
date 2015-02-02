@@ -1,7 +1,7 @@
 <?php
 namespace diplomacy\modules\vestria\widgets;
 
-use diplomacy\modules\vestria\models\PlayerAction;
+use diplomacy\modules\vestria\models\CharacterAction;
 use diplomacy\modules\vestria\models\RequestPosition;
 
 /**
@@ -12,7 +12,7 @@ use diplomacy\modules\vestria\models\RequestPosition;
  */
 class RequestPositionWidget extends \CWidget
 {
-    /** @var PlayerAction[] */
+    /** @var CharacterAction[] */
     public $actions = [];
     /** @var RequestPosition */
     public $position = null;
