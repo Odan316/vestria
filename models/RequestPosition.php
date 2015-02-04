@@ -19,7 +19,7 @@ class RequestPosition extends \JSONModel
 
     /** @var Request */
     protected $request;
-    /** @var PlayerAction */
+    /** @var CharacterAction */
     protected $action;
 
     /**
@@ -59,14 +59,22 @@ class RequestPosition extends \JSONModel
     }
 
     /**
-     * @return PlayerAction|null
+     * @return CharacterAction|null
      */
     public function getAction()
     {
         if (empty( $this->action )) {
-            $this->action = $this->request->getGame()->getConfig()->getConfigElementById('player_actions', $this->actionId );
+            $this->action = $this->request->getGame()->getConfig()->getConfigElementById('character_actions', $this->actionId );
         }
         return $this->action;
+    }
+
+    /**
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 
     /**
@@ -82,7 +90,8 @@ class RequestPosition extends \JSONModel
      */
     public function getParametersCode()
     {
-        return (new PlayerActionHandler($this->request->getGame(), $this->request->getCharacter()))->getParametersCode($this->getAction(), $this->getParameters());
+        return (new PlayerActionHandler($this->request->getGame(), $this->request->getCharacter()))
+            ->getParametersCode($this->getAction(), $this->getParameters());
     }
 
     /**

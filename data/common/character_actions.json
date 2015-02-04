@@ -26,7 +26,7 @@
         {
           "type": "objectsSelect",
           "name": "provinceId",
-          "object": "Config.Province"
+          "object": "Province"
         }
       ],
       "effects": [

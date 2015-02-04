@@ -417,38 +417,6 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * Возвращает список запрошенных объектов
-     *
-     * @param $modelsName
-     * @param bool $as_array
-     *
-     * @return array
-     */
-    public function getModels( $modelsName, $as_array = false )
-    {
-        switch($modelsName){
-            case "Army":
-                return $this->getArmies($as_array);
-                break;
-            case "Character":
-                return $this->getCharacters($as_array);
-                break;
-            case "Faction":
-                return $this->getFactions($as_array);
-                break;
-            case "Province":
-                return $this->getProvinces($as_array);
-                break;
-            case "Request":
-                return $this->getRequests([], $as_array);
-                break;
-            default:
-                return [];
-                break;
-        }
-    }
-
-    /**
      * Создает нового персонажа и сохраняет игру
      *
      * @param [] $data
@@ -571,6 +539,53 @@ class Game extends \JSONModel implements \GameInterface
     public function getMap()
     {
         return $this->map;
+    }
+
+    /**
+     * Возвращает список запрошенных объектов
+     *
+     * @param $modelsName
+     * @param bool $as_array
+     *
+     * @return array
+     */
+    public function getModels( $modelsName, $as_array = false )
+    {
+        switch($modelsName){
+            case "Army":
+                return $this->getArmies($as_array);
+                break;
+            case "Character":
+                return $this->getCharacters($as_array);
+                break;
+            case "Faction":
+                return $this->getFactions($as_array);
+                break;
+            case "Province":
+                return $this->getProvinces($as_array);
+                break;
+            case "Request":
+                return $this->getRequests([], $as_array);
+                break;
+            default:
+                return [];
+                break;
+        }
+    }
+
+    public function getObjects($alias, $as_array = false)
+    {
+        $objects = null;
+        $objectPath = explode(".", $alias);
+        switch($objectPath[0]){
+            case "Province":
+                $objects = $this->getProvinces($as_array);
+                break;
+            default:
+                break;
+        }
+
+        return $objects;
     }
 
     /**

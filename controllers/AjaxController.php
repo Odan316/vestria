@@ -123,12 +123,12 @@ class AjaxController extends VesController
     {
         $actionId = \Yii::app()->request->getPost( "actionId", 0 );
 
+        $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
         /** @var CharacterAction $action */
         $action = $this->game->getConfig()->getConfigElementById("character_actions", $actionId);
 
-        $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
-
-        echo (new PlayerActionHandler($this->game, $character))->getParametersCode($action);
+        echo $this->widget( "diplomacy\\modules\\vestria\\widgets\\PositionParametersWidget",
+            ["action" => $action, "positionId" => 0, "character" => $character], 1 );
     }
 
     public function actionGetRequestPositionCode()

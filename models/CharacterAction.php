@@ -75,6 +75,13 @@ class CharacterAction extends \JSONModel
     }
 
     /**
+     * @return Parameter[]
+     */
+    public function getParameters(){
+        return $this->parameters;
+    }
+
+    /**
      * @param Character $character
      *
      * @return bool

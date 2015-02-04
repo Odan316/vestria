@@ -2,8 +2,7 @@
 namespace diplomacy\modules\vestria\controllers;
 
 use diplomacy\modules\vestria\components\VesController;
-use diplomacy\modules\vestria\components\PlayerActionHandler;
-use diplomacy\modules\vestria\models\PlayerAction;
+use diplomacy\modules\vestria\models\CharacterAction;
 use diplomacy\modules\vestria\models\RequestPosition;
 
 /**
@@ -30,13 +29,13 @@ class TurnController extends VesController
     {
         $this->preprocessTurn();
         // общие заявки
-        $this->applicateRequests([PlayerAction::TYPE_CHARACTERS]);
+        $this->applicateRequests([CharacterAction::TYPE_CHARACTERS]);
         // приход в бюджет
         $this->budgetCalculation();
         // траты и набор войск
-        $this->applicateRequests([PlayerAction::TYPE_SPENDING]);
+        $this->applicateRequests([CharacterAction::TYPE_SPENDING]);
         // движения армий и сражения
-        $this->applicateRequests([PlayerAction::TYPE_MANEUVRES]);
+        $this->applicateRequests([CharacterAction::TYPE_MANEUVRES]);
 
         $this->checkAmbitions();
 

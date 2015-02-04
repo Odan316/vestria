@@ -26,7 +26,8 @@ $actionsListData = \CMap::mergeArray([0 => "Выберите"], \CHtml::listData
     </label>
     <div class="request_params">
     <?php if(!empty($this->position)){?>
-        <?= $this->position->getParametersCode() ?>
+        <?= $this->widget( "diplomacy\\modules\\vestria\\widgets\\PositionParametersWidget",
+            ["action" => $this->position->getAction(), "positionId" => $this->position->getId(), "character" => $this->position->getRequest()->getCharacter()], 1 ); ?>
     <?php } ?>
     </div>
 </div>
