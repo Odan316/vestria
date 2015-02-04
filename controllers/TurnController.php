@@ -72,7 +72,7 @@ class TurnController extends VesController
             \CVarDumper::dump($positions, 1, 1);
             /** @var RequestPosition $position */
             foreach($positions as $position){
-                $character->getActionHandler()->applicatePosition($position);
+               // $character->getActionHandler()->applicatePosition($position);
             }
 
         }

@@ -3,7 +3,6 @@ namespace diplomacy\modules\vestria\controllers;
 
 use diplomacy\modules\vestria\components\ModelsFinder;
 use diplomacy\modules\vestria\components\VesController;
-use diplomacy\modules\vestria\components\PlayerActionHandler;
 use diplomacy\modules\vestria\models\Character;
 use diplomacy\modules\vestria\models\CharacterAction;
 
