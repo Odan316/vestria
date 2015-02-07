@@ -201,6 +201,12 @@ svg text {
     float: right;
     margin: 10px;
 }
+.request_params label {
+    margin-left: 20px;
+}
+.request_params label span {
+    margin-right: 10px;
+}
 
 /* Player setup */
 #new_character {

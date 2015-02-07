@@ -81,22 +81,28 @@ class ModelsFinder {
     }
 
     /**
+     * @param Character $character
      * @param string $alias
      * @param string|null $filter
      * @param bool $asArray
      *
-     * @return null
+     * @return \JSONModel[]
      */
-    public function getObjects($alias, $filter = null, $asArray = false)
+    public function getObjects($character, $alias, $filter = null, $asArray = false)
     {
-        $objects = null;
+        $objects = [];
+        $criteria = [];
         $objectPath = explode(".", $alias);
         switch($objectPath[0]){
             case "Province":
-                $objects = $this->game->getProvinces([], $asArray);
+                if($filter == "other")
+                    $criteria["id"] = ["notIn", [$character->getProvinceId()]];
+                $objects = $this->game->getProvinces($criteria, $asArray);
                 break;
             case "Character":
-                $objects = $this->game->getCharacters([], $asArray);
+                if($filter == "other")
+                    $criteria["id"] = ["notIn", [$character->getId()]];
+                $objects = $this->game->getCharacters($criteria, $asArray);
                 break;
             default:
                 break;

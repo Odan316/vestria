@@ -560,6 +560,8 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
+     * Перемешивает список персонажей
+     *
      * @return void
      */
     public function randomizeCharactersOrder()
@@ -567,6 +569,9 @@ class Game extends \JSONModel implements \GameInterface
         shuffle($this->characters);
     }
 
+    /**
+     * Очищает список заявок
+     */
     public function clearRequests()
     {
         $this->requests = [];

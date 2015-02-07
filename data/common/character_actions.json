@@ -18,7 +18,9 @@
         {
           "type": "objectsSelect",
           "name": "provinceId",
-          "object": "Province"
+          "object": "Province",
+          "filter": "other",
+          "label": "Куда :"
         }
       ],
       "effects": [
@@ -41,11 +43,13 @@
           "type": "objectsSelect",
           "name": "characterId",
           "object": "Character",
-          "filter": "other"
+          "filter": "other",
+          "label": "Кому :"
         },
         {
           "type": "exactValue",
-          "name": "amount"
+          "name": "amount",
+          "label": "Сколько :"
         }
       ],
       "effects": [
