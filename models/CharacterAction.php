@@ -18,11 +18,11 @@ class CharacterAction extends \JSONModel
     /** @var int */
     protected $type;
     /** @var Condition[] */
-    protected $conditions;
+    protected $conditions = [];
     /** @var Parameter [] */
-    protected $parameters;
+    protected $parameters = [];
     /** @var Effect[] */
-    protected $effects;
+    protected $effects = [];
 
     /**
      * @inheritdoc

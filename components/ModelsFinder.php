@@ -79,4 +79,29 @@ class ModelsFinder {
 
         return $list;
     }
+
+    /**
+     * @param string $alias
+     * @param string|null $filter
+     * @param bool $asArray
+     *
+     * @return null
+     */
+    public function getObjects($alias, $filter = null, $asArray = false)
+    {
+        $objects = null;
+        $objectPath = explode(".", $alias);
+        switch($objectPath[0]){
+            case "Province":
+                $objects = $this->game->getProvinces([], $asArray);
+                break;
+            case "Character":
+                $objects = $this->game->getCharacters([], $asArray);
+                break;
+            default:
+                break;
+        }
+
+        return $objects;
+    }
 }

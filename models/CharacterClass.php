@@ -18,7 +18,7 @@ class CharacterClass extends \JSONModel
     /** @var  string */
     protected $name;
     /** @var Effect[] */
-    protected $setupEffects;
+    protected $setupEffects = [];
 
     /**
      * @inheritdoc

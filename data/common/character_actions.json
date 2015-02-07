@@ -13,15 +13,7 @@
       "id": 1,
       "name": "Переехать в провинцию",
       "type": 1,
-      "conditions": [
-        {
-          "type": "propertyValue",
-          "object": "Character",
-          "property": "classId",
-          "is": "in",
-          "value": [1]
-        }
-      ],
+      "conditions": [],
       "parameters": [
         {
           "type": "objectsSelect",
@@ -36,6 +28,33 @@
           "property": "provinceId",
           "operation": "parameter",
           "value": "provinceId"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Перевести деньги",
+      "type": 1,
+      "conditions": [],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filter": "other"
+        },
+        {
+          "type": "exactValue",
+          "name": "amount"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "characterId",
+          "operation": "parameter",
+          "value": "amount"
         }
       ]
     }

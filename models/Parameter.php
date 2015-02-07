@@ -1,5 +1,7 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
+use diplomacy\modules\vestria\components\ModelsFinder;
 /**
  * Class Parameter
  *
@@ -13,6 +15,8 @@ class Parameter extends \JSONModel
     protected $name;
     /** @var string */
     protected $object;
+    /** @var string */
+    protected $filter;
 
     /**
      * @return string
@@ -33,9 +37,11 @@ class Parameter extends \JSONModel
         $code = "";
         switch ($this->type) {
             case "objectsSelect":
-                $objects = $character->getGame()->getObjects( $this->object, true );
+                $objects = (new ModelsFinder($character->getGame()))->getObjects( $this->object, $this->filter, true );
                 $code .= \CHtml::dropDownList( $this->name, $value, \CHtml::listData( $objects, "id", "name" ),
                     [ 'class' => 'request_parameter' ] );
+                break;
+            case "exactValue":
                 break;
             default:
                 break;

@@ -225,17 +225,14 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param bool $as_array
+     * @param [] $criteria
+     * @param bool $asArray
      *
-     * @return Province[]
+     * @return Province[]|[]
      */
-    public function getProvinces( $as_array = false )
+    public function getProvinces( $criteria = [], $asArray = false )
     {
-        if ( ! $as_array) {
-            return $this->provinces;
-        } else {
-            return $this->makeList($this->provinces);
-        }
+        return $this->getModelsList($this->provinces, $criteria, $asArray);
     }
 
     /**
@@ -255,32 +252,33 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param bool $as_array
+     * @param [] $criteria
+     * @param bool $asArray
      *
      * @return Character[]|[]
      */
-    public function getCharacters( $as_array = false )
+    public function getCharacters( $criteria = [], $asArray = false )
     {
-        if ( ! $as_array) {
-            return $this->characters;
-        } else {
-            return $this->makeList($this->characters);
-        }
+        return $this->getModelsList($this->characters, $criteria, $asArray);
     }
 
     /**
      * Возвращает список персонажей без фракции
      *
-     * @param bool $as_array
+     * @deprecated
+     *
+     * @param bool $asArray
      *
      * @return Character[]|[]
      */
-    public function getCharactersWithoutFaction( $as_array = false )
+    public function getCharactersWithoutFaction( $asArray = false )
     {
+        //return $this->getModelsList($this->characters, ["factionId" => null], $asArray);
+
         $list = [ ];
         foreach ($this->characters as $character) {
             if ( ! $character->getFactionId()) {
-                $list[] = ( $as_array ? $character->jsonSerialize() : $character );
+                $list[] = ( $asArray ? $character->jsonSerialize() : $character );
             }
         }
         return $list;
@@ -303,17 +301,14 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param bool $as_array
+     * @param [] $criteria
+     * @param bool $asArray
      *
-     * @return Faction[]
+     * @return Faction[]|[]
      */
-    public function getFactions( $as_array = false )
+    public function getFactions( $criteria = [], $asArray = false )
     {
-        if ( ! $as_array) {
-            return $this->factions;
-        } else {
-            return $this->makeList($this->factions);
-        }
+        return $this->getModelsList($this->factions, $criteria, $asArray);
     }
 
     /**
@@ -333,17 +328,14 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param bool $as_array
+     * @param [] $criteria
+     * @param bool $asArray
      *
      * @return Army[]
      */
-    public function getArmies( $as_array = false )
+    public function getArmies( $criteria = [], $asArray = false )
     {
-        if ( ! $as_array) {
-            return $this->armies;
-        } else {
-            return $this->makeList($this->armies);
-        }
+        return $this->getModelsList($this->armies, $criteria, $asArray);
     }
 
     /**
@@ -363,23 +355,14 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param bool $as_array
+     * @param [] $criteria
+     * @param bool $asArray
      *
-     * @return Request[]
+     * @return Request[]|[]
      */
-    public function getRequests( $criteria = [], $as_array = false )
+    public function getRequests( $criteria = [], $asArray = false )
     {
-        $models = [];
-
-        foreach($this->requests as $model){
-            if($model->testCriteria($criteria)) $models[] = $model;
-        }
-
-        if ( ! $as_array) {
-            return $models;
-        } else {
-            return $this->makeList($models);
-        }
+        return $this->getModelsList($this->requests, $criteria, $asArray);
     }
 
     /**
@@ -544,48 +527,36 @@ class Game extends \JSONModel implements \GameInterface
     /**
      * Возвращает список запрошенных объектов
      *
-     * @param $modelsName
-     * @param bool $as_array
+     * @deprecated
+     *
+     * @param string $modelsName
+     * @param [] $criteria
+     * @param bool $asArray
      *
      * @return array
      */
-    public function getModels( $modelsName, $as_array = false )
+    public function getModels( $modelsName, $criteria = [], $asArray = false )
     {
         switch($modelsName){
             case "Army":
-                return $this->getArmies($as_array);
+                return $this->getArmies($criteria, $asArray);
                 break;
             case "Character":
-                return $this->getCharacters($as_array);
+                return $this->getCharacters($criteria, $asArray);
                 break;
             case "Faction":
-                return $this->getFactions($as_array);
+                return $this->getFactions($criteria, $asArray);
                 break;
             case "Province":
-                return $this->getProvinces($as_array);
+                return $this->getProvinces($criteria, $asArray);
                 break;
             case "Request":
-                return $this->getRequests([], $as_array);
+                return $this->getRequests($criteria, $asArray);
                 break;
             default:
                 return [];
                 break;
         }
-    }
-
-    public function getObjects($alias, $as_array = false)
-    {
-        $objects = null;
-        $objectPath = explode(".", $alias);
-        switch($objectPath[0]){
-            case "Province":
-                $objects = $this->getProvinces($as_array);
-                break;
-            default:
-                break;
-        }
-
-        return $objects;
     }
 
     /**

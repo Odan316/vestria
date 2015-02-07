@@ -14,7 +14,7 @@ class RequestPosition extends \JSONModel
     protected $actionId;
 
     /** @var [] */
-    protected $parameters;
+    protected $parameters = [];
 
     /** @var Request */
     protected $request;

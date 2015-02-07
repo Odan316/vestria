@@ -37,7 +37,7 @@ use diplomacy\modules\vestria\controllers\GameController;
     <?= CHtml::textField( "Province[name]" ) ?>
     <br/>
     <label for="Province_ownerId">Владелец:</label>
-    <?= CHtml::dropDownList( "Province[ownerId]", 0, CHtml::listData($this->game->getFactions(true), "id", "name") ) ?>
+    <?= CHtml::dropDownList( "Province[ownerId]", 0, CHtml::listData($this->game->getFactions([], true), "id", "name") ) ?>
     <?= CHtml::endForm(); ?>
     <br/>
     <?php

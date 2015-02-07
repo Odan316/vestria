@@ -118,7 +118,7 @@ use diplomacy\modules\vestria\controllers\GameController;
     <?= CHtml::textField( "Faction[name]" ) ?>
     <br/>
     <label for="Faction_leaderId">Лидер:</label>
-    <?= CHtml::dropDownList( "Faction[leaderId]", 0, CHtml::listData($this->game->getCharacters(true), "id", "name") ) ?>
+    <?= CHtml::dropDownList( "Faction[leaderId]", 0, CHtml::listData($this->game->getCharacters([], true), "id", "name") ) ?>
     <br/>
     <label for="Faction_color">Цвет:</label>
     <?= $this->widget('ext.yii-colorpicker.ColorPicker', [

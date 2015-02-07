@@ -15,9 +15,9 @@ class CharacterTrait extends \JSONModel {
     /** @var Condition[] */
     protected $takeConditions = [ ];
     /** @var Effect[] */
-    protected $setupEffects;
+    protected $setupEffects = [];
     /** @var Effect[] */
-    protected $onTurnEffects;
+    protected $onTurnEffects = [];
 
     /**
      * @inheritdoc

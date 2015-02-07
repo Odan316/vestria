@@ -118,24 +118,27 @@ class AjaxController extends VesController
         }
     }
 
-    public function actionGetActionParametersCode()
-    {
-        $actionId = \Yii::app()->request->getPost( "actionId", 0 );
-
-        $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
-        /** @var CharacterAction $action */
-        $action = $this->game->getConfig()->getConfigElementById("character_actions", $actionId);
-
-        echo $this->widget( "diplomacy\\modules\\vestria\\widgets\\PositionParametersWidget",
-            ["action" => $action, "positionId" => 0, "character" => $character], 1 );
-    }
-
     public function actionGetRequestPositionCode()
     {
         $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
         $actions = (new ModelsFinder($this->game))->findActions($character);
         echo $this->widget( "diplomacy\\modules\\vestria\\widgets\\RequestPositionWidget",
             [ "actions" => $actions, "position" => null, "i" => '' ], 1 );
+    }
+
+    public function actionGetActionParametersCode()
+    {
+        $actionId = \Yii::app()->request->getPost( "actionId", 0 );
+        if(!empty($actionId)){
+            $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
+            /** @var CharacterAction $action */
+            $action = $this->game->getConfig()->getConfigElementById("character_actions", $actionId);
+
+            echo $this->widget( "diplomacy\\modules\\vestria\\widgets\\PositionParametersWidget",
+                ["action" => $action, "positionId" => 0, "character" => $character], 1 );
+        } else {
+            echo "";
+        }
     }
 
     public function actionDeletePosition()

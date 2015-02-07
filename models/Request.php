@@ -79,21 +79,14 @@ class Request extends \JSONModel
     }
 
     /**
+     * @param [] $criteria
+     * @param bool $asArray
+     *
      * @return RequestPosition[]
      */
-    public function getPositions($criteria = [], $as_array = false)
+    public function getPositions($criteria = [], $asArray = false)
     {
-        $models = [];
-
-        foreach($this->positions as $model){
-            if($model->testCriteria($criteria)) $models[] = $model;
-        }
-
-        if ( ! $as_array) {
-            return $models;
-        } else {
-            return $this->makeList($models);
-        }
+        return $this->getModelsList($this->positions, $criteria, $asArray);
     }
 
     /**

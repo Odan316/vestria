@@ -30,7 +30,7 @@ $(function() {
 function getActionParametersCode(actionId)
 {
     var code = "";
-    if (actionId) {
+    if (actionId != "" && actionId != 0) {
         $.ajax({
             type: "POST",
             async: false,

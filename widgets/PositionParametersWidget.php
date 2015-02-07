@@ -27,7 +27,9 @@ class PositionParametersWidget extends \CWidget
     {
         $request = $this->character->getRequest();
         if(is_object($request))
-            $values = $request->getPosition($this->positionId)->getParameters();
+            $position = $request->getPosition($this->positionId);
+        if(isset($position) && is_object($position))
+            $values = $position->getParameters();
         else
             $values = [];
         $this->render( "position_parameters", ["values" => $values] );
