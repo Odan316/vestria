@@ -110,4 +110,23 @@ class ModelsFinder {
 
         return $objects;
     }
+
+    public function getObject($character, $alias)
+    {
+        $object = null;
+        $objectPath = explode(".", $alias);
+        switch ($objectPath[0]) {
+            case "Character":
+                if(isset($objectPath[1])){
+                    $object = call_user_func( [ $character, "get".$objectPath[1] ] );
+                } else {
+                    $object = $character;
+                }
+                break;
+            default:
+                break;
+        }
+
+        return $object;
+    }
 }

@@ -19,6 +19,11 @@ class Parameter extends \JSONModel
     protected $filter;
     /** @var string */
     protected $label;
+    /**
+     * Используется для скрытых полей, что бы задать им значение
+     * @var mixed
+     */
+    protected $value;
 
     /**
      * @return string

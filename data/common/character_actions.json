@@ -61,6 +61,62 @@
           "value": "amount"
         }
       ]
+    },
+    {
+      "id": 3,
+      "name": "Создать фракцию",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character.Faction",
+          "property": "leaderId",
+          "is": "notIn",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "leaderId",
+          "value": "Character.id"
+        },
+        {
+          "type": "exactValue",
+          "name": "name",
+          "label": "Название :"
+        },
+        {
+          "type": "objectsSelect",
+          "name": "ambitionId",
+          "object": "Config.CharacterAmbition",
+          "filter": "makeLeader",
+          "label": "Амбиция :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "createObject",
+          "object": "Faction",
+          "property": "leaderId",
+          "operation": "parameter",
+          "value": "leaderId"
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "ambitionId",
+          "operation": "parameter",
+          "value": "ambitionId"
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character.Faction",
+          "property": "name",
+          "operation": "parameter",
+          "value": "name"
+        }
+      ]
     }
   ]
 }
