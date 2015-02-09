@@ -357,7 +357,7 @@
       ],
       "onTurnEffects": [
         {
-          "type": "bonus",
+          "type": "staticModifier",
           "object": "Character",
           "property": "recruit",
           "operation": "multiply",
@@ -386,7 +386,7 @@
       ],
       "onTurnEffects": [
         {
-          "type": "bonus",
+          "type": "staticModifier",
           "object": "Character",
           "property": "recruit",
           "operation": "multiply",

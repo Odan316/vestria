@@ -83,26 +83,40 @@ class ModelsFinder {
     /**
      * @param Character $character
      * @param string $alias
-     * @param string|null $filter
+     * @param string[] $filters
      * @param bool $asArray
      *
      * @return \JSONModel[]
      */
-    public function getObjects($character, $alias, $filter = null, $asArray = false)
+    public function getObjects($character, $alias, $filters = [], $asArray = false)
     {
         $objects = [];
         $criteria = [];
         $objectPath = explode(".", $alias);
         switch($objectPath[0]){
             case "Province":
-                if($filter == "other")
+                if(in_array("other", $filters))
                     $criteria["id"] = ["notIn", [$character->getProvinceId()]];
                 $objects = $this->game->getProvinces($criteria, $asArray);
                 break;
             case "Character":
-                if($filter == "other")
+                if(in_array("other", $filters))
                     $criteria["id"] = ["notIn", [$character->getId()]];
                 $objects = $this->game->getCharacters($criteria, $asArray);
+                break;
+            case "Config":
+                if(in_array("makeLeader", $filters))
+                    $criteria["makeLeader"] = true;
+                switch($objectPath[1]){
+                    case "character_ambitions":
+                        $objects = $this->findAmbitions($character);
+                        break;
+                    default:
+                        $objects = $this->game->getConfig()->getConfigAsObjectsArray($objectPath[1]);
+                        break;
+
+                }
+                $objects = $this->game->getModelsList($objects, $criteria, $asArray);
                 break;
             default:
                 break;

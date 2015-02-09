@@ -15,8 +15,8 @@ class Parameter extends \JSONModel
     protected $name;
     /** @var string */
     protected $object;
-    /** @var string */
-    protected $filter;
+    /** @var string[] */
+    protected $filters;
     /** @var string */
     protected $label;
     /**
@@ -44,7 +44,7 @@ class Parameter extends \JSONModel
         $code = "";
         switch ($this->type) {
             case "objectsSelect":
-                $objects = (new ModelsFinder($character->getGame()))->getObjects( $character, $this->object, $this->filter, true );
+                $objects = (new ModelsFinder($character->getGame()))->getObjects( $character, $this->object, $this->filters, true );
                 $code = \CHtml::dropDownList( $this->name, $value, \CHtml::listData( $objects, "id", "name" ),
                     [ 'class' => 'request_parameter' ] );
                 break;

@@ -19,6 +19,22 @@ class Condition extends \JSONModel
     protected $is;
     /** @var mixed */
     protected $value;
+    /** @var Condition[] */
+    protected $conditions;
+
+    /**
+     * @inheritdoc
+     */
+    public function setAttributes( $data )
+    {
+        if (isset( $data['conditions'] )) {
+            foreach ($data['conditions'] as $conditionData) {
+                $this->conditions[] = new Condition( $conditionData );
+            }
+            unset( $data['conditions'] );
+        }
+        parent::setAttributes( $data );
+    }
 
     /**
      * @param Character $character
@@ -36,19 +52,26 @@ class Condition extends \JSONModel
                 if (is_object( $model )) {
                     $propertyGetter = "get" . $this->property;
                     $propertyValue  = call_user_func( [ $model, $propertyGetter ] );
-                    switch($this->is){
+                    switch($this->is) {
                         case "in":
                             $test = in_array( $propertyValue, $this->getValue() );
                             break;
                         case "notIn":
-                            $test = !in_array( $propertyValue, $this->getValue() );
+                            $test = ! in_array( $propertyValue, $this->getValue() );
+                            break;
+                        case "empty":
+                            $test = empty( $propertyValue );
+                            break;
+                        case "notEmpty":
+                            $test = ! empty( $propertyValue );
                             break;
                         default :
                             break;
                     }
-                } elseif($this->is == "notIn") {
-                    $test = true;
                 }
+                break;
+            case "or":
+                $test = $this->testOr($character);
                 break;
             default :
                 break;
@@ -76,5 +99,23 @@ class Condition extends \JSONModel
                 return null;
         } else
             return [$this->value];
+    }
+
+
+    /**
+     * @param Character $character
+     *
+     * @return bool
+     */
+    public function testOr( $character )
+    {
+        $test = false;
+        foreach ($this->conditions as $condition) {
+            if ( $condition->test( $character )) {
+                $test = true;
+                break;
+            }
+        }
+        return $test;
     }
 }

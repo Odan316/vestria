@@ -19,7 +19,7 @@
           "type": "objectsSelect",
           "name": "provinceId",
           "object": "Province",
-          "filter": "other",
+          "filters": ["other"],
           "label": "Куда :"
         }
       ],
@@ -43,7 +43,7 @@
           "type": "objectsSelect",
           "name": "characterId",
           "object": "Character",
-          "filter": "other",
+          "filters": ["other"],
           "label": "Кому :"
         },
         {
@@ -68,11 +68,22 @@
       "type": 1,
       "conditions": [
         {
-          "type": "propertyValue",
-          "object": "Character.Faction",
-          "property": "leaderId",
-          "is": "notIn",
-          "value": "Character.id"
+          "type": "or",
+          "conditions": [
+            {
+              "type": "propertyValue",
+              "object": "Character",
+              "property": "factionId",
+              "is": "empty"
+            },
+            {
+              "type": "propertyValue",
+              "object": "Character.Faction",
+              "property": "leaderId",
+              "is": "notIn",
+              "value": "Character.id"
+            }
+          ]
         }
       ],
       "parameters": [
@@ -89,8 +100,8 @@
         {
           "type": "objectsSelect",
           "name": "ambitionId",
-          "object": "Config.CharacterAmbition",
-          "filter": "makeLeader",
+          "object": "Config.character_ambitions",
+          "filters": ["makeLeader"],
           "label": "Амбиция :"
         }
       ],
@@ -108,13 +119,829 @@
           "property": "ambitionId",
           "operation": "parameter",
           "value": "ambitionId"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Распустить фракцию",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character.Faction",
+          "property": "leaderId",
+          "is": "in",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "factionId",
+          "value": "Character.factionId"
+        }
+      ],
+      "effects": [
+        {
+          "type": "destroyObject",
+          "object": "Faction",
+          "property": "id",
+          "operation": "parameter",
+          "value": "factionId"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Вступить во фракцию",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character.Faction",
+          "property": "leaderId",
+          "is": "notIn",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "factionId",
+          "object": "Faction",
+          "filters": ["other"],
+          "label": "Фракция :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "factionRequest"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Принять во фракцию",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character.Faction",
+          "property": "leaderId",
+          "is": "in",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filters": ["other", "otherFaction"],
+          "label": "Кого :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "factionRequestAccept"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Выйти из фракции",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "factionId",
+          "is": "notNull"
+        },
+        {
+          "type": "propertyValue",
+          "object": "Character.Faction",
+          "property": "leaderId",
+          "is": "notIn",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filters": ["other", "otherFaction"],
+          "label": "Кого :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "factionRequestAccept"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Изгнать из фракции",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character.Faction",
+          "property": "leaderId",
+          "is": "in",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filters": ["other", "sameFaction"],
+          "label": "Кого :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "provinceId",
+          "operation": "parameter",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Собрать доп. подати",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "estatesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "turnModifier",
+          "object": "Character",
+          "property": "estatesIncome",
+          "operation": "multiply",
+          "value": 0.5
+        },
+        {
+          "type": "staticModifier",
+          "object": "Character",
+          "property": "estatesIncome",
+          "operation": "multiply",
+          "value": -0.1
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Пропустить сбор податей",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "estatesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "turnModifier",
+          "object": "Character",
+          "property": "estatesIncome",
+          "operation": "multiply",
+          "value": -1
+        },
+        {
+          "type": "staticModifier",
+          "object": "Character",
+          "property": "estatesIncome",
+          "operation": "multiply",
+          "value": 0.05
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Раздавать еду в городах",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "estatesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "turnModifier",
+          "object": "Character",
+          "property": "estatesIncome",
+          "operation": "multiply",
+          "value": -0.5
         },
         {
           "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Призывать крестьян",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "estatesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "recruits",
+          "operation": "add",
+          "value": 50
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Купить владение",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [1]
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "estatesCount",
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "cash",
+          "operation": "add",
+          "value": -100
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Продать владение",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "estatesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [
+        {
+          "type": "exactValue",
+          "name": "count",
+          "label": "Сколько :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "estatesCount",
+          "operation": "add",
+          "value": "-count"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Вербовать горожан",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [2, 3, 4, 5]
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "recruits",
+          "operation": "add",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Бороться с преступностью",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "armyId",
+          "is": "notEmpty"
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character.Province",
+          "property": "criminal",
+          "operation": "add",
+          "value": -1
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character.Army",
+          "property": "number",
+          "operation": "calculate",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Развивать предприятия",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3]
+        },
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "factoriesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "turnModifier",
+          "object": "Character",
+          "property": "factoriesIncome",
+          "operation": "multiply",
+          "value": -0.5
+        },
+        {
+          "type": "staticModifier",
+          "object": "Character",
+          "property": "factoriesIncome",
+          "operation": "multiply",
+          "value": 0.05
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Открыть предприятие",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3]
+        },
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "factoriesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "factoriesCount",
+          "operation": "add",
+          "value": 1
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "cash",
+          "operation": "add",
+          "value": -50
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Продать предприятие",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [3]
+        },
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "factoriesCount",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
+      "parameters": [
+        {
+          "type": "exactValue",
+          "name": "count",
+          "label": "Сколько :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "factoriesCount",
+          "operation": "add",
+          "value": "-count"
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "cash",
+          "operation": "add",
+          "value": 70
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Благотворительность",
+      "type": 1,
+      "conditions": [],
+      "parameters": [
+        {
+          "type": "exactValue",
+          "name": "count",
+          "label": "Сколько :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "cash",
+          "operation": "add",
+          "value": "-count"
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "popularity",
+          "operation": "calculate",
+          "value": "count*0.2"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Агитация",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [4]
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "population",
+          "operation": "add",
+          "value": 10
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character.Faction.Leader",
+          "property": "popularity",
+          "operation": "add",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Очернение",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [4]
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filters": ["other", "otherFaction"],
+          "label": "Кого :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "population",
+          "operation": "add",
+          "value": 5
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "popularity",
+          "operation": "add",
+          "value": -10
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Сбор пожертвований",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [4, 5]
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "population",
+          "operation": "add",
+          "value": -5
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "property": "cash",
+          "operation": "add",
+          "value": 40
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Разжигание фанатизма",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [5]
+        }
+      ],
+      "parameters": [],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character.Faction.Leader",
+          "property": "population",
+          "operation": "add",
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Анафема",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [5]
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filters": ["other", "otherFaction"],
+          "label": "На кого :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "popularity",
+          "operation": "add",
+          "value": -15
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Создать армию",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [6]
+        }
+      ],
+      "parameters": [
+      ],
+      "effects": [
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Передать рекрутов",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "classId",
+          "is": "in",
+          "value": [6]
+        }
+      ],
+      "parameters": [
+      ],
+      "effects": [
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Назначить на должность",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
           "object": "Character.Faction",
-          "property": "name",
+          "property": "leaderId",
+          "is": "in",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filters": ["other", "sameFaction"],
+          "label": "Кого :"
+        },
+        {
+          "type": "objectsSelect",
+          "name": "appointmentId",
+          "object": "Appointment",
+          "filters": ["free"],
+          "label": "Кем :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "appointmentId",
           "operation": "parameter",
-          "value": "name"
+          "value": "appointmentId"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Снять с должности",
+      "type": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character.Faction",
+          "property": "leaderId",
+          "is": "in",
+          "value": "Character.id"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "objectsSelect",
+          "name": "characterId",
+          "object": "Character",
+          "filters": ["other", "sameFaction"],
+          "label": "Кого :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "appointmentId",
+          "operation": "set",
+          "value": 0
         }
       ]
     }
