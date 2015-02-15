@@ -22,6 +22,12 @@ $this->setPageTitle($this->getModule()->getTitle().' - Панель игрока
     <p>Амбиция: <span><?= $character->getAmbition()->getName() ?></span></p>
     <p>Популярность: <span><?= $character->getPopularity() ?></span></p>
     <p>Состояние: <span><?= $character->getCash() ?> Д</span></p>
+    <?php if($character->getEstatesCount()) {?>
+        <p>Владений: <span><?= $character->getEstatesCount() ?></span></p>
+    <?php } ?>
+    <?php if($character->getFactoriesCount()) {?>
+        <p>Предприятий: <span><?= (string)$character->getFactoriesCount() ?></span></p>
+    <?php } ?>
 </div>
 <div id="central_panel">
     <div id="players_map">

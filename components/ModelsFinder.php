@@ -102,6 +102,10 @@ class ModelsFinder {
             case "Character":
                 if(in_array("other", $filters))
                     $criteria["id"] = ["notIn", [$character->getId()]];
+                if(in_array("otherFaction", $filters))
+                    $criteria["factionId"] = ["notIn", [$character->getFactionId()]];
+                if(in_array("sameFaction", $filters))
+                    $criteria["factionId"] = ["in", [$character->getFactionId()]];
                 $objects = $this->game->getCharacters($criteria, $asArray);
                 break;
             case "Config":
@@ -117,6 +121,11 @@ class ModelsFinder {
 
                 }
                 $objects = $this->game->getModelsList($objects, $criteria, $asArray);
+                break;
+            case "Faction":
+                if(in_array("other", $filters))
+                    $criteria["id"] = ["notIn", [$character->getFactionId()]];
+                $objects = $this->game->getFactions($criteria, $asArray);
                 break;
             default:
                 break;

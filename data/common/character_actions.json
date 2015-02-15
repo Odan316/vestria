@@ -37,7 +37,15 @@
       "id": 2,
       "name": "Перевести деньги",
       "type": 1,
-      "conditions": [],
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "cash",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
       "parameters": [
         {
           "type": "objectsSelect",
@@ -158,11 +166,22 @@
       "type": 1,
       "conditions": [
         {
-          "type": "propertyValue",
-          "object": "Character.Faction",
-          "property": "leaderId",
-          "is": "notIn",
-          "value": "Character.id"
+          "type": "or",
+          "conditions": [
+            {
+              "type": "propertyValue",
+              "object": "Character",
+              "property": "factionId",
+              "is": "empty"
+            },
+            {
+              "type": "propertyValue",
+              "object": "Character.Faction",
+              "property": "leaderId",
+              "is": "notIn",
+              "value": "Character.id"
+            }
+          ]
         }
       ],
       "parameters": [
@@ -227,15 +246,7 @@
           "value": "Character.id"
         }
       ],
-      "parameters": [
-        {
-          "type": "objectsSelect",
-          "name": "characterId",
-          "object": "Character",
-          "filters": ["other", "otherFaction"],
-          "label": "Кого :"
-        }
-      ],
+      "parameters": [],
       "effects": [
         {
           "type": "factionRequestAccept"
@@ -612,13 +623,6 @@
         {
           "type": "propertyValue",
           "object": "Character",
-          "property": "classId",
-          "is": "in",
-          "value": [3]
-        },
-        {
-          "type": "propertyValue",
-          "object": "Character",
           "property": "factoriesCount",
           "is": "moreThan",
           "value": 0
@@ -652,7 +656,15 @@
       "id": 20,
       "name": "Благотворительность",
       "type": 1,
-      "conditions": [],
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "cash",
+          "is": "moreThan",
+          "value": 0
+        }
+      ],
       "parameters": [
         {
           "type": "exactValue",
@@ -913,7 +925,7 @@
       ]
     },
     {
-      "id": 28,
+      "id": 29,
       "name": "Снять с должности",
       "type": 1,
       "conditions": [

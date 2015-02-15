@@ -54,16 +54,22 @@ class Condition extends \JSONModel
                     $propertyValue  = call_user_func( [ $model, $propertyGetter ] );
                     switch($this->is) {
                         case "in":
-                            $test = in_array( $propertyValue, $this->getValue() );
+                            $test = in_array( $propertyValue, $this->getValue($character) );
                             break;
                         case "notIn":
-                            $test = ! in_array( $propertyValue, $this->getValue() );
+                            $test = ! in_array( $propertyValue, $this->getValue($character) );
                             break;
                         case "empty":
                             $test = empty( $propertyValue );
                             break;
                         case "notEmpty":
                             $test = ! empty( $propertyValue );
+                            break;
+                        case "moreThan":
+                            $test = $propertyValue > $this->value;
+                            break;
+                        case "lessThan":
+                            $test = $propertyValue < $this->value;
                             break;
                         default :
                             break;
@@ -92,11 +98,12 @@ class Condition extends \JSONModel
             if($character != null){
                 $alias = explode(".", $this->value);
                 $property = array_pop($alias);
-                $model = (new ModelsFinder($character->getGame()))->getObject( $character, $alias);
-                return call_user_func( [ $model, "get".$property ] );
+                $model = (new ModelsFinder($character->getGame()))->getObject( $character, $alias[0]);
+                $value = call_user_func( [ $model, "get".$property ] );
+                return [$value];
             }
             else
-                return null;
+                return [null];
         } else
             return [$this->value];
     }
