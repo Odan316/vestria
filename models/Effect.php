@@ -1,5 +1,7 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
+use diplomacy\modules\vestria\components\WithFlags;
 /**
  * Class Effect
  *
@@ -19,18 +21,22 @@ class Effect extends \JSONModel
     protected $operation;
     /** @var mixed */
     protected $value;
+    /** @var string */
+    protected $valueParameter;
 
     /**
-     * @param Character $character
+     * TODO: Value
+     * @param Game $game
+     * @param [] $parameters
      *
      * @return void
      */
-    public function apply($character)
+    public function apply($game, $parameters)
     {
+        $model = $game->getObject($this->object, $this->objectId);
         switch ($this->type) {
             // Проверка на значение поля объекта
             case "propertyChange":
-                $model = $this->getObject($character);
                 // Если объект успешно получен - проверяем значение его свойства на соответствие условию
                 if (is_object( $model )) {
                     $propertySetter = "set" . $this->property;
@@ -38,6 +44,9 @@ class Effect extends \JSONModel
                     $propertyValue  = call_user_func( [ $model, $propertyGetter ] );
 
                     switch($this->operation){
+                        case "set":
+                            $newValue = $propertyValue + $this->value;
+                            break;
                         case "add":
                             $newValue = $propertyValue + $this->value;
                             break;
@@ -49,7 +58,7 @@ class Effect extends \JSONModel
                 }
                 break;
             case "flag":
-                $model = $this->getObject($character);
+                /** @var WithFlags $model */
                 $model->setFlag($this->property, $this->value);
                 break;
             default :
@@ -58,20 +67,11 @@ class Effect extends \JSONModel
     }
 
     /**
-     * @return null|Character
+     * TODO: getValue
      */
-    private function getObject($character)
+    private function getValue()
     {
-        // Получаем объект
-        switch ($this->object) {
-            case "Character":
-                $model = $character;
-                break;
-            default:
-                $model = null;
-                break;
+        if(!empty($this->valueParameter)) {
         }
-
-        return $model;
     }
 }

@@ -41,19 +41,21 @@ class TurnController extends VesController
 
         $this->postprocessTurn();
 
-        $this->game->save();
 
     }
 
     private function preprocessTurn()
     {
         $this->game->setTurn($this->game->getTurn() + 1);
+        $this->gameModel->last_turn += 1;
         $this->game->randomizeCharactersOrder();
     }
 
     private function postprocessTurn()
     {
         $this->game->clearRequests();
+        $this->game->save();
+        $this->gameModel->save();
     }
 
 
@@ -72,7 +74,7 @@ class TurnController extends VesController
             \CVarDumper::dump($positions, 1, 1);
             /** @var RequestPosition $position */
             foreach($positions as $position){
-               // $character->getActionHandler()->applicatePosition($position);
+                $position->apply();
             }
 
         }

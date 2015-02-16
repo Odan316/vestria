@@ -16,6 +16,11 @@
       "conditions": [],
       "parameters": [
         {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.factionId"
+        },
+        {
           "type": "objectsSelect",
           "name": "provinceId",
           "object": "Province",
@@ -27,9 +32,10 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "provinceId",
-          "operation": "parameter",
-          "value": "provinceId"
+          "operation": "set",
+          "valueParameter": "provinceId"
         }
       ]
     },

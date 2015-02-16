@@ -12,7 +12,6 @@ class RequestPosition extends \JSONModel
     protected $id;
     /** @var int */
     protected $actionId;
-
     /** @var [] */
     protected $parameters = [];
 
@@ -77,7 +76,7 @@ class RequestPosition extends \JSONModel
     }
 
     /**
-     * @return []
+     * @return array
      */
     public function getParameters()
     {
@@ -94,5 +93,10 @@ class RequestPosition extends \JSONModel
             "actionId" => $this->actionId,
             "parameters"   => $this->parameters
         ];
+    }
+
+    public function apply()
+    {
+        $this->getAction()->applyEffects($this->getRequest()->getCharacter()->getGame(), $this->parameters);
     }
 }

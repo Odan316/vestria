@@ -99,14 +99,15 @@ class CharacterAction extends \JSONModel
     }
 
     /**
-     * @param Character $character
+     * @param Game $game
+     * @param [] $parameters
      *
      * @return void
      */
-    public function applyEffects($character)
+    public function applyEffects($game, $parameters)
     {
         foreach($this->effects as $effect) {
-            $effect->apply($character);
+            $effect->apply($game, $parameters);
         }
     }
 

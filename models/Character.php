@@ -1,12 +1,13 @@
 <?php
 namespace diplomacy\modules\vestria\models;
 
+use diplomacy\modules\vestria\components\WithFlags;
 /**
  * Class Character
  *
  * Класс "Персонаж"
  */
-class Character extends \JSONModel
+class Character extends \JSONModel implements WithFlags
 {
     /** @var int */
     protected $id;

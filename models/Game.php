@@ -560,6 +560,33 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
+     * @param string $objectName
+     * @param string $objectId
+     *
+     * @return \JSONModel
+     */
+    public function getObject($objectName, $objectId)
+    {
+        switch($objectName){
+            case "Army":
+                return $this->getArmy($objectId);
+                break;
+            case "Character":
+                return $this->getCharacter($objectId);
+                break;
+            case "Faction":
+                return $this->getFaction($objectId);
+                break;
+            case "Province":
+                return $this->getProvince($objectId);
+                break;
+            default:
+                return null;
+                break;
+        }
+    }
+
+    /**
      * Перемешивает список персонажей
      *
      * @return void
