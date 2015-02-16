@@ -55,15 +55,16 @@ class GameController extends VesController
         if (\Yii::app()->user->getState( 'game_role' ) == \Game_roles::PLAYER_ROLE) {
             /** @var $ClientScript \CClientScript */
             $ClientScript = \Yii::app()->clientScript;
-            $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/player.js' );
 
             $character = $this->game->getCharacterByPlayerId(\Yii::app()->user->getState( 'uid' ));
             if(!$character){
+                $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/player_setup.js' );
                 $this->render( 'player_setup', [
                     'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
                     'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" )
                 ] );
             } else {
+                $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/player.js' );
                 $this->render( 'player/index', [
                     'character' => $character,
                     'actions' => (new ModelsFinder($this->game))->findActions($character),

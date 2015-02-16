@@ -58,7 +58,7 @@ class CharacterClass extends \JSONModel
     public function applySetupEffects($character)
     {
         foreach($this->setupEffects as $effect) {
-            $effect->apply($character);
+            $effect->apply($game, []);
         }
     }
 }

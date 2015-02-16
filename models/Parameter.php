@@ -51,6 +51,10 @@ class Parameter extends \JSONModel
             case "exactValue":
                 $code = \CHtml::textField($this->name, $value, [ 'class' => 'request_parameter' ]);
                 break;
+            case "hiddenValue":
+                $value = $this->getValue($character);
+                $code = \CHtml::hiddenField($this->name, $value, [ 'class' => 'request_parameter' ]);
+                break;
             default:
                 break;
         }
@@ -58,5 +62,22 @@ class Parameter extends \JSONModel
             $code = "<label><span>".$this->label."</span>".$code."</label>";
 
         return $code;
+    }
+
+    /**
+     * @param Character|null $character
+     *
+     * @return mixed
+     */
+    protected function getValue($character = null)
+    {
+        if(strpos($this->value, ".") && $character != null){
+                $alias = explode(".", $this->value);
+                $property = array_pop($alias);
+                $model = (new ModelsFinder($character->getGame()))->getObject( $character, $alias[0]);
+                $value = call_user_func( [ $model, "get".$property ] );
+                return $value;
+        } else
+            return 0;
     }
 }

@@ -23,6 +23,14 @@ class Effect extends \JSONModel
     protected $value;
     /** @var string */
     protected $valueParameter;
+    /** @var string */
+    protected $valueExact;
+
+    /**
+     * Используется при применении эффекта, что бы не передавать параметры во все функции внутри одного класса
+     * @var []
+     */
+    private $parameters = [];
 
     /**
      * TODO: Value
@@ -33,7 +41,8 @@ class Effect extends \JSONModel
      */
     public function apply($game, $parameters)
     {
-        $model = $game->getObject($this->object, $this->objectId);
+        $this->parameters = $parameters;
+        $model = $game->getObject($this->object, $this->getParameterValue($this->objectId));
         switch ($this->type) {
             // Проверка на значение поля объекта
             case "propertyChange":
@@ -45,10 +54,10 @@ class Effect extends \JSONModel
 
                     switch($this->operation){
                         case "set":
-                            $newValue = $propertyValue + $this->value;
+                            $newValue = $this->getValue($parameters);
                             break;
                         case "add":
-                            $newValue = $propertyValue + $this->value;
+                            $newValue = $propertyValue + $this->getValue($parameters);
                             break;
                         default :
                             $newValue = $propertyValue;
@@ -59,7 +68,7 @@ class Effect extends \JSONModel
                 break;
             case "flag":
                 /** @var WithFlags $model */
-                $model->setFlag($this->property, $this->value);
+                $model->setFlag($this->property, $this->getValue($parameters));
                 break;
             default :
                 break;
@@ -67,11 +76,24 @@ class Effect extends \JSONModel
     }
 
     /**
-     * TODO: getValue
+     * @return mixed
      */
     private function getValue()
     {
-        if(!empty($this->valueParameter)) {
+        if (!empty($this->valueExact)){
+            return $this->valueExact;
+        } elseif(!empty($this->valueParameter)){
+            return $this->getParameterValue($this->valueParameter);
+        } else  {
+            return null;
         }
+    }
+
+    protected function getParameterValue($parameterName)
+    {
+        if(isset($this->parameters[$parameterName]))
+            return $this->parameters[$parameterName];
+        else
+            return 0;
     }
 }

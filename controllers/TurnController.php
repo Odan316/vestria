@@ -71,15 +71,15 @@ class TurnController extends VesController
             if(is_object($request))
                 $positions = $request->getPositions(['action.type' => $types]);
 
-            \CVarDumper::dump($positions, 1, 1);
+            //\CVarDumper::dump($positions, 1, 1);
             /** @var RequestPosition $position */
             foreach($positions as $position){
                 $position->apply();
             }
 
         }
-        \CVarDumper::dump(json_encode($this->game), 3, 1);
-        die();
+        //\CVarDumper::dump(json_encode($this->game), 3, 1);
+        //die();
     }
 
     /**

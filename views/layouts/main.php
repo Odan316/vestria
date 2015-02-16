@@ -31,7 +31,7 @@ use diplomacy\modules\vestria\controllers\GameController;
 
     <div id="footer">
         "<?=Yii::app()->name ?>" Copyright by Onad &copy; <?= date('Y'); ?>. No Rights Reserved.
-        <a id="cabinet_link" href="/cabinet">Назад в кабинет</a>
+        <a id="cabinet_link" href="<?= Yii::app()->request->baseUrl; ?>/cabinet">Назад в кабинет</a>
         <br/>
 		<?= Yii::powered(); ?>
 	</div>
