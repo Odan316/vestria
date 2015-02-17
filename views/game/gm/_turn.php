@@ -12,7 +12,7 @@ $this->widget( 'bootstrap.widgets.TbButton', [
     'size'        => 'large',
     'url'         => $this->createUrl( 'turn/go' ),
     "htmlOptions" => [
-        'class' => "but_faction_save_gm"
+        'class' => ""
     ]
 ] );
 ?>
