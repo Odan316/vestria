@@ -54,10 +54,13 @@ class Effect extends \JSONModel
 
                     switch($this->operation){
                         case "set":
-                            $newValue = $this->getValue($parameters);
+                            $newValue = $this->getValue();
                             break;
                         case "add":
-                            $newValue = $propertyValue + $this->getValue($parameters);
+                            $newValue = $propertyValue + $this->getValue();
+                            break;
+                        case "takeAway":
+                            $newValue = $propertyValue - $this->getValue();
                             break;
                         default :
                             $newValue = $propertyValue;
@@ -68,7 +71,14 @@ class Effect extends \JSONModel
                 break;
             case "flag":
                 /** @var WithFlags $model */
-                $model->setFlag($this->property, $this->getValue($parameters));
+                $model->setFlag($this->property, $this->getValue());
+                break;
+            case "createObject":
+                switch($this->object){
+                    case "Faction":
+                        $this->createFaction($game);
+                        break;
+                }
                 break;
             default :
                 break;
@@ -95,5 +105,21 @@ class Effect extends \JSONModel
             return $this->parameters[$parameterName];
         else
             return 0;
+    }
+
+    /**
+     * @param Game $game
+     */
+    private function createFaction($game)
+    {
+        $model = $game->createFaction(
+            [
+                "name" => $this->getParameterValue("name"),
+                "leaderId" => $this->getParameterValue("leaderId"),
+                "color" => $this->getParameterValue("color")
+            ]
+        );
+        $character = $game->getCharacter($this->getParameterValue("leaderId"));
+        $character->setFactionId($model->getId());
     }
 }

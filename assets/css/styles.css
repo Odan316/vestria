@@ -204,6 +204,9 @@ svg text {
 .request_params label {
     margin-left: 20px;
 }
+.request_params label div.colorPicker-picker {
+    display: inline-block;
+}
 .request_params label span {
     margin-right: 10px;
 }

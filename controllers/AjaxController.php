@@ -13,6 +13,18 @@ use diplomacy\modules\vestria\models\CharacterAction;
  */
 class AjaxController extends VesController
 {
+    public function init()
+    {
+        if (\Yii::app()->request->isAjaxRequest)
+        {
+            $cs = \Yii::app()->clientScript;
+            $cs->scriptMap = [
+                'jquery.js' => false,
+                'common.js' => false,
+            ];
+        }
+        parent::init();
+    }
     public function actionGetCharacterDataByPlayerId()
     {
         $playerId = \Yii::app()->request->getPost( "playerId", 0 );
@@ -84,7 +96,8 @@ class AjaxController extends VesController
         if ( ! empty( $data['id'] )) {
             echo $this->game->updateCharacter( $data );
         } else {
-            echo $this->game->createCharacter( $data );
+            $model = $this->game->createCharacter( $data );
+            echo (!empty($model));
         }
     }
 
@@ -99,7 +112,8 @@ class AjaxController extends VesController
         if ( ! empty( $data['id'] )) {
             echo $this->game->updateFaction( $data );
         } else {
-            echo $this->game->createFaction( $data );
+            $model = $this->game->createFaction( $data );
+            echo (!empty($model));
         }
     }
 
@@ -134,8 +148,7 @@ class AjaxController extends VesController
             /** @var CharacterAction $action */
             $action = $this->game->getConfig()->getConfigElementById("character_actions", $actionId);
 
-            echo $this->widget( "diplomacy\\modules\\vestria\\widgets\\PositionParametersWidget",
-                ["action" => $action, "positionId" => 0, "character" => $character], 1 );
+            echo $this->renderPartial("action_parameters", ["action" => $action, "character" => $character], false, true);
         } else {
             echo "";
         }
@@ -158,7 +171,8 @@ class AjaxController extends VesController
             if(!empty($request)){
                 echo $this->game->updateRequest( $data );
             } else {
-                echo $this->game->createRequest( $data );
+                $model = $this->game->createRequest( $data );
+                echo (!empty($model));
             }
         } else {
             echo false;

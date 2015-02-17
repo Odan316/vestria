@@ -404,7 +404,7 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @param [] $data
      *
-     * @return bool
+     * @return Character
      */
     public function createCharacter( $data )
     {
@@ -413,7 +413,9 @@ class Game extends \JSONModel implements \GameInterface
         $model->setupAsNew( $this->lastCharacterId );
         $this->characters[] = $model;
 
-        return $this->save();
+        $this->save();
+
+        return $model;
     }
 
     /**
@@ -438,7 +440,7 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @param [] $data
      *
-     * @return bool
+     * @return Faction
      */
     public function createFaction( $data )
     {
@@ -446,8 +448,9 @@ class Game extends \JSONModel implements \GameInterface
         $this->lastFactionId ++;
         $model->setupAsNew( $this->lastFactionId );
         $this->factions[] = $model;
+        $this->save();
 
-        return $this->save();
+        return $model;
     }
 
     /**
@@ -489,14 +492,16 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @param [] $data
      *
-     * @return bool
+     * @return Request
      */
     public function createRequest( $data )
     {
         $model = new Request( $this, $data );
         $this->requests[] = $model;
 
-        return $this->save();
+        $this->save();
+
+        return $model;
     }
 
     /**

@@ -85,13 +85,21 @@ function readCharacterForm()
     return characterData;
 }
 
+/**
+ * @param {Object} factionData Faction info
+ * @param {Number} factionData.id Faction ID
+ * @param {String} factionData.name Faction name
+ * @param {Number} factionData.leaderId ID of leader character
+ * @param {String} factionData.color Faction color
+ */
 function fillFactionForm(factionData)
 {
     if(factionData != null){
         $("#Faction_id").val(factionData.id);
         $("#Faction_name").val(factionData.name);
         $("#Faction_leaderId").val(factionData.leaderId);
-        $("#Faction_color").val(factionData.color);
+        $("#Faction_color").val(factionData.color)
+            .next(".colorPicker-picker").css({"background-color": factionData.color});
     }
 }
 function readFactionForm()

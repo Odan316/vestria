@@ -55,11 +55,18 @@ class Parameter extends \JSONModel
                 $value = $this->getValue($character);
                 $code = \CHtml::hiddenField($this->name, $value, [ 'class' => 'request_parameter' ]);
                 break;
+            case "colorSelect":
+                $code = \Yii::app()->getController()->widget('ext.yii-colorpicker.ColorPicker', [
+                    'name' => $this->name,
+                    'value' => $value,
+                    'htmlOptions' => [ 'class' => 'request_parameter' ]
+                ], 1);
+                break;
             default:
                 break;
         }
         if($this->label != "")
-            $code = "<label><span>".$this->label."</span>".$code."</label>";
+            $code = "<label><span>".$this->label."</span>".$code."</label><br/>";
 
         return $code;
     }

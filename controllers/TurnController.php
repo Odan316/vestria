@@ -65,6 +65,7 @@ class TurnController extends VesController
      */
     private function applicateRequests($types = [])
     {
+       // \CVarDumper::dump(json_encode($this->game), 3, 1);
         foreach($this->game->getCharacters() as $character) {
             $request = $this->game->getRequestByCharacterId($character->getId());
             $positions = [];
@@ -78,8 +79,8 @@ class TurnController extends VesController
             }
 
         }
-        //\CVarDumper::dump(json_encode($this->game), 3, 1);
-        //die();
+        \CVarDumper::dump(json_encode($this->game), 3, 1);
+        die();
     }
 
     /**
