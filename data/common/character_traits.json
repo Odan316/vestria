@@ -18,9 +18,10 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 20
+          "valueExact": 20
         }
       ]
     },
@@ -40,18 +41,20 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 10
+          "valueExact": 10
         }
       ],
       "onTurnEffects": [
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },
@@ -71,9 +74,10 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesCount",
           "operation": "add",
-          "value": 1
+          "valueExact": 1
         }
       ]
     },
@@ -93,9 +97,10 @@
         {
           "type": "bonus",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "value": 0.2
+          "valueExact": 0.2
         }
       ]
     },
@@ -115,16 +120,18 @@
         {
           "type": "bonus",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "value": 0.1
+          "valueExact": 0.1
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },
@@ -144,8 +151,9 @@
         {
           "type": "flag",
           "object": "Character",
+          "objectId": "characterId",
           "property": "canCallForeignIntervention",
-          "value": true
+          "valueExact": true
         }
       ]
     },
@@ -165,18 +173,20 @@
         {
           "type": "propertyValue",
           "object": "Character.Army",
+          "objectId": "characterId",
           "property": "strength",
           "operation": "add",
-          "value": 200
+          "valueExact": 200
         }
       ],
       "onTurnEffects": [
         {
           "type": "propertyValue",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },
@@ -196,16 +206,18 @@
         {
           "type": "bonus",
           "object": "Character.Army",
+          "objectId": "characterId",
           "property": "morale",
           "operation": "multiply",
-          "value": 0.1
+          "valueExact": 0.1
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },
@@ -225,9 +237,10 @@
         {
           "type": "bonus",
           "object": "Character.Army",
+          "objectId": "characterId",
           "property": "morale",
           "operation": "multiply",
-          "value": 0.2
+          "valueExact": 0.2
         }
       ]
     },
@@ -247,18 +260,20 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "factoriesCount",
           "operation": "add",
-          "value": 1
+          "valueExact": 1
         }
       ],
       "onTurnEffects": [
         {
           "type": "bonus",
           "object": "Character",
+          "objectId": "characterId",
           "property": "factoriesIncome",
           "operation": "multiply",
-          "value": 0.1
+          "valueExact": 0.1
         }
       ]
     },
@@ -278,9 +293,10 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "factoriesCount",
           "operation": "add",
-          "value": 3
+          "valueExact": 3
         }
       ]
     },
@@ -300,16 +316,18 @@
         {
           "type": "bonus",
           "object": "Character.Faction",
+          "objectId": "characterId",
           "property": "recruit",
           "operation": "multiply",
-          "value": 0.1
+          "valueExact": 0.1
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },
@@ -329,17 +347,19 @@
         {
           "type": "flag",
           "object": "Character",
+          "objectId": "characterId",
           "property": "canBoostPopularity",
-          "value": true
+          "valueExact": true
         }
       ],
       "onTurnEffects": [
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },
@@ -359,16 +379,18 @@
         {
           "type": "staticModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "recruit",
           "operation": "multiply",
-          "value": 0.25
+          "valueExact": 0.25
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },
@@ -388,9 +410,10 @@
         {
           "type": "staticModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "recruit",
           "operation": "multiply",
-          "value": 0.5
+          "valueExact": 0.5
         }
       ]
     },
@@ -410,9 +433,10 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesCount",
           "operation": "add",
-          "value": 1
+          "valueExact": 1
         }
       ]
     },
@@ -432,9 +456,10 @@
         {
           "type": "propertyChange",
           "object": "Character.Faction.Leader",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 10
+          "valueExact": 10
         }
       ]
     },
@@ -454,8 +479,9 @@
         {
           "type": "flag",
           "object": "Character",
+          "objectId": "characterId",
           "property": "canLeadArmies",
-          "value": true
+          "valueExact": true
         }
       ]
     }

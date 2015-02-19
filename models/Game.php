@@ -410,8 +410,8 @@ class Game extends \JSONModel implements \GameInterface
     {
         $model = new Character( $this, $data );
         $this->lastCharacterId ++;
-        $model->setupAsNew( $this->lastCharacterId );
         $this->characters[] = $model;
+        $model->setupAsNew( $this->lastCharacterId );
 
         $this->save();
 

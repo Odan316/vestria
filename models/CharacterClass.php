@@ -51,14 +51,14 @@ class CharacterClass extends \JSONModel
     }
 
     /**
-     * @param $character
+     * @param Character $character
      *
      * @return void
      */
     public function applySetupEffects($character)
     {
         foreach($this->setupEffects as $effect) {
-            $effect->apply($game, []);
+            $effect->apply($character->getGame(), ["characterId" => $character->getId()]);
         }
     }
 }

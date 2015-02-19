@@ -19,7 +19,8 @@ class Effect extends \JSONModel
     protected $property;
     /** @var string */
     protected $operation;
-    /** @var mixed */
+    /** @deprecated
+     * @var mixed */
     protected $value;
     /** @var string */
     protected $valueParameter;

@@ -86,7 +86,7 @@ class CharacterTrait extends \JSONModel {
     public function applySetupEffects($character)
     {
         foreach($this->setupEffects as $effect) {
-            $effect->apply($character);
+            $effect->apply($character->getGame(), ["characterId" => $character->getId()]);
         }
     }
 
