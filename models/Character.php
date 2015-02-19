@@ -116,7 +116,7 @@ class Character extends \JSONModel implements WithFlags
     }
 
     /**
-     * @param int $factionId
+     * @param null|int $factionId
      *
      * @return Character
      */

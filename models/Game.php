@@ -444,10 +444,13 @@ class Game extends \JSONModel implements \GameInterface
      */
     public function createFaction( $data )
     {
-        $model = new Faction( $this, $data );
+        $data["id"] = $this->lastFactionId;
         $this->lastFactionId ++;
-        $model->setupAsNew( $this->lastFactionId );
+
+        $model = new Faction( $this, $data );
+        $model->setupAsNew();
         $this->factions[] = $model;
+
         $this->save();
 
         return $model;
@@ -468,6 +471,25 @@ class Game extends \JSONModel implements \GameInterface
             return $this->save();
         }
         return false;
+    }
+
+    /**
+     * Находит существующую фракцию и удаляет ее и чистит связанные с ней объекты
+     *
+     * @param int $id
+     */
+    public function destroyFaction( $id )
+    {
+        foreach($this->factions as $key => $faction) {
+            if($faction->getId() == $id)
+                unset($this->factions[$key]);
+        }
+        foreach($this->getCharacters(["factionId" => $id]) as $character) {
+            $character->setFactionId(null);
+        }
+        foreach($this->getProvinces(["ownerId" => $id]) as $province) {
+            $province->setOwnerId(null);
+        }
     }
 
     /**

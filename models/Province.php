@@ -87,7 +87,7 @@ class Province extends \JSONModel
     }
 
     /**
-     * @param int $factionId
+     * @param null|int $factionId
      *
      * @return Province
      */

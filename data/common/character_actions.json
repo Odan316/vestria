@@ -153,9 +153,10 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "leaderId",
           "property": "ambitionId",
-          "operation": "parameter",
-          "value": "ambitionId"
+          "operation": "set",
+          "valueParameter": "ambitionId"
         }
       ]
     },
@@ -183,9 +184,7 @@
         {
           "type": "destroyObject",
           "object": "Faction",
-          "property": "id",
-          "operation": "parameter",
-          "value": "factionId"
+          "valueParameter": "factionId"
         }
       ]
     },

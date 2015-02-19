@@ -79,8 +79,8 @@ class TurnController extends VesController
             }
 
         }
-        \CVarDumper::dump(json_encode($this->game), 3, 1);
-        die();
+        //\CVarDumper::dump(json_encode($this->game), 3, 1);
+        //die();
     }
 
     /**

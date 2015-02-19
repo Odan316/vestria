@@ -111,13 +111,10 @@ class Faction extends \JSONModel
     /**
      * Задает дефолтные параметры для персонажа
      *
-     * @param int $id
-     *
      * @return Faction
      */
-    public function setupAsNew( $id )
+    public function setupAsNew( )
     {
-        $this->id = $id;
         return $this;
     }
 

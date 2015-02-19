@@ -81,6 +81,13 @@ class Effect extends \JSONModel
                         break;
                 }
                 break;
+            case "destroyObject":
+                switch($this->object){
+                    case "Faction":
+                        $this->destroyFaction($game);
+                        break;
+                }
+                break;
             default :
                 break;
         }
@@ -113,14 +120,20 @@ class Effect extends \JSONModel
      */
     private function createFaction($game)
     {
-        $model = $game->createFaction(
+        $game->createFaction(
             [
                 "name" => $this->getParameterValue("name"),
                 "leaderId" => $this->getParameterValue("leaderId"),
                 "color" => $this->getParameterValue("color")
             ]
         );
-        $character = $game->getCharacter($this->getParameterValue("leaderId"));
-        $character->setFactionId($model->getId());
+    }
+
+    /**
+     * @param Game $game
+     */
+    private function destroyFaction($game)
+    {
+        $game->destroyFaction($this->getParameterValue("factionId"));
     }
 }
