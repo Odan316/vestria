@@ -34,7 +34,14 @@ class Effect extends \JSONModel
     private $parameters = [];
 
     /**
-     * TODO: Value
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * @param Game $game
      * @param [] $parameters
      *
@@ -88,6 +95,9 @@ class Effect extends \JSONModel
                         break;
                 }
                 break;
+            case "factionRequest":
+                $this->makeFactionRequest($game);
+                break;
             default :
                 break;
         }
@@ -135,5 +145,22 @@ class Effect extends \JSONModel
     private function destroyFaction($game)
     {
         $game->destroyFaction($this->getParameterValue("factionId"));
+    }
+
+    /**
+     * @param Game $game
+     */
+    private function makeFactionRequest($game)
+    {
+        $factionId = $this->getParameterValue("factionId");
+        $characterId = $this->getParameterValue("characterId");
+        $leaderPositions = $game->getFaction($factionId)->getLeader()->getRequest()->getPositions();
+        foreach($leaderPositions as $position){
+            if($position->checkFactionRequestAccept($characterId)){
+                $character = $game->getCharacter($characterId);
+                $character->setFactionId($factionId);
+                break;
+            }
+        }
     }
 }

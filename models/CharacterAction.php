@@ -112,6 +112,26 @@ class CharacterAction extends \JSONModel
     }
 
     /**
+     * @param int $characterId
+     * @param [] $parameters
+     *
+     * @return bool
+     */
+    public function checkFactionRequestAccept($characterId, $parameters)
+    {
+        foreach($this->effects as $effect){
+            if($effect->getType() == "factionRequestAccept"
+               && isset($parameters["characterId"])
+               && $parameters["characterId"] == $characterId
+            )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @inheritdoc
      */
     public function jsonSerialize()

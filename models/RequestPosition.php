@@ -95,8 +95,21 @@ class RequestPosition extends \JSONModel
         ];
     }
 
+    /**
+     *
+     */
     public function apply()
     {
         $this->getAction()->applyEffects($this->getRequest()->getCharacter()->getGame(), $this->parameters);
+    }
+
+    /**
+     * @param int $characterId
+     *
+     * @return bool
+     */
+    public function checkFactionRequestAccept($characterId)
+    {
+        return $this->getAction()->checkFactionRequestAccept($characterId, $this->parameters);
     }
 }

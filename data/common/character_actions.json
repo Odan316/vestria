@@ -214,6 +214,11 @@
       ],
       "parameters": [
         {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        },
+        {
           "type": "objectsSelect",
           "name": "factionId",
           "object": "Faction",
