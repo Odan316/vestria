@@ -279,10 +279,21 @@
           "value": "Character.id"
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
-          "type": "factionRequestAccept"
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "factionId",
+          "operation": "set",
+          "valueExact": null
         }
       ]
     },
@@ -313,9 +324,9 @@
           "type": "propertyChange",
           "object": "Character",
           "objectId": "characterId",
-          "property": "provinceId",
-          "operation": "parameter",
-          "value": null
+          "property": "factionId",
+          "operation": "set",
+          "valueExact": null
         }
       ]
     },
@@ -332,21 +343,29 @@
           "value": 0
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "turnModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "value": 0.5
+          "valueExact": 0.5
         },
         {
-          "type": "staticModifier",
+          "type": "persistModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "value": -0.1
+          "valueExact": 0.1
         }
       ]
     },
@@ -363,18 +382,26 @@
           "value": 0
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "turnModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
           "value": -1
         },
         {
-          "type": "staticModifier",
+          "type": "persistModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
           "value": 0.05

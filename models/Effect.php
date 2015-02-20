@@ -1,6 +1,7 @@
 <?php
 namespace diplomacy\modules\vestria\models;
 
+use diplomacy\modules\vestria\components\WithModifiers;
 use diplomacy\modules\vestria\components\WithFlags;
 /**
  * Class Effect
@@ -80,6 +81,32 @@ class Effect extends \JSONModel
             case "flag":
                 /** @var WithFlags $model */
                 $model->setFlag($this->property, $this->getValue());
+                break;
+            case "turnModifier":
+            case "persistModifier":
+                switch ($this->type){
+                    case "turnModifier":
+                        $type = Modifier::TYPE_TURN;
+                        break;
+                    case "countdownModifier":
+                        $type = Modifier::TYPE_COUNTDOWN;
+                        break;
+                    case "persistModifier":
+                        $type = Modifier::TYPE_PERSIST;
+                        break;
+                    default:
+                        $type = 0;
+                        break;
+                }
+                $data = [
+                    "type" => $type,
+                    "name" => $this->property,
+                    "operation" => $this->operation,
+                    "value" => $this->getValue()
+                ];
+                /** @var WithModifiers $model */
+                $modifier = new Modifier($data);
+                $model->setModifier($modifier);
                 break;
             case "createObject":
                 switch($this->object){

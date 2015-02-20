@@ -2,12 +2,13 @@
 namespace diplomacy\modules\vestria\models;
 
 use diplomacy\modules\vestria\components\WithFlags;
+use diplomacy\modules\vestria\components\WithModifiers;
 /**
  * Class Character
  *
  * Класс "Персонаж"
  */
-class Character extends \JSONModel implements WithFlags
+class Character extends \JSONModel implements WithFlags, WithModifiers
 {
     /** @var int */
     protected $id;
@@ -37,6 +38,8 @@ class Character extends \JSONModel implements WithFlags
     protected $armyId;
     /** @var [] */
     protected $flags = [];
+    /** @var Modifier[] */
+    protected $modifiers = [];
 
     /** @var Game */
     private $game;
@@ -66,6 +69,12 @@ class Character extends \JSONModel implements WithFlags
     public function __construct( $game, $data = [ ] )
     {
         $this->game = $game;
+        if (isset( $data['modifiers'] )) {
+            foreach ($data['modifiers'] as $modifierData) {
+                $this->modifiers[] = new Modifier( $modifierData );
+            }
+            unset( $data['modifiers'] );
+        }
         parent::__construct( $data );
     }
 
@@ -325,6 +334,14 @@ class Character extends \JSONModel implements WithFlags
     }
 
     /**
+     * @inheritdoc
+     */
+    public function setModifier($modifier)
+    {
+        $this->modifiers[] = $modifier;
+    }
+
+    /**
      * @return Game
      */
     public function getGame()
@@ -465,7 +482,8 @@ class Character extends \JSONModel implements WithFlags
             "estatesCount"   => $this->estatesCount,
             "factoriesCount" => $this->factoriesCount,
             "armyId"         => $this->armyId,
-            "flags"          => $this->flags
+            "flags"          => $this->flags,
+            "modifiers"      => $this->modifiers
         ];
     }
 }
