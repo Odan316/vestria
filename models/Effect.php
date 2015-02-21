@@ -20,9 +20,6 @@ class Effect extends \JSONModel
     protected $property;
     /** @var string */
     protected $operation;
-    /** @deprecated
-     * @var mixed */
-    protected $value;
     /** @var string */
     protected $valueParameter;
     /** @var string */
@@ -76,9 +73,6 @@ class Effect extends \JSONModel
                             $newValue = $propertyValue + $this->getValue();
                             break;
                         case "subtract":
-                            $newValue = $propertyValue - $this->getValue();
-                            break;
-                        case "takeAway":
                             $newValue = $propertyValue - $this->getValue();
                             break;
                         default :

@@ -77,7 +77,7 @@
           "object": "Character",
           "objectId": "characterIdFrom",
           "property": "cash",
-          "operation": "takeAway",
+          "operation": "subtract",
           "valueParameter": "amount"
         },
         {
@@ -763,7 +763,7 @@
           "objectId": "characterId",
           "property": "factoriesCount",
           "operation": "subtract",
-          "value": "amount"
+          "valueParameter": "amount"
         },
         {
           "type": "propertyChange",
@@ -831,7 +831,7 @@
     },
     {
       "id": 21,
-      "name": "Агитация",
+      "name": "Агитация  !!TODO!!",
       "type": 1,
       "conditions": [
         {
@@ -883,8 +883,13 @@
       ],
       "parameters": [
         {
+          "type": "hiddenValue",
+          "name": "characterIdWho",
+          "value": "Character.id"
+        },
+        {
           "type": "objectsSelect",
-          "name": "characterId",
+          "name": "characterIdWhom",
           "object": "Character",
           "filters": ["other", "otherFaction"],
           "label": "Кого :"
@@ -894,17 +899,18 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterIdWho",
           "property": "population",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         },
         {
           "type": "propertyChange",
           "object": "Character",
-          "objectId": "characterId",
+          "objectId": "characterIdWhom",
           "property": "popularity",
           "operation": "add",
-          "value": -10
+          "valueExact": -10
         }
       ]
     },
@@ -921,27 +927,44 @@
           "value": [4, 5]
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "propertyChange",
           "object": "Character",
-          "property": "population",
+          "objectId": "characterId",
+          "property": "cash",
           "operation": "add",
-          "value": -5
+          "valueCalculate": {
+            "multiply": {
+              "valueExact": 0.2,
+              "valueProperty": {
+                "object": "Character",
+                "objectId": "characterId",
+                "property": "popularity"
+              }
+            }
+          }
         },
         {
           "type": "propertyChange",
           "object": "Character",
-          "property": "cash",
-          "operation": "add",
-          "value": 40
+          "objectId": "characterId",
+          "property": "population",
+          "operation": "subtract",
+          "valueExact": 5
         }
       ]
     },
     {
       "id": 24,
-      "name": "Разжигание фанатизма",
+      "name": "Разжигание фанатизма !!TODO!!",
       "type": 1,
       "conditions": [
         {
@@ -952,14 +975,21 @@
           "value": [5]
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "propertyChange",
           "object": "Character.Faction.Leader",
+          "objectId": "characterId",
           "property": "population",
           "operation": "add",
-          "value": 15
+          "valueExact": 15
         }
       ]
     },
@@ -991,14 +1021,14 @@
           "object": "Character",
           "objectId": "characterId",
           "property": "popularity",
-          "operation": "add",
-          "value": -15
+          "operation": "subtract",
+          "valueExact": 15
         }
       ]
     },
     {
       "id": 26,
-      "name": "Создать армию",
+      "name": "Создать армию !!TODO!!",
       "type": 1,
       "conditions": [
         {
@@ -1022,19 +1052,52 @@
         {
           "type": "propertyValue",
           "object": "Character",
-          "property": "classId",
-          "is": "in",
-          "value": [6]
+          "property": "recruits",
+          "is": "moreThan",
+          "value": 0
         }
       ],
       "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterIdFrom",
+          "value": "Character.id"
+        },
+        {
+          "type": "objectsSelect",
+          "name": "characterIdTo",
+          "object": "Character",
+          "filters": ["other"],
+          "label": "Кому :"
+        },
+        {
+          "type": "exactValue",
+          "name": "amount",
+          "label": "Сколько :"
+        }
       ],
       "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterIdFrom",
+          "property": "recruits",
+          "operation": "subtract",
+          "valueParameter": "amount"
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterIdTo",
+          "property": "recruits",
+          "operation": "add",
+          "valueParameter": "amount"
+        }
       ]
     },
     {
       "id": 28,
-      "name": "Назначить на должность",
+      "name": "Назначить на должность !!TODO!!",
       "type": 1,
       "conditions": [
         {
@@ -1068,13 +1131,13 @@
           "objectId": "characterId",
           "property": "appointmentId",
           "operation": "parameter",
-          "value": "appointmentId"
+          "valueExact": "appointmentId"
         }
       ]
     },
     {
       "id": 29,
-      "name": "Снять с должности",
+      "name": "Снять с должности !!TODO!!",
       "type": 1,
       "conditions": [
         {
@@ -1101,7 +1164,7 @@
           "objectId": "characterId",
           "property": "appointmentId",
           "operation": "set",
-          "value": 0
+          "valueExact": 0
         }
       ]
     }
