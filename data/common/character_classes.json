@@ -70,6 +70,14 @@
           "property": "popularity",
           "operation": "add",
           "valueExact": 30
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "recruits",
+          "operation": "add",
+          "valueExact": 20
         }
       ]
     },

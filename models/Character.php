@@ -25,9 +25,11 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
     /** @var int */
     protected $ambitionId;
     /** @var int */
-    protected $popularity;
+    protected $popularity = 0;
     /** @var int */
-    protected $cash;
+    protected $cash = 0;
+    /** @var int */
+    protected $recruits = 0;
     /** @var int */
     protected $provinceId;
     /** @var int */
@@ -227,6 +229,25 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
     public function setCash( $cash )
     {
         $this->cash = $cash;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRecruits()
+    {
+        return $this->recruits;
+    }
+
+    /**
+     * @param int $recruits
+     *
+     * @return Character
+     */
+    public function setRecruits( $recruits )
+    {
+        $this->recruits = $recruits;
         return $this;
     }
 
@@ -458,6 +479,7 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
         $this->id         = $id;
         $this->cash       = 50;
         $this->popularity = 20;
+        $this->recruits     = 0;
         $this->getClass()->applySetupEffects($this);
         $this->getTrait()->applySetupEffects($this);
         return $this;
@@ -478,6 +500,7 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
             "traitId"        => $this->traitId,
             "popularity"     => $this->popularity,
             "cash"           => $this->cash,
+            "recruits"       => $this->recruits,
             "provinceId"     => $this->provinceId,
             "estatesCount"   => $this->estatesCount,
             "factoriesCount" => $this->factoriesCount,

@@ -27,12 +27,18 @@ class Effect extends \JSONModel
     protected $valueParameter;
     /** @var string */
     protected $valueExact;
+    /** @var [] */
+    protected $valueCalculate;
 
     /**
      * Используется при применении эффекта, что бы не передавать параметры во все функции внутри одного класса
      * @var []
      */
     private $parameters = [];
+    /**
+     * @var Game
+     */
+    private $game;
 
     /**
      * @return string
@@ -50,8 +56,9 @@ class Effect extends \JSONModel
      */
     public function apply($game, $parameters)
     {
+        $this->game = $game;
         $this->parameters = $parameters;
-        $model = $game->getObject($this->object, $this->getParameterValue($this->objectId));
+        $model = $this->game->getObject($this->object, $this->getParameterValue($this->objectId));
         switch ($this->type) {
             // Проверка на значение поля объекта
             case "propertyChange":
@@ -111,19 +118,19 @@ class Effect extends \JSONModel
             case "createObject":
                 switch($this->object){
                     case "Faction":
-                        $this->createFaction($game);
+                        $this->createFaction();
                         break;
                 }
                 break;
             case "destroyObject":
                 switch($this->object){
                     case "Faction":
-                        $this->destroyFaction($game);
+                        $this->destroyFaction();
                         break;
                 }
                 break;
             case "factionRequest":
-                $this->makeFactionRequest($game);
+                $this->makeFactionRequest();
                 break;
             default :
                 break;
@@ -131,19 +138,54 @@ class Effect extends \JSONModel
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     private function getValue()
     {
-        if (!empty($this->valueExact)){
-            return $this->valueExact;
+        if(!empty($this->valueCalculate)){
+            return $this->getValueByType("valueCalculate", $this->valueCalculate);
+        } elseif (!empty($this->valueExact)){
+            return $this->getValueByType("valueExact", $this->valueExact);
         } elseif(!empty($this->valueParameter)){
-            return $this->getParameterValue($this->valueParameter);
+            return $this->getValueByType("valueParameter", $this->valueParameter);
         } else  {
-            return null;
+            return 0;
         }
     }
 
+    /**
+     * @param $type
+     * @param $valueExpr
+     *
+     * @return int
+     */
+    private function getValueByType($type, $valueExpr)
+    {
+        switch($type){
+            case "valueExact":
+                return $valueExpr;
+                break;
+            case "valueParameter":
+                return $this->getParameterValue($this->valueParameter);
+                break;
+            case "valueCalculate":
+                return $this->calculateValue($this->valueCalculate);
+                break;
+            case "valueProperty":
+                $model = $this->game->getObject($valueExpr["object"], $this->getParameterValue($valueExpr["objectId"]));
+                return call_user_func( [ $model, "get" . $valueExpr["property"] ] );
+                break;
+            default:
+                return (int)$valueExpr;
+                break;
+        }
+    }
+
+    /**
+     * @param string $parameterName
+     *
+     * @return int
+     */
     protected function getParameterValue($parameterName)
     {
         if(isset($this->parameters[$parameterName]))
@@ -153,11 +195,46 @@ class Effect extends \JSONModel
     }
 
     /**
-     * @param Game $game
+     * @param [] $calculateExpr
+     *
+     * @return int
      */
-    private function createFaction($game)
+    protected function calculateValue($calculateExpr = [])
     {
-        $game->createFaction(
+        $result = 0;
+        switch(array_keys($calculateExpr)[0]){
+            case "sum":
+                foreach($calculateExpr["sum"] as $paramName => $paramExpr){
+                    $result += $this->getValueByType($paramName, $paramExpr);
+                }
+                break;
+            case "subtract":
+                $arg1 = $this->getValueByType(array_keys($calculateExpr["subtract"])[0], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[0]]);
+                $arg2 = $this->getValueByType(array_keys($calculateExpr["subtract"])[1], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[1]]);
+                $result = $arg1 - $arg2;
+                break;
+            case "multiply":
+                $result = 1;
+                foreach($calculateExpr["multiply"] as $paramName => $paramExpr){
+                    $result *= $this->getValueByType($paramName, $paramExpr);
+                }
+                break;
+            case "divide":
+                $arg1 = $this->getValueByType(array_keys($calculateExpr["subtract"])[0], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[0]]);
+                $arg2 = $this->getValueByType(array_keys($calculateExpr["subtract"])[1], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[1]]);
+                $result = $arg1 - $arg2;
+                break;
+            default:
+                break;
+        }
+        return $result;
+    }
+
+    /**
+     */
+    private function createFaction()
+    {
+        $this->game->createFaction(
             [
                 "name" => $this->getParameterValue("name"),
                 "leaderId" => $this->getParameterValue("leaderId"),
@@ -167,24 +244,22 @@ class Effect extends \JSONModel
     }
 
     /**
-     * @param Game $game
      */
-    private function destroyFaction($game)
+    private function destroyFaction()
     {
-        $game->destroyFaction($this->getParameterValue("factionId"));
+        $this->game->destroyFaction($this->getParameterValue("factionId"));
     }
 
     /**
-     * @param Game $game
      */
-    private function makeFactionRequest($game)
+    private function makeFactionRequest()
     {
         $factionId = $this->getParameterValue("factionId");
         $characterId = $this->getParameterValue("characterId");
-        $leaderPositions = $game->getFaction($factionId)->getLeader()->getRequest()->getPositions();
+        $leaderPositions = $this->game->getFaction($factionId)->getLeader()->getRequest()->getPositions();
         foreach($leaderPositions as $position){
             if($position->checkFactionRequestAccept($characterId)){
-                $character = $game->getCharacter($characterId);
+                $character = $this->game->getCharacter($characterId);
                 $character->setFactionId($factionId);
                 break;
             }

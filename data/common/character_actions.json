@@ -365,7 +365,7 @@
           "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "valueExact": 0.1
+          "valueExact": -0.1
         }
       ]
     },
@@ -396,7 +396,7 @@
           "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "value": -1
+          "valueExact": -1
         },
         {
           "type": "persistModifier",
@@ -404,7 +404,7 @@
           "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "value": 0.05
+          "valueExact": 0.05
         }
       ]
     },
@@ -421,21 +421,29 @@
           "value": 0
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "turnModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesIncome",
           "operation": "multiply",
-          "value": -0.5
+          "valueExact": -0.5
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 10
+          "valueExact": 10
         }
       ]
     },
@@ -452,21 +460,38 @@
           "value": 0
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": -5
+          "valueExact": -5
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "recruits",
           "operation": "add",
-          "value": 50
+          "valueCalculate": {
+            "multiply": {
+              "valueExact": 10,
+              "valueProperty": {
+                "object": "Character",
+                "objectId": "characterId",
+                "property": "estatesCount"
+              }
+            }
+          }
         }
       ]
     },
