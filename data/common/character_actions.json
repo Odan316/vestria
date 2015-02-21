@@ -508,21 +508,29 @@
           "value": [1]
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesCount",
           "operation": "add",
-          "value": 1
+          "valueExact": 1
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "cash",
           "operation": "add",
-          "value": -100
+          "valueExact": -100
         }
       ]
     },
@@ -541,8 +549,13 @@
       ],
       "parameters": [
         {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        },
+        {
           "type": "exactValue",
-          "name": "count",
+          "name": "amount",
           "label": "Сколько :"
         }
       ],
@@ -550,9 +563,23 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "estatesCount",
+          "operation": "subtract",
+          "valueParameter": "amount"
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "cash",
           "operation": "add",
-          "value": "-count"
+          "valueCalculate": {
+            "multiply": {
+              "valueExact": 50,
+              "valueParameter": "count"
+            }
+          }
         }
       ]
     },
@@ -569,58 +596,46 @@
           "value": [2, 3, 4, 5]
         }
       ],
-      "parameters": [],
-      "effects": [
+      "parameters": [
         {
-          "type": "propertyChange",
-          "object": "Character",
-          "property": "popularity",
-          "operation": "add",
-          "value": -5
-        },
-        {
-          "type": "propertyChange",
-          "object": "Character",
-          "property": "recruits",
-          "operation": "add",
-          "value": 20
-        }
-      ]
-    },
-    {
-      "id": 16,
-      "name": "Бороться с преступностью",
-      "type": 1,
-      "conditions": [
-        {
-          "type": "propertyValue",
-          "object": "Character",
-          "property": "armyId",
-          "is": "notEmpty"
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
         }
       ],
-      "parameters": [],
       "effects": [
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
-          "operation": "add",
-          "value": 5
+          "operation": "subtract",
+          "valueExact": 5
         },
         {
           "type": "propertyChange",
-          "object": "Character.Province",
-          "property": "criminal",
-          "operation": "add",
-          "value": -1
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "cash",
+          "operation": "subtract",
+          "valueExact": 10
         },
         {
           "type": "propertyChange",
-          "object": "Character.Army",
-          "property": "number",
-          "operation": "calculate",
-          "value": 0
+          "object": "Character",
+          "objectId": "characterId",
+          "property": "recruits",
+          "operation": "add",
+          "valueCalculate": {
+            "multiply": {
+              "valueExact": 1,
+              "valueProperty": {
+                "object": "Character",
+                "objectId": "characterId",
+                "property": "popularity"
+              }
+            }
+          }
         }
       ]
     },
@@ -644,21 +659,29 @@
           "value": 0
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "turnModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "factoriesIncome",
           "operation": "multiply",
-          "value": -0.5
+          "valueExact": -0.5
         },
         {
-          "type": "staticModifier",
+          "type": "persistModifier",
           "object": "Character",
+          "objectId": "characterId",
           "property": "factoriesIncome",
           "operation": "multiply",
-          "value": 0.05
+          "valueExact": 0.05
         }
       ]
     },
@@ -682,21 +705,29 @@
           "value": 0
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "factoriesCount",
           "operation": "add",
-          "value": 1
+          "valueExact": 1
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "cash",
-          "operation": "add",
-          "value": -50
+          "operation": "subtract",
+          "valueExact": 50
         }
       ]
     },
@@ -715,8 +746,13 @@
       ],
       "parameters": [
         {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        },
+        {
           "type": "exactValue",
-          "name": "count",
+          "name": "amount",
           "label": "Сколько :"
         }
       ],
@@ -724,16 +760,23 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "factoriesCount",
-          "operation": "add",
-          "value": "-count"
+          "operation": "subtract",
+          "value": "amount"
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "cash",
           "operation": "add",
-          "value": 70
+          "valueCalculate": {
+            "multiply": {
+              "valueExact": 70,
+              "valueParameter": "amount"
+            }
+          }
         }
       ]
     },
@@ -752,6 +795,11 @@
       ],
       "parameters": [
         {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        },
+        {
           "type": "exactValue",
           "name": "count",
           "label": "Сколько :"
@@ -761,16 +809,23 @@
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "cash",
-          "operation": "add",
-          "value": "-count"
+          "operation": "subtract ",
+          "valueParameter": "amount"
         },
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "popularity",
-          "operation": "calculate",
-          "value": "count*0.2"
+          "operation": "add",
+          "valueCalculate": {
+            "multiply": {
+              "valueExact": 0.2,
+              "valueParameter": "amount"
+            }
+          }
         }
       ]
     },
@@ -787,21 +842,29 @@
           "value": [4]
         }
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "characterId",
+          "value": "Character.id"
+        }
+      ],
       "effects": [
         {
           "type": "propertyChange",
           "object": "Character",
+          "objectId": "characterId",
           "property": "population",
           "operation": "add",
-          "value": 10
+          "valueExact": 10
         },
         {
           "type": "propertyChange",
           "object": "Character.Faction.Leader",
+          "objectId": "characterId",
           "property": "popularity",
           "operation": "add",
-          "value": 5
+          "valueExact": 5
         }
       ]
     },

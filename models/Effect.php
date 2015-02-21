@@ -75,6 +75,9 @@ class Effect extends \JSONModel
                         case "add":
                             $newValue = $propertyValue + $this->getValue();
                             break;
+                        case "subtract":
+                            $newValue = $propertyValue - $this->getValue();
+                            break;
                         case "takeAway":
                             $newValue = $propertyValue - $this->getValue();
                             break;
@@ -216,13 +219,13 @@ class Effect extends \JSONModel
             case "multiply":
                 $result = 1;
                 foreach($calculateExpr["multiply"] as $paramName => $paramExpr){
-                    $result *= $this->getValueByType($paramName, $paramExpr);
+                    $result = round($result * $this->getValueByType($paramName, $paramExpr));
                 }
                 break;
             case "divide":
                 $arg1 = $this->getValueByType(array_keys($calculateExpr["subtract"])[0], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[0]]);
                 $arg2 = $this->getValueByType(array_keys($calculateExpr["subtract"])[1], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[1]]);
-                $result = $arg1 - $arg2;
+                $result = round($arg1 / $arg2);
                 break;
             default:
                 break;
