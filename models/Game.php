@@ -587,30 +587,23 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param string $objectName
+     * @param string $objAlias
      * @param string $objectId
      *
      * @return \JSONModel
      */
-    public function getObject($objectName, $objectId)
+    public function getObject($objAlias, $objectId)
     {
-        switch($objectName){
-            case "Army":
-                return $this->getArmy($objectId);
-                break;
-            case "Character":
-                return $this->getCharacter($objectId);
-                break;
-            case "Faction":
-                return $this->getFaction($objectId);
-                break;
-            case "Province":
-                return $this->getProvince($objectId);
-                break;
-            default:
-                return null;
-                break;
-        }
+        if(!empty($objAlias)){
+            $objAlias = explode(".", $objAlias);
+            $model = call_user_func( [ $this, "get" . array_shift($objAlias) ], $objectId );
+            foreach($objAlias as $modelName){
+                $model = call_user_func( [ $model, "get" . $modelName ] );
+            }
+
+            return $model;
+        } else
+            return null;
     }
 
     /**
