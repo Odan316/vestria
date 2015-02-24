@@ -137,7 +137,7 @@
     },
     {
       "id": 6,
-      "name": "Связи зарубежом",
+      "name": "Связи за рубежом",
       "takeConditions": [
         {
           "type": "propertyValue",

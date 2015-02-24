@@ -23,6 +23,9 @@ $(function(){
     $(document).on('click', '.add_faction_gm, .edit_faction_gm', function(){
         var factionId = $(this).parents("p").data("faction-id");
         var data = getObjectData("Faction", factionId);
+        if(data == null){
+            refreshFactionLists(0, null);
+        }
         fillFactionForm(data);
         $('#edit_faction_gm').show();
     });
@@ -42,22 +45,26 @@ $(function(){
     });
 });
 
+/**
+ * Обновление списка персонажей
+ *
+ * @param {number} characterId
+ * @param {number} classId
+ * @param {number} traitId
+ * @param {number} ambitionId
+ */
 function refreshCharacterLists(characterId, classId, traitId, ambitionId)
 {
     var ambitions;
-    if(characterId != 0 && characterId != ""){
-        ambitions = getAmbitionsByCharacterId(characterId);
-    } else {
-        ambitions = getAmbitionsByClassId(classId);
-    }
-    createList("Character_ambitionId", ambitionId, ambitions);
-
     var traits;
-    if(characterId != 0 && characterId != ""){
+    if(!isEmpty(characterId)){
+        ambitions = getAmbitionsByCharacterId(characterId);
         traits = getTraitsByCharacterId(characterId);
     } else {
+        ambitions = getAmbitionsByClassId(classId);
         traits = getTraitsByClassId(classId);
     }
+    createList("Character_ambitionId", ambitionId, ambitions);
     createList("Character_traitId", traitId, traits);
 }
 function fillCharacterForm(playerData, characterData)
@@ -85,6 +92,23 @@ function readCharacterForm()
     return characterData;
 }
 
+
+/**
+ * Обновление списка персонажей
+ *
+ * @param {number} factionId
+ * @param {number} leaderId
+ */
+function refreshFactionLists(factionId, leaderId)
+{
+    var characters;
+    characters = getObjectsList("Characters", {"criteria": {"factionId": null}});
+    if(!isEmpty(factionId)){
+        var leader = getObjectData("Character", leaderId);
+        characters[leader.id] = leader.name;
+    }
+    createList("Faction_leaderId", leaderId, characters);
+}
 /**
  * @param {Object} factionData Faction info
  * @param {Number} factionData.id Faction ID
@@ -100,6 +124,7 @@ function fillFactionForm(factionData)
         $("#Faction_leaderId").val(factionData.leaderId);
         $("#Faction_color").val(factionData.color)
             .next(".colorPicker-picker").css({"background-color": factionData.color});
+        refreshFactionLists(factionData.id, factionData.leaderId);
     }
 }
 function readFactionForm()

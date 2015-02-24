@@ -25,6 +25,25 @@ class AjaxController extends VesController
         }
         parent::init();
     }
+
+    public function actionGetCharactersList()
+    {
+        $criteria = \Yii::app()->request->getPost( "criteria", [] );
+
+        $models = $this->game->getCharacters($criteria, 1);
+
+        echo json_encode( $models );
+    }
+
+    public function actionGetCharacterData()
+    {
+        $id = \Yii::app()->request->getPost( "id", 0 );
+
+        $character = $this->game->getCharacter( $id );
+
+        echo json_encode( $character );
+    }
+
     public function actionGetCharacterDataByPlayerId()
     {
         $playerId = \Yii::app()->request->getPost( "playerId", 0 );

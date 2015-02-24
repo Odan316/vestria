@@ -24,6 +24,12 @@ function getObjectsList(modelName, data)
     return list;
 }
 
+/**
+ *
+ * @param {string} className - i.e. "Character"
+ * @param {number} id - Object ID
+ * @returns {Object}
+ */
 function getObjectData(className, id) {
     var data = null;
     if (id) {
