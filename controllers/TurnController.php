@@ -1,6 +1,7 @@
 <?php
 namespace diplomacy\modules\vestria\controllers;
 
+use diplomacy\modules\vestria\components\ModelsFinder;
 use diplomacy\modules\vestria\components\VesController;
 use diplomacy\modules\vestria\models\CharacterAction;
 use diplomacy\modules\vestria\models\RequestPosition;
@@ -12,6 +13,10 @@ use diplomacy\modules\vestria\models\RequestPosition;
  */
 class TurnController extends VesController
 {
+
+    const ESTATES_BASE_INCOME = 50;
+    const FACTORIES_BASE_INCOME = 25;
+
     /**
      * Запуск обсчета хода
      */
@@ -29,19 +34,21 @@ class TurnController extends VesController
     {
         $this->preprocessTurn();
         // общие заявки
-        $this->applicateRequests([CharacterAction::TYPE_CHARACTERS]);
+        $this->applicateRequests([CharacterAction::PHASE_COMMON]);
+        // траты и набор войск
+        $this->applicateRequests([CharacterAction::PHASE_SPENDING]);
+        // движения армий и сражения
+        $this->applicateRequests([CharacterAction::PHASE_MANEUVRES]);
+        // проверка принадлежности провинций
+        $this->provinceCheck();
         // приход в бюджет
         $this->budgetCalculation();
-        // траты и набор войск
-        $this->applicateRequests([CharacterAction::TYPE_SPENDING]);
         // движения армий и сражения
-        $this->applicateRequests([CharacterAction::TYPE_MANEUVRES]);
+        $this->applicateRequests([CharacterAction::PHASE_MANEUVRES]);
 
         $this->checkAmbitions();
 
         $this->postprocessTurn();
-
-
     }
 
     private function preprocessTurn()
@@ -61,16 +68,16 @@ class TurnController extends VesController
 
     /**
      * Применение позиций заявок заданных типов
-     * @param int[] $types
+     * @param int[] $phases
      */
-    private function applicateRequests($types = [])
+    private function applicateRequests($phases = [])
     {
        // \CVarDumper::dump(json_encode($this->game), 3, 1);
         foreach($this->game->getCharacters() as $character) {
             $request = $this->game->getRequestByCharacterId($character->getId());
             $positions = [];
             if(is_object($request))
-                $positions = $request->getPositions(['action.type' => $types]);
+                $positions = $request->getPositions(['action.phase' => $phases]);
 
             /** @var RequestPosition $position */
             foreach($positions as $position){
@@ -86,6 +93,19 @@ class TurnController extends VesController
      * Расчет рутинных доходов и расходов бюджета
      */
     private function budgetCalculation()
+    {
+        foreach($this->game->getCharacters() as $character) {
+            $estatesModifier = $character->getModifier("estatesIncome");
+            $estatesIncome = $character->getEstatesCount() * self::ESTATES_BASE_INCOME * (1+$estatesModifier);
+            $factoriesModifier = $character->getModifier("factoriesIncome");
+            $factoriesIncome = $character->getFactoriesCount() * self::FACTORIES_BASE_INCOME * (1+$factoriesModifier);
+            //\CVarDumper::dump($character->getName()." e".$estatesIncome." em".$estatesModifier." f".$factoriesIncome, 1, 1);
+            $character->setCash($character->getCash() + $estatesIncome + $factoriesIncome);
+        }
+        //die();
+    }
+
+    private function provinceCheck()
     {
 
     }

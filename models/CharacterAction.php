@@ -7,9 +7,15 @@ namespace diplomacy\modules\vestria\models;
  */
 class CharacterAction extends \JSONModel
 {
-    const TYPE_CHARACTERS = 1;
-    const TYPE_SPENDING = 2;
-    const TYPE_MANEUVRES = 3;
+    const PHASE_COMMON = 1;
+    const PHASE_SPENDING = 2;
+    const PHASE_MANEUVRES = 3;
+    const PHASE_AFTER_MANEUVRES = 3;
+
+    const TYPE_COMMON = 1;
+    const TYPE_FACTION = 2;
+    const TYPE_CHARACTER = 3;
+    const TYPE_ARMY = 4;
 
     /** @var int */
     protected $id;
@@ -17,6 +23,8 @@ class CharacterAction extends \JSONModel
     protected $name;
     /** @var int */
     protected $type;
+    /** @var int */
+    protected $phase;
     /** @var Condition[] */
     protected $conditions = [];
     /** @var Parameter [] */
@@ -75,10 +83,32 @@ class CharacterAction extends \JSONModel
     }
 
     /**
+     * @return int
+     */
+    public function getPhase()
+    {
+        return $this->phase;
+    }
+
+    /**
      * @return Parameter[]
      */
-    public function getParameters(){
+    public function getParameters()
+    {
         return $this->parameters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTypes()
+    {
+        return [
+            self::TYPE_COMMON    => "Общие",
+            self::TYPE_CHARACTER => "Персонаж",
+            self::TYPE_FACTION   => "Фракция",
+            self::TYPE_ARMY      => "Армия"
+        ];
     }
 
     /**

@@ -20,6 +20,22 @@ class Modifier extends \JSONModel
     /** @var int|float */
     protected $value;
 
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
     public function jsonSerialize()
     {
         return [

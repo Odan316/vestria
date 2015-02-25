@@ -363,6 +363,24 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getModifier( $modifierName )
+    {
+        $modValue = 0;
+        // get characters modifiers
+        foreach($this->modifiers as $modifier){
+            if($modifier->getName() == $modifierName)
+                $modValue += $modifier->getValue();
+        }
+        $faction = $this->getFaction();
+        if(!empty($faction))
+            $modValue += $this->getFaction()->getModifier($modifierName);
+        return $modValue;
+    }
+
+
+    /**
      * @return Game
      */
     public function getGame()

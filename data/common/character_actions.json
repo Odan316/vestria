@@ -3,9 +3,16 @@
   "listed": 1,
   "info": {
     "types": {
-      "1": "TYPE_CHARACTERS",
-      "2": "TYPE_SPENDING",
-      "3": "TYPE_MANEUVRES"
+      "1": "TYPE_COMMON",
+      "2": "TYPE_FACTION",
+      "3": "TYPE_CHARACTER",
+      "4": "TYPE_ARMY"
+    },
+    "phases": {
+      "1": "PHASE_COMMON",
+      "2": "PHASE_SPENDING",
+      "3": "PHASE_MANEUVRES",
+      "4": "PHASE_AFTER_MANEUVRES"
     }
   },
   "elements": [
@@ -13,6 +20,7 @@
       "id": 1,
       "name": "Переехать в провинцию",
       "type": 1,
+      "phase": 1,
       "conditions": [],
       "parameters": [
         {
@@ -43,6 +51,7 @@
       "id": 2,
       "name": "Перевести деньги",
       "type": 1,
+      "phase": 2,
       "conditions": [
         {
           "type": "propertyValue",
@@ -93,7 +102,8 @@
     {
       "id": 3,
       "name": "Создать фракцию",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "or",
@@ -163,7 +173,8 @@
     {
       "id": 4,
       "name": "Распустить фракцию",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -191,7 +202,8 @@
     {
       "id": 5,
       "name": "Вступить во фракцию",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "or",
@@ -235,7 +247,8 @@
     {
       "id": 6,
       "name": "Принять во фракцию",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -263,7 +276,8 @@
     {
       "id": 7,
       "name": "Выйти из фракции",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -300,7 +314,8 @@
     {
       "id": 8,
       "name": "Изгнать из фракции",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -333,7 +348,8 @@
     {
       "id": 9,
       "name": "Собрать доп. подати",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -372,7 +388,8 @@
     {
       "id": 10,
       "name": "Пропустить сбор податей",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -411,7 +428,8 @@
     {
       "id": 11,
       "name": "Раздавать еду в городах",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -450,7 +468,8 @@
     {
       "id": 12,
       "name": "Призывать крестьян",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -498,7 +517,8 @@
     {
       "id": 13,
       "name": "Купить владение",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -537,7 +557,8 @@
     {
       "id": 14,
       "name": "Продать владение",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -586,7 +607,8 @@
     {
       "id": 15,
       "name": "Вербовать горожан",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -642,7 +664,8 @@
     {
       "id": 17,
       "name": "Развивать предприятия",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -688,7 +711,8 @@
     {
       "id": 18,
       "name": "Открыть предприятие",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -734,7 +758,8 @@
     {
       "id": 19,
       "name": "Продать предприятие",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -783,7 +808,8 @@
     {
       "id": 20,
       "name": "Благотворительность",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -832,7 +858,8 @@
     {
       "id": 21,
       "name": "Агитация",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -871,7 +898,8 @@
     {
       "id": 22,
       "name": "Очернение",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -917,7 +945,8 @@
     {
       "id": 23,
       "name": "Сбор пожертвований",
-      "type": 1,
+      "type": 3,
+      "phase": 4,
       "conditions": [
         {
           "type": "propertyValue",
@@ -965,7 +994,8 @@
     {
       "id": 24,
       "name": "Разжигание фанатизма",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -996,7 +1026,8 @@
     {
       "id": 25,
       "name": "Анафема",
-      "type": 1,
+      "type": 3,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1029,7 +1060,8 @@
     {
       "id": 26,
       "name": "Создать армию !!TODO!!",
-      "type": 1,
+      "type": 4,
+      "phase": 2,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1047,7 +1079,8 @@
     {
       "id": 27,
       "name": "Передать рекрутов",
-      "type": 1,
+      "type": 4,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1098,7 +1131,8 @@
     {
       "id": 28,
       "name": "Назначить на должность !!TODO!!",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1138,7 +1172,8 @@
     {
       "id": 29,
       "name": "Снять с должности !!TODO!!",
-      "type": 1,
+      "type": 2,
+      "phase": 1,
       "conditions": [
         {
           "type": "propertyValue",

@@ -1,11 +1,15 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
+use diplomacy\modules\vestria\components\WithFlags;
+use diplomacy\modules\vestria\components\WithModifiers;
+
 /**
  * Class Faction
  *
  * Класс фракции
  */
-class Faction extends \JSONModel
+class Faction extends \JSONModel implements WithFlags, WithModifiers
 {
     /** @var int */
     protected $id;
@@ -20,6 +24,11 @@ class Faction extends \JSONModel
     private $game;
     /** @var Character */
     private $leader;
+
+    /** @var [] */
+    private $flags = [];
+    /** @var Modifier[] */
+    private $modifiers = [];
 
     /**
      * @param Game $game
@@ -116,6 +125,47 @@ class Faction extends \JSONModel
     public function setupAsNew( )
     {
         return $this;
+    }
+    /**
+     * @param string $name
+     * @param bool $value
+     */
+    public function setFlag($name, $value)
+    {
+        $this->flags[$name] = $value;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasFlag($name)
+    {
+        return (isset($this->flags[$name]) && $this->flags[$name] == true);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setModifier($modifier)
+    {
+        $this->modifiers[] = $modifier;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getModifier( $modifierName )
+    {
+        $modValue = 0;
+        // get faction modifiers
+        foreach($this->modifiers as $modifier){
+            if($modifier->getName() == $modifierName)
+                $modValue += $modifier->getValue();
+        }
+
+        return $modValue;
     }
 
     /**

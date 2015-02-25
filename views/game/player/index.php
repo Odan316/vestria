@@ -23,11 +23,23 @@ $this->setPageTitle($this->getModule()->getTitle().' - Панель игрока
     <p>Популярность: <span><?= $character->getPopularity() ?></span></p>
     <p>Состояние: <span><?= $character->getCash() ?> Д</span></p>
     <p>Рекрутов: <span><?= $character->getRecruits() ?></span></p>
-    <?php if($character->getEstatesCount()) {?>
-        <p>Владений: <span><?= $character->getEstatesCount() ?></span></p>
+    <?php if ($character->getEstatesCount()) { ?>
+        <p>Владений: <span>
+                <?= $character->getEstatesCount() ?>
+                <?php if ($character->getModifier( "estatesIncome" ) > 0) { ?>
+                    (Мод.дохода: <?= ( 1 + $character->getModifier( "estatesIncome" ) ) * 100 ?>%)
+                <?php } ?>
+                </span>
+        </p>
     <?php } ?>
     <?php if($character->getFactoriesCount()) {?>
-        <p>Предприятий: <span><?= (string)$character->getFactoriesCount() ?></span></p>
+        <p>Предприятий: <span><?= (string)$character->getFactoriesCount() ?>
+                <?= $character->getEstatesCount() ?>
+                <?php if ($character->getModifier( "factoriesIncome" ) > 0) { ?>
+                    (Мод.дохода: <?= ( 1 + $character->getModifier( "factoriesIncome" ) ) * 100 ?>%)
+                <?php } ?>
+            </span>
+        </p>
     <?php } ?>
 </div>
 <div id="central_panel">

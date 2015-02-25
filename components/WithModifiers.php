@@ -11,4 +11,12 @@ interface WithModifiers {
      * @param Modifier $modifier
      */
     public function setModifier($modifier);
+
+    /**
+     * @param $modifierName
+     *
+     * @return float
+     */
+    public function getModifier($modifierName);
+
 }
