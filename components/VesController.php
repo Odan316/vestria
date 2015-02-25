@@ -72,7 +72,7 @@ class VesController extends \DiploController
         }
 
         $this->gameModel = \Games::model()
-                                ->with( 'master_user', 'players_users' )
+                                ->with( 'master_user' )
                                 ->findByPk( $gameId );
         if ( ! $this->gameModel) {
             $this->redirect( $this->createUrl( '/cabinet/no_such_game' ) );
