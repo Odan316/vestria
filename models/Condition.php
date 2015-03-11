@@ -2,6 +2,7 @@
 namespace diplomacy\modules\vestria\models;
 
 use diplomacy\modules\vestria\components\ModelsFinder;
+use diplomacy\modules\vestria\components\WithFlags;
 /**
  * Class Condition
  *
@@ -75,6 +76,11 @@ class Condition extends \JSONModel
                             break;
                     }
                 }
+                break;
+            case "hasFlag":
+                /** @var WithFlags $model */
+                $model = (new ModelsFinder($character->getGame()))->getObject( $character, $this->object);
+                $test = $model->hasFlag($this->property);
                 break;
             case "or":
                 $test = $this->testOr($character);

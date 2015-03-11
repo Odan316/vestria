@@ -13,6 +13,7 @@ use diplomacy\modules\vestria\models\Request;
 ?>
 <div id="right_panel" class="requests_list">
     <h2>Заявка</h2>
+    <form id="requests_form">
     <?php
     $i = 0;
     if ( ! empty( $request )) {
@@ -25,6 +26,7 @@ use diplomacy\modules\vestria\models\Request;
         <?php }
     } ?>
     <?= \CHtml::imageButton($this->getModule()->getAssetsBase()."/images/design/add.png", ["class" => "add_request_position"])?>
+    </form>
     <div class="clearfix"></div>
     <?php
     $this->widget( 'bootstrap.widgets.TbButton', [

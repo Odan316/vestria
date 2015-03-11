@@ -17,6 +17,10 @@ class Parameter extends \JSONModel
     protected $object;
     /** @var string[] */
     protected $filters;
+    /** @var int|[] */
+    protected $max;
+    /** @var int|[] */
+    protected $min;
     /** @var string */
     protected $label;
     /**
@@ -42,24 +46,31 @@ class Parameter extends \JSONModel
     public function getParameterCode( $character, $value)
     {
         $code = "";
+        $htmlOptions = [ 'class' => 'request_parameter'];
         switch ($this->type) {
             case "objectsSelect":
                 $objects = (new ModelsFinder($character->getGame()))->getObjects( $character, $this->object, $this->filters, true );
                 $code = \CHtml::dropDownList( $this->name, $value, \CHtml::listData( $objects, "id", "name" ),
-                    [ 'class' => 'request_parameter' ] );
+                    $htmlOptions );
                 break;
             case "exactValue":
-                $code = \CHtml::textField($this->name, $value, [ 'class' => 'request_parameter' ]);
+                if(!empty($this->max)){
+                    $htmlOptions["max"] = $this->getValue($character, $this->max);
+                }
+                if(!empty($this->min)){
+                    $htmlOptions["min"] = $this->getValue($character, $this->min);
+                }
+                $code = \CHtml::textField($this->name, $value, $htmlOptions);
                 break;
             case "hiddenValue":
                 $value = $this->getValue($character);
-                $code = \CHtml::hiddenField($this->name, $value, [ 'class' => 'request_parameter' ]);
+                $code = \CHtml::hiddenField($this->name, $value, $htmlOptions);
                 break;
             case "colorSelect":
                 $code = \Yii::app()->getController()->widget('ext.yii-colorpicker.ColorPicker', [
                     'name' => $this->name,
                     'value' => $value,
-                    'htmlOptions' => [ 'class' => 'request_parameter' ]
+                    'htmlOptions' => $htmlOptions
                 ], 1);
                 break;
             default:
@@ -73,18 +84,20 @@ class Parameter extends \JSONModel
 
     /**
      * @param Character|null $character
+     * @param string $value
      *
      * @return mixed
      */
-    protected function getValue($character = null)
+    protected function getValue($character = null, $value = null)
     {
-        if(strpos($this->value, ".") && $character != null){
-                $alias = explode(".", $this->value);
+        if(empty($value)) $value = $this->value;
+        if(strpos($value, ".") && $character != null){
+                $alias = explode(".", $value);
                 $property = array_pop($alias);
                 $model = (new ModelsFinder($character->getGame()))->getObject( $character, $alias[0]);
                 $value = call_user_func( [ $model, "get".$property ] );
                 return $value;
         } else
-            return 0;
+            return $value;
     }
 }

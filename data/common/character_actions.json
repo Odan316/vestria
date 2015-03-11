@@ -1064,16 +1064,50 @@
       "phase": 2,
       "conditions": [
         {
+          "type": "hasFlag",
+          "object": "Character",
+          "property": "canLeadArmies"
+        },
+        {
           "type": "propertyValue",
           "object": "Character",
-          "property": "classId",
-          "is": "in",
-          "value": [6]
+          "property": "recruits",
+          "is": "moreThan",
+          "value": 100
         }
       ],
       "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "officerId",
+          "value": "Character.id"
+        },
+        {
+          "type": "exactValue",
+          "name": "name",
+          "label": "Название :"
+        },
+        {
+          "type": "exactValue",
+          "name": "strength",
+          "label": "Численность :",
+          "min": 100,
+          "max": "Character.recruits"
+        }
       ],
       "effects": [
+        {
+          "type": "createObject",
+          "object": "Army"
+        },
+        {
+          "type": "propertyChange",
+          "object": "Character",
+          "objectId": "officerId",
+          "property": "recruits",
+          "operation": "subtract",
+          "valueParameter": "strength"
+        }
       ]
     },
     {

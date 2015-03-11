@@ -210,6 +210,13 @@ svg text {
 .request_params label span {
     margin-right: 10px;
 }
+.request_parameter{
+    width: 150px;
+}
+.request_parameter.error {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px red !important;
+    border-color: red !important;
+}
 
 /* Player setup */
 #new_character {

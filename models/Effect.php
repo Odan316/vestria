@@ -217,8 +217,8 @@ class Effect extends \JSONModel
                 }
                 break;
             case "divide":
-                $arg1 = $this->getValueByType(array_keys($calculateExpr["subtract"])[0], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[0]]);
-                $arg2 = $this->getValueByType(array_keys($calculateExpr["subtract"])[1], $calculateExpr["subtract"][array_keys($calculateExpr["subtract"])[1]]);
+                $arg1 = $this->getValueByType(array_keys($calculateExpr["divide"])[0], $calculateExpr["divide"][array_keys($calculateExpr["divide"])[0]]);
+                $arg2 = $this->getValueByType(array_keys($calculateExpr["divide"])[1], $calculateExpr["divide"][array_keys($calculateExpr["divide"])[1]]);
                 $result = round($arg1 / $arg2);
                 break;
             default:

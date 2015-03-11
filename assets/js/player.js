@@ -1,4 +1,19 @@
 $(function() {
+    jQuery.extend(jQuery.validator.messages, {
+        required: jQuery.validator.format(""),
+        max: jQuery.validator.format(""),
+        min: jQuery.validator.format("")
+    });
+    jQuery.validator.addClassRules("request_parameter", {
+        required: true
+    });
+    $(document).on("keyup", "input", function(){
+        $("#requests_form").validate().element(this);
+    });
+    $("#requests_form").submit(function(){
+        saveRequest();
+        return false;
+    });
     $(document).on('click', '#map_province_fill_4', function(){
         //console.log("FINE");
     });
@@ -22,8 +37,7 @@ $(function() {
         $(this).parents(".request_block").find(".request_params").html(paramsCode);
     });
     $(document).on('click', '.but_request_save', function(){
-        var data = getRequestData();
-        saveObject("Request", data);
+        saveRequest();
     });
 });
 
@@ -86,9 +100,20 @@ function deletePosition(id)
     }
 }
 
+function saveRequest()
+{
+    var validator = $("#requests_form").validate();
+    $(".request_parameter").each(function() {
+        validator.element(this);
+    });
+    if(!isEmpty(validator.numberOfInvalids())){
+        var data = getRequestData();
+        saveObject("Request", data);
+    }
+}
+
 function getRequestData()
 {
-
     var data = {
         'positions': []
     };

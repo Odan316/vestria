@@ -21,6 +21,7 @@ class AjaxController extends VesController
             $cs->scriptMap = [
                 'jquery.js' => false,
                 'common.js' => false,
+                'jquery.validate.min.js' => false,
             ];
         }
         parent::init();
