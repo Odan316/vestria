@@ -117,6 +117,9 @@ class Effect extends \JSONModel
                     case "Faction":
                         $this->createFaction();
                         break;
+                    case "Army":
+                        $this->createArmy();
+                        break;
                 }
                 break;
             case "destroyObject":
@@ -228,6 +231,7 @@ class Effect extends \JSONModel
     }
 
     /**
+     * Creates new Faction
      */
     private function createFaction()
     {
@@ -241,6 +245,7 @@ class Effect extends \JSONModel
     }
 
     /**
+     * Destroys faction
      */
     private function destroyFaction()
     {
@@ -248,6 +253,7 @@ class Effect extends \JSONModel
     }
 
     /**
+     * Checks if exist synchronous request and acceptation of faction entrance
      */
     private function makeFactionRequest()
     {
@@ -261,5 +267,19 @@ class Effect extends \JSONModel
                 break;
             }
         }
+    }
+
+    /**
+     * Creates new Army
+     */
+    private function createArmy()
+    {
+        $this->game->createArmy(
+            [
+                "name" => $this->getParameterValue("name"),
+                "officerId" => $this->getParameterValue("officerId"),
+                "strength" => $this->getParameterValue("strength")
+            ]
+        );
     }
 }

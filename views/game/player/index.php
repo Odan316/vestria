@@ -17,7 +17,16 @@ $this->setPageTitle($this->getModule()->getTitle().' - Панель игрока
     <p>Ход: <span><?= $this->game->getTurn(); ?></span></p>
     <h4><?= $character->getName(); ?> (<?= $character->getClass()->getName(); ?>)</h4>
     <p>Сейчас в: <span><?= $character->getProvince()->getName(); ?></span></p>
-    <p>Фракция: <span><?= ( $character->getFaction() ? $character->getFaction()->getName() : "Нет" ) ?></span></p>
+    <p>Фракция: <span>
+            <?php if( $character->getFaction()){
+                echo $character->getFaction()->getName();
+                if($character->getFaction()->getLeaderId() == $character->getId()){
+                    echo " ("."Лидер".")";
+                }
+            } else
+                echo "Нет";
+             ?>
+        </span></p>
     <p>Черта: <span><?= $character->getTrait()->getName() ?></span></p>
     <p>Амбиция: <span><?= $character->getAmbition()->getName() ?></span></p>
     <p>Популярность: <span><?= $character->getPopularity() ?></span></p>
@@ -38,6 +47,14 @@ $this->setPageTitle($this->getModule()->getTitle().' - Панель игрока
                 <?php if ($character->getModifier( "factoriesIncome" ) > 0) { ?>
                     (Мод.дохода: <?= ( 1 + $character->getModifier( "factoriesIncome" ) ) * 100 ?>%)
                 <?php } ?>
+            </span>
+        </p>
+    <?php } ?>
+    <?php if($character->getArmy()) {?>
+        <p>
+            Армия: <span>
+                <?= $character->getArmy()->getName(); ?>
+                (Чсл: <?= $character->getArmy()->getStrength(); ?> / М: <?= $character->getArmy()->getMorale(); ?> )
             </span>
         </p>
     <?php } ?>

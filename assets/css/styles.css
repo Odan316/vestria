@@ -28,6 +28,9 @@ body {
 h2 {
     text-align: center;
 }
+code {
+    display:block;
+}
 
 .modal_close {
     background-image: url('../images/design/close.png');

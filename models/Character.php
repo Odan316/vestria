@@ -337,11 +337,14 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
 
     /**
      * @param string $name
-     * @param bool $value
      */
-    public function setFlag($name, $value)
+    public function setFlag($name)
     {
-        $this->flags[$name] = $value;
+        foreach($this->flags as $key => $flagName){
+            if($flagName == $name)
+                return;
+        }
+        $this->flags[] = $name;
     }
 
     /**
@@ -351,7 +354,20 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function hasFlag($name)
     {
-        return (isset($this->flags[$name]) && $this->flags[$name] == true);
+        return in_array($name, $this->flags);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return void
+     */
+    public function removeFlag( $name )
+    {
+        foreach($this->flags as $key => $flagName){
+            if($flagName == $name)
+                unset($this->flags[$key]);
+        }
     }
 
     /**

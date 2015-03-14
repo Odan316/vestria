@@ -77,7 +77,8 @@
         {
           "type": "exactValue",
           "name": "amount",
-          "label": "Сколько :"
+          "label": "Сколько :",
+          "max": "Character.cash"
         }
       ],
       "effects": [
@@ -283,7 +284,7 @@
           "type": "propertyValue",
           "object": "Character",
           "property": "factionId",
-          "is": "notNull"
+          "is": "notEmpty"
         },
         {
           "type": "propertyValue",
@@ -577,7 +578,9 @@
         {
           "type": "exactValue",
           "name": "amount",
-          "label": "Сколько :"
+          "label": "Сколько :",
+          "min": 1,
+          "max": "Character.estatesCount"
         }
       ],
       "effects": [
@@ -778,7 +781,9 @@
         {
           "type": "exactValue",
           "name": "amount",
-          "label": "Сколько :"
+          "label": "Сколько :",
+          "min": 1,
+          "max": "Character.factoriesCount"
         }
       ],
       "effects": [
@@ -828,7 +833,9 @@
         {
           "type": "exactValue",
           "name": "count",
-          "label": "Сколько :"
+          "label": "Сколько :",
+          "min": 10,
+          "max": "Character.cash"
         }
       ],
       "effects": [
@@ -1059,7 +1066,7 @@
     },
     {
       "id": 26,
-      "name": "Создать армию !!TODO!!",
+      "name": "Создать армию",
       "type": 4,
       "phase": 2,
       "conditions": [
@@ -1074,6 +1081,12 @@
           "property": "recruits",
           "is": "moreThan",
           "value": 100
+        },
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "armyId",
+          "is": "empty"
         }
       ],
       "parameters": [
@@ -1140,7 +1153,9 @@
         {
           "type": "exactValue",
           "name": "amount",
-          "label": "Сколько :"
+          "label": "Сколько :",
+          "min": 10,
+          "max": "Character.recruits"
         }
       ],
       "effects": [
@@ -1159,6 +1174,44 @@
           "property": "recruits",
           "operation": "add",
           "valueParameter": "amount"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Передать армию",
+      "type": 4,
+      "phase": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "armyId",
+          "is": "notEmpty"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "armyId",
+          "value": "Character.armyId"
+        },
+        {
+          "type": "objectsSelect",
+          "name": "characterIdTo",
+          "object": "Character",
+          "filters": ["other", "sameFaction", "canLeadArmies"],
+          "label": "Кому :"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Army",
+          "objectId": "armyId",
+          "property": "officerId",
+          "operation": "set",
+          "valueParameter": "characterIdTo"
         }
       ]
     },

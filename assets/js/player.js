@@ -11,7 +11,6 @@ $(function() {
         $("#requests_form").validate().element(this);
     });
     $("#requests_form").submit(function(){
-        saveRequest();
         return false;
     });
     $(document).on('click', '#map_province_fill_4', function(){
@@ -106,7 +105,7 @@ function saveRequest()
     $(".request_parameter").each(function() {
         validator.element(this);
     });
-    if(!isEmpty(validator.numberOfInvalids())){
+    if(isEmpty(validator.numberOfInvalids())){
         var data = getRequestData();
         saveObject("Request", data);
     }

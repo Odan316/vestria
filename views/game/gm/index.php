@@ -1,7 +1,10 @@
 <?php
 use diplomacy\modules\vestria\controllers\GameController;
+
+use diplomacy\modules\vestria\models\Game;
 /**
  * @var $this GameController
+ * @var $game Game
  * @var $players Users[] Список игроков, с племенами
  * @var $classesList [] Список доступных классов для персонажей
  * @var $provincesList [] Список доступных провинций
@@ -18,7 +21,7 @@ $this->widget(
             [
                 'label'   => 'Ход',
                 'content' => $this->renderPartial( "gm/_turn",
-                    [], 1 ),
+                    ["game" => $game], 1 ),
                 'active'  => true
             ],
             [

@@ -36,6 +36,7 @@ class GameController extends VesController
             $ClientScript->registerScriptFile( $this->module->assetsBase . '/js/gm.js' );
 
             $this->render( 'gm/index', [
+                'game' => $this->game,
                 'players'     => $this->gameModel->players_users,
                 'classesList' => $this->game->getConfig()->getConfigAsList( "character_classes" ),
                 'provincesList' => $this->game->getConfig()->getConfigAsList( "provinces" ),

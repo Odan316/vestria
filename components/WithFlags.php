@@ -7,9 +7,8 @@ namespace diplomacy\modules\vestria\components;
 interface WithFlags {
     /**
      * @param string $name
-     * @param bool $value
      */
-    public function setFlag($name, $value);
+    public function setFlag($name);
 
     /**
      * @param string $name
@@ -17,4 +16,11 @@ interface WithFlags {
      * @return bool
      */
     public function hasFlag($name);
+
+    /**
+     * @param string $name
+     *
+     * @return void
+     */
+    public function removeFlag($name);
 }

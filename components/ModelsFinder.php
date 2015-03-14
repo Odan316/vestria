@@ -13,6 +13,7 @@ use diplomacy\modules\vestria\models\Character;
 use diplomacy\modules\vestria\models\CharacterAmbition;
 use diplomacy\modules\vestria\models\CharacterTrait;
 use diplomacy\modules\vestria\models\CharacterAction;
+use diplomacy\modules\vestria\models\Flag;
 
 class ModelsFinder {
     /** @var Game */
@@ -106,6 +107,8 @@ class ModelsFinder {
                     $criteria["factionId"] = ["notIn", [$character->getFactionId()]];
                 if(in_array("sameFaction", $filters))
                     $criteria["factionId"] = ["in", [$character->getFactionId()]];
+                if(in_array("canLeadArmies", $filters))
+                    $criteria["flags"] = ["hasFlag", Flag::CAN_LEAD_ARMIES];
                 $objects = $this->game->getCharacters($criteria, $asArray);
                 break;
             case "Config":

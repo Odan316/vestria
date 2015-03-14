@@ -29,7 +29,7 @@ class GameConfig extends \JSONModel
      */
     public function __construct( $gameId )
     {
-        $this->$gameId = $gameId;
+        $this->gameId = $gameId;
     }
 
     /**

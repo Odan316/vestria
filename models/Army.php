@@ -43,6 +43,22 @@ class Army extends \JSONModel
     }
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOfficerId()
+    {
+        return $this->officerId;
+    }
+
+    /**
      * @return Character|null
      */
     public function getOfficer()
@@ -52,6 +68,34 @@ class Army extends \JSONModel
         }
 
         return $this->officer;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStrength()
+    {
+        return $this->strength;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMorale()
+    {
+        return $this->morale;
+    }
+
+    /**
+     * Задает дефолтные параметры для персонажа
+     *
+     * @return Army
+     */
+    public function setupAsNew( )
+    {
+        $this->morale = 50;
+
+        return $this;
     }
 
     /**
@@ -68,5 +112,22 @@ class Army extends \JSONModel
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    protected function onAttributeChange($attributeName, $oldValue, $newValue)
+    {
+        switch($attributeName) {
+            case 'officerId':
+                $newLeader = $this->game->getCharacter( $newValue );
+                $newLeader->setArmyId( $this->id );
+                $oldLeader = $this->game->getCharacter( $oldValue );
+                if(is_object($oldLeader))
+                    $oldLeader->setArmyId( 0 );
+                break;
+            default:
+                break;
+        }
+    }
 
 }

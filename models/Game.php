@@ -492,6 +492,21 @@ class Game extends \JSONModel implements \GameInterface
         }
     }
 
+    public function createArmy( $data )
+    {
+        $data["id"] = $this->lastArmyId;
+        $this->lastArmyId++;
+
+        $model = new Army ($this, $data);
+        $model->setupAsNew();
+
+        $this->armies[] = $model;
+
+        $this->save();
+
+        return $model;
+    }
+
     /**
      * Находит существующую провинцию по ее ИД в $data и обновляет переданные параметры
      *
