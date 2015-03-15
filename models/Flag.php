@@ -1,9 +1,12 @@
 <?php
 namespace diplomacy\modules\vestria\models;
 /**
- * Class Army
+ * Class Flag
  *
- * Класс армии
+ * Класс флага, на данный момент испольщзуется только как хранилище констант основных флагов
+ *
+ * @method Flag setName( string $name )
+ * @method string getName()
  */
 class Flag extends \JSONModel
 {
@@ -21,24 +24,12 @@ class Flag extends \JSONModel
     }
 
     /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * @inheritdoc
      */
     public function jsonSerialize()
     {
         return [
-            "id" => $this->id,
             "name" => $this->name,
-            "officerId" => $this->officerId,
-            "strength" => $this->strength,
-            "morale" => $this->morale
         ];
     }
 

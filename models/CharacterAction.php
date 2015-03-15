@@ -1,9 +1,24 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
 /**
  * Class CharacterAction
  *
- * Класс действия игрока
+ * Класс действия игрока (конфиг)
+ *
+ * @method CharacterAction setId( int $id )
+ * @method int getId()
+ * @method CharacterAction setName( string $name )
+ * @method string getName()
+ * @method CharacterAction setType( int $type )
+ * @method string getType()
+ * @method CharacterAction setPhase( int $phase )
+ * @method string getPhase()
+ *
+ * @method Condition[] getConditions()
+ * @method Parameter[] getParameters()
+ * @method Effect[] getEffects()
+ *
  */
 class CharacterAction extends \JSONModel
 {
@@ -26,11 +41,11 @@ class CharacterAction extends \JSONModel
     /** @var int */
     protected $phase;
     /** @var Condition[] */
-    protected $conditions = [];
+    protected $conditions = [ ];
     /** @var Parameter [] */
-    protected $parameters = [];
+    protected $parameters = [ ];
     /** @var Effect[] */
-    protected $effects = [];
+    protected $effects = [ ];
 
     /**
      * @inheritdoc
@@ -56,46 +71,6 @@ class CharacterAction extends \JSONModel
             unset( $data['effects'] );
         }
         parent::setAttributes( $data );
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return int
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPhase()
-    {
-        return $this->phase;
-    }
-
-    /**
-     * @return Parameter[]
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
     }
 
     /**
@@ -125,6 +100,7 @@ class CharacterAction extends \JSONModel
                 break;
             }
         }
+
         return $test;
     }
 
@@ -134,10 +110,10 @@ class CharacterAction extends \JSONModel
      *
      * @return void
      */
-    public function applyEffects($game, $parameters)
+    public function applyEffects( $game, $parameters )
     {
-        foreach($this->effects as $effect) {
-            $effect->apply($game, $parameters);
+        foreach ($this->effects as $effect) {
+            $effect->apply( $game, $parameters );
         }
     }
 
@@ -147,17 +123,17 @@ class CharacterAction extends \JSONModel
      *
      * @return bool
      */
-    public function checkFactionRequestAccept($characterId, $parameters)
+    public function checkFactionRequestAccept( $characterId, $parameters )
     {
-        foreach($this->effects as $effect){
-            if($effect->getType() == "factionRequestAccept"
-               && isset($parameters["characterId"])
-               && $parameters["characterId"] == $characterId
-            )
-            {
+        foreach ($this->effects as $effect) {
+            if ($effect->getType() == "factionRequestAccept"
+                && isset( $parameters["characterId"] )
+                && $parameters["characterId"] == $characterId
+            ) {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -167,7 +143,7 @@ class CharacterAction extends \JSONModel
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id,
+            'id'   => $this->id,
             'name' => $this->name
         ];
     }

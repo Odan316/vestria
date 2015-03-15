@@ -5,6 +5,13 @@ namespace diplomacy\modules\vestria\models;
  * Class RequestPosition
  *
  * Класс отдельного пункта заявки игрока
+ *
+ * @method RequestPosition setId( int $id )
+ * @method int getId()
+ * @method Request setActionId( int $actionId )
+ * @method int getActionId()
+ *
+ * @method [] getParameters()
  */
 class RequestPosition extends \JSONModel
 {
@@ -31,32 +38,6 @@ class RequestPosition extends \JSONModel
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getActionId()
-    {
-        return $this->actionId;
-    }
-    /**
-     * @param int $actionId
-     *
-     * @return RequestPosition
-     */
-    public function setActionId($actionId)
-    {
-        $this->actionId = $actionId;
-        return $this;
-    }
-
-    /**
      * @return CharacterAction|null
      */
     public function getAction()
@@ -73,14 +54,6 @@ class RequestPosition extends \JSONModel
     public function getRequest()
     {
         return $this->request;
-    }
-
-    /**
-     * @return array
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
     }
 
     /**

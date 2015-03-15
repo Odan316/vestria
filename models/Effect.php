@@ -7,6 +7,23 @@ use diplomacy\modules\vestria\components\WithFlags;
  * Class Effect
  *
  * Класс эффекта для классов, трейтов и действий
+ *
+ * @method Effect setType( string $type )
+ * @method string getType()
+ * @method Effect setObject( string $object )
+ * @method string getObject()
+ * @method Effect setObjectId( string $objectId )
+ * @method string getObjectId()
+ * @method Effect setProperty( string $property )
+ * @method string getProperty()
+ * @method Effect setOperation( string $operation )
+ * @method string getOperation()
+ * @method Effect setValueParameter( string $valueParameter )
+ * @method string getValueParameter()
+ * @method Effect setValueExact( string $valueExact )
+ * @method string getValueExact()
+ * @method Effect setValueCalculate( array $valueCalculate )
+ * @method [] getValueCalculate()
  */
 class Effect extends \JSONModel
 {
@@ -36,14 +53,6 @@ class Effect extends \JSONModel
      * @var Game
      */
     private $game;
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
     /**
      * @param Game $game

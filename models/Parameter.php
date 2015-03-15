@@ -6,6 +6,19 @@ use diplomacy\modules\vestria\components\ModelsFinder;
  * Class Parameter
  *
  * Класс параметра для действий
+ *
+ * @method Parameter setType( string $type )
+ * @method string getType()
+ * @method Parameter setName( string $name )
+ * @method string getName()
+ * @method Parameter setObject( string $object )
+ * @method string getObject()
+ * @method string[] getFilters()
+ * @method mixed getMax()
+ * @method mixed getMin()
+ * @method Parameter setLabel( string $label )
+ * @method string getLabel()
+ * @method Parameter setValue( string $value )
  */
 class Parameter extends \JSONModel
 {
@@ -29,13 +42,6 @@ class Parameter extends \JSONModel
      */
     protected $value;
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
 
     /**
      * @param Character $character

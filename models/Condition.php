@@ -3,10 +3,24 @@ namespace diplomacy\modules\vestria\models;
 
 use diplomacy\modules\vestria\components\ModelsFinder;
 use diplomacy\modules\vestria\components\WithFlags;
+
 /**
  * Class Condition
  *
  * Класс условия для абмиций, трейтов и действий
+ *
+ * @method Condition setType( string $type )
+ * @method string getType()
+ * @method Condition setObject( string $object )
+ * @method string getObject()
+ * @method Condition setProperty( string $property )
+ * @method string getProperty()
+ * @method Condition setIs( string $is )
+ * @method string getIs()
+ * @method Condition setValue( mixed $value )
+ *
+ * @method Condition[] getConditions()
+ *
  */
 class Condition extends \JSONModel
 {
@@ -42,23 +56,23 @@ class Condition extends \JSONModel
      *
      * @return bool
      */
-    public function test($character)
+    public function test( $character )
     {
         $test = false;
         switch ($this->type) {
             // Проверка на значение поля объекта
             case "propertyValue":
-                $model = (new ModelsFinder($character->getGame()))->getObject( $character, $this->object);
+                $model = ( new ModelsFinder( $character->getGame() ) )->getObject( $character, $this->object );
                 // Если объект успешно получен - проверяем значение его свойства на соответствие условию
                 if (is_object( $model )) {
                     $propertyGetter = "get" . $this->property;
                     $propertyValue  = call_user_func( [ $model, $propertyGetter ] );
-                    switch($this->is) {
+                    switch ($this->is) {
                         case "in":
-                            $test = in_array( $propertyValue, $this->getValue($character) );
+                            $test = in_array( $propertyValue, $this->getValue( $character ) );
                             break;
                         case "notIn":
-                            $test = ! in_array( $propertyValue, $this->getValue($character) );
+                            $test = ! in_array( $propertyValue, $this->getValue( $character ) );
                             break;
                         case "empty":
                             $test = empty( $propertyValue );
@@ -79,15 +93,16 @@ class Condition extends \JSONModel
                 break;
             case "hasFlag":
                 /** @var WithFlags $model */
-                $model = (new ModelsFinder($character->getGame()))->getObject( $character, $this->object);
-                $test = $model->hasFlag($this->property);
+                $model = ( new ModelsFinder( $character->getGame() ) )->getObject( $character, $this->object );
+                $test  = $model->hasFlag( $this->property );
                 break;
             case "or":
-                $test = $this->testOr($character);
+                $test = $this->testOr( $character );
                 break;
             default :
                 break;
         }
+
         return $test;
     }
 
@@ -96,24 +111,25 @@ class Condition extends \JSONModel
      *
      * @return array|null
      */
-    protected function getValue($character = null)
+    protected function getValue( $character = null )
     {
-        if(is_array($this->value))
+        if (is_array( $this->value )) {
             return $this->value;
-        elseif(strpos($this->value, ".")){
-            if($character != null){
-                $alias = explode(".", $this->value);
-                $property = array_pop($alias);
-                $model = (new ModelsFinder($character->getGame()))->getObject( $character, $alias[0]);
-                $value = call_user_func( [ $model, "get".$property ] );
-                return [$value];
-            }
-            else
-                return [null];
-        } else
-            return [$this->value];
-    }
+        } elseif (strpos( $this->value, "." )) {
+            if ($character != null) {
+                $alias    = explode( ".", $this->value );
+                $property = array_pop( $alias );
+                $model    = ( new ModelsFinder( $character->getGame() ) )->getObject( $character, $alias[0] );
+                $value    = call_user_func( [ $model, "get" . $property ] );
 
+                return [ $value ];
+            } else {
+                return [ null ];
+            }
+        } else {
+            return [ $this->value ];
+        }
+    }
 
     /**
      * @param Character $character
@@ -124,11 +140,12 @@ class Condition extends \JSONModel
     {
         $test = false;
         foreach ($this->conditions as $condition) {
-            if ( $condition->test( $character )) {
+            if ($condition->test( $character )) {
                 $test = true;
                 break;
             }
         }
+
         return $test;
     }
 }

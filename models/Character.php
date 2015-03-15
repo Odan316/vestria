@@ -3,10 +3,41 @@ namespace diplomacy\modules\vestria\models;
 
 use diplomacy\modules\vestria\components\WithFlags;
 use diplomacy\modules\vestria\components\WithModifiers;
+
 /**
  * Class Character
  *
- * Класс "Персонаж"
+ * Класс Персонажа
+ *
+ * @method Character setId( int $id )
+ * @method int getId()
+ * @method Character setName( string $name )
+ * @method string getName()
+ * @method Character setPlayerId( int $playerId )
+ * @method int getPlayerId()
+ * @method Character setFactionId( int $factionId )
+ * @method int getFactionId()
+ * @method Character setClassId( int $classId )
+ * @method int getClassId()
+ * @method Character setTraitId( int $traitId )
+ * @method int getTraitId()
+ * @method Character setAmbitionId( int $ambitionId )
+ * @method int getAmbitionId()
+ * @method Character setPopularity( int $popularity )
+ * @method int getPopularity()
+ * @method Character setCash( int $cash )
+ * @method int getCash()
+ * @method Character setRecruits( int $recruits )
+ * @method int getRecruits()
+ * @method Character setProvinceId( int $provinceId )
+ * @method int getProvinceId()
+ * @method Character setEstatesCount( int $count )
+ * @method int getEstatesCount()
+ * @method Character setFactoriesCount( int $count )
+ * @method int getFactoriesCount()
+ * @method Character setArmyId( int $armyId )
+ * @method int getArmyId()
+ *
  */
 class Character extends \JSONModel implements WithFlags, WithModifiers
 {
@@ -39,9 +70,9 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
     /** @var int */
     protected $armyId;
     /** @var [] */
-    protected $flags = [];
+    protected $flags = [ ];
     /** @var Modifier[] */
-    protected $modifiers = [];
+    protected $modifiers = [ ];
 
     /** @var Game */
     private $game;
@@ -62,6 +93,10 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
     /** @var Request */
     private $request;
 
+    const DEFAULT_POPULARITY = 20;
+    const DEFAULT_CASH = 50;
+    const DEFAULT_RECRUITS = 0;
+
     /**
      * Конструктор
      *
@@ -81,299 +116,42 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
     }
 
     /**
-     * @return int
+     * @inheritdoc
      */
-    public function getId()
+    public function setFlag( $name )
     {
-        return $this->id;
-    }
-
-    /**
-     * @param $name
-     *
-     * @return Game
-     */
-    public function setName( $name )
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param int $playerId
-     *
-     * @return Character
-     */
-    public function setPlayerId( $playerId )
-    {
-        $this->playerId = $playerId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPlayerId()
-    {
-        return $this->playerId;
-    }
-
-    /**
-     * @param null|int $factionId
-     *
-     * @return Character
-     */
-    public function setFactionId( $factionId )
-    {
-        $this->factionId = $factionId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFactionId()
-    {
-        return $this->factionId;
-    }
-
-    /**
-     * @param int $classId
-     *
-     * @return Character
-     */
-    public function setClassId( $classId )
-    {
-        $this->classId = $classId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getClassId()
-    {
-        return $this->classId;
-    }
-
-    /**
-     * @param int $traitId
-     *
-     * @return Character
-     */
-    public function setTraitId( $traitId )
-    {
-        $this->traitId = $traitId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTraitId()
-    {
-        return $this->traitId;
-    }
-
-    /**
-     * @param int $ambitionId
-     *
-     * @return Character
-     */
-    public function setAmbitionId( $ambitionId )
-    {
-        $this->ambitionId = $ambitionId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAmbitionId()
-    {
-        return $this->ambitionId;
-    }
-
-    /**
-     * @param int $popularity
-     *
-     * @return Character
-     */
-    public function setPopularity( $popularity )
-    {
-        $this->popularity = $popularity;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPopularity()
-    {
-        return $this->popularity;
-    }
-
-    /**
-     * @param int $cash
-     *
-     * @return Character
-     */
-    public function setCash( $cash )
-    {
-        $this->cash = $cash;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getRecruits()
-    {
-        return $this->recruits;
-    }
-
-    /**
-     * @param int $recruits
-     *
-     * @return Character
-     */
-    public function setRecruits( $recruits )
-    {
-        $this->recruits = $recruits;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCash()
-    {
-        return $this->cash;
-    }
-
-    /**
-     * @param int $provinceId
-     *
-     * @return Character
-     */
-    public function setProvinceId( $provinceId )
-    {
-        $this->provinceId = $provinceId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getProvinceId()
-    {
-        return $this->provinceId;
-    }
-
-    /**
-     * @param int $count
-     *
-     * @return Character
-     */
-    public function setEstatesCount( $count )
-    {
-        $this->estatesCount = $count;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getEstatesCount()
-    {
-        return $this->estatesCount;
-    }
-
-    /**
-     * @param int $count
-     *
-     * @return Character
-     */
-    public function setFactoriesCount( $count )
-    {
-        $this->factoriesCount = $count;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getFactoriesCount()
-    {
-        return $this->factoriesCount;
-    }
-
-    /**
-     * @param int $armyId
-     *
-     * @return Character
-     */
-    public function setArmyId( $armyId )
-    {
-        $this->armyId = $armyId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getArmyId()
-    {
-        return $this->armyId;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setFlag($name)
-    {
-        foreach($this->flags as $key => $flagName){
-            if($flagName == $name)
+        foreach ($this->flags as $key => $flagName) {
+            if ($flagName == $name) {
                 return;
+            }
         }
         $this->flags[] = $name;
     }
 
     /**
-     * @param string $name
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function hasFlag($name)
+    public function hasFlag( $name )
     {
-        return in_array($name, $this->flags);
+        return in_array( $name, $this->flags );
     }
 
     /**
-     * @param string $name
-     *
-     * @return void
+     * @inheritdoc
      */
     public function removeFlag( $name )
     {
-        foreach($this->flags as $key => $flagName){
-            if($flagName == $name)
-                unset($this->flags[$key]);
+        foreach ($this->flags as $key => $flagName) {
+            if ($flagName == $name) {
+                unset( $this->flags[$key] );
+            }
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function setModifier($modifier)
+    public function setModifier( $modifier )
     {
         $this->modifiers[] = $modifier;
     }
@@ -385,13 +163,16 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
     {
         $modValue = 0;
         // get characters modifiers
-        foreach($this->modifiers as $modifier){
-            if($modifier->getName() == $modifierName)
+        foreach ($this->modifiers as $modifier) {
+            if ($modifier->getName() == $modifierName) {
                 $modValue += $modifier->getValue();
+            }
         }
         $faction = $this->getFaction();
-        if(!empty($faction))
-            $modValue += $this->getFaction()->getModifier($modifierName);
+        if ( ! empty( $faction )) {
+            $modValue += $this->getFaction()->getModifier( $modifierName );
+        }
+
         return $modValue;
     }
 
@@ -409,7 +190,7 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function getPlayer()
     {
-        if (empty( $this->player )) {
+        if (empty( $this->player ) || $this->player->id != $this->playerId) {
             $this->player = \Users::model()->findByPk( $this->playerId );
         }
 
@@ -421,8 +202,8 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function getClass()
     {
-        if (empty( $this->class )) {
-            $this->class        = $this->game->getConfig()->getConfigElementById( "character_classes", $this->classId );
+        if (empty( $this->class ) || $this->class->getId() != $this->classId) {
+            $this->class = $this->game->getConfig()->getConfigElementById( "character_classes", $this->classId );
         }
 
         return $this->class;
@@ -433,8 +214,8 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function getTrait()
     {
-        if (empty( $this->trait )) {
-            $this->trait        = $this->game->getConfig()->getConfigElementById( "character_traits", $this->traitId );
+        if (empty( $this->trait ) || $this->trait->getId() != $this->traitId) {
+            $this->trait = $this->game->getConfig()->getConfigElementById( "character_traits", $this->traitId );
         }
 
         return $this->trait;
@@ -445,7 +226,7 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function getAmbition()
     {
-        if (empty( $this->ambition )) {
+        if (empty( $this->ambition ) || $this->ambition->getId() != $this->ambitionId) {
             $this->ambition = $this->game->getConfig()->getConfigElementById( "character_ambitions",
                 $this->ambitionId );
         }
@@ -458,7 +239,7 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function getFaction()
     {
-        if (empty( $this->faction )) {
+        if (empty( $this->faction ) || $this->faction->getId() != $this->factionId) {
             $this->faction = $this->game->getFaction( $this->factionId );
         }
 
@@ -470,7 +251,7 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function getProvince()
     {
-        if (empty( $this->province )) {
+        if (empty( $this->province ) || $this->province->getId() != $this->provinceId) {
             $this->province = $this->game->getProvince( $this->provinceId );
         }
 
@@ -482,7 +263,7 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function getArmy()
     {
-        if (empty( $this->army )) {
+        if (empty( $this->army ) || $this->army->getId() != $this->armyId) {
             $this->army = $this->game->getArmy( $this->armyId );
         }
 
@@ -510,12 +291,13 @@ class Character extends \JSONModel implements WithFlags, WithModifiers
      */
     public function setupAsNew( $id )
     {
-        $this->id         = $id;
-        $this->cash       = 50;
-        $this->popularity = 20;
-        $this->recruits     = 0;
-        $this->getClass()->applySetupEffects($this);
-        $this->getTrait()->applySetupEffects($this);
+        $this->setId( $id );
+        $this->setCash( self::DEFAULT_CASH );
+        $this->setPopularity( self::DEFAULT_POPULARITY );
+        $this->setRecruits( self::DEFAULT_RECRUITS );
+        $this->getClass()->applySetupEffects( $this );
+        $this->getTrait()->applySetupEffects( $this );
+
         return $this;
     }
 

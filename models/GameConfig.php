@@ -1,26 +1,34 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
 /**
  * Class GameConfig
  *
  * Класс для работы с файлами конфигурации
+ *
+ * @method GameConfig setGameId( int $gameId )
+ * @method int getGameId()
+ * @method GameConfig setConfigName( string $configName )
+ * @method string getConfigName()
+ *
+ * @method [] getParameters()
  */
 class GameConfig extends \JSONModel
 {
     /**
      * @var int ИД игры
      */
-    private $gameId;
+    protected $gameId;
 
     /**
      * @var string Имя конфига
      */
-    private $configName = 'main';
+    protected $configName = 'main';
 
     /**
      * @var [] Наборы параметров
      */
-    private $parameters = [ ];
+    protected $parameters = [ ];
 
     /**
      * Конструктор модели
@@ -55,18 +63,6 @@ class GameConfig extends \JSONModel
     }
 
     /**
-     * @param integer $gameId
-     *
-     * @return GameConfig
-     */
-    public function setGameId( $gameId )
-    {
-        $this->gameId = $gameId;
-
-        return $this;
-    }
-
-    /**
      * Установка путей к папке и файлу
      *
      * @param null|integer $gameId
@@ -96,6 +92,7 @@ class GameConfig extends \JSONModel
             return $this->parameters[$configName];
         } else {
             $this->load( $configName );
+
             return isset( $this->parameters[$configName] ) ? $this->parameters[$configName] : null;
         }
     }
@@ -107,16 +104,17 @@ class GameConfig extends \JSONModel
      *
      * @return array
      */
-    public function getConfigAsObjectsArray($configName)
+    public function getConfigAsObjectsArray( $configName )
     {
-        $config = $this->getConfigAsArray($configName);
-        $list = [ ];
+        $config = $this->getConfigAsArray( $configName );
+        $list   = [ ];
         if (isset( $config['listed'] ) && $config['listed'] == 1) {
             foreach ($config['elements'] as $element) {
-                $configClass = "\\diplomacy\\modules\\vestria\\models\\".$config["className"];
-                $list[] = new $configClass($element);
+                $configClass = "\\diplomacy\\modules\\vestria\\models\\" . $config["className"];
+                $list[]      = new $configClass( $element );
             }
         }
+
         return $list;
     }
 
@@ -137,6 +135,7 @@ class GameConfig extends \JSONModel
                 $list[$element['id']] = $element['name'];
             }
         }
+
         return $list;
     }
 
@@ -153,10 +152,10 @@ class GameConfig extends \JSONModel
         $config = $this->getConfigAsArray( $configName );
 
         if (isset( $config['listed'] ) && $config['listed'] == 1) {
-            $configClass = "\\diplomacy\\modules\\vestria\\models\\".$config["className"];
+            $configClass = "\\diplomacy\\modules\\vestria\\models\\" . $config["className"];
             foreach ($config['elements'] as $element) {
                 if ($element['id'] == $elementId) {
-                    return new $configClass($element);
+                    return new $configClass( $element );
                 }
             }
         }

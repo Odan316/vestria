@@ -1,9 +1,20 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
 /**
  * Class Modifier
  *
  * Класс модификатора для игры, фракций, провинций и персонажей
+ *
+ * @method Modifier setType( string $type )
+ * @method string getType()
+ * @method Modifier setName( string $name )
+ * @method string getName()
+ * @method Modifier setOperation( string $operation )
+ * @method string getOperation()
+ * @method Modifier setValue( mixed $value )
+ * @method int|float getValue()
+ *
  */
 class Modifier extends \JSONModel
 {
@@ -20,29 +31,13 @@ class Modifier extends \JSONModel
     /** @var int|float */
     protected $value;
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return float|int
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
     public function jsonSerialize()
     {
         return [
-            "type" => $this->type,
-            "name" => $this->name,
+            "type"      => $this->type,
+            "name"      => $this->name,
             "operation" => $this->operation,
-            "value" => $this->value
+            "value"     => $this->value
         ];
     }
 

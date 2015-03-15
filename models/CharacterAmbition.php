@@ -5,6 +5,17 @@ namespace diplomacy\modules\vestria\models;
  * Class CharacterAmbition
  *
  * Класс Амбиции персонажа (конфиг)
+ *
+ * @method CharacterAmbition setId( int $id )
+ * @method int getId()
+ * @method CharacterAmbition setName( string $name )
+ * @method string getName()
+ * @method CharacterAmbition setMakeLeader( bool $bool )
+ * @method string getMakeLeader()
+ *
+ * @method Condition[] getTakeConditions()
+ * @method Condition[] getMeetConditions()
+ *
  */
 class CharacterAmbition extends \JSONModel
 {
@@ -29,7 +40,7 @@ class CharacterAmbition extends \JSONModel
             foreach ($data['takeConditions'] as $conditionData) {
                 $this->takeConditions[] = new Condition( $conditionData );
             }
-            unset( $data['takeConditions']);
+            unset( $data['takeConditions'] );
         }
         if (isset( $data['meetConditions'] )) {
             foreach ($data['meetConditions'] as $conditionData) {
@@ -38,30 +49,6 @@ class CharacterAmbition extends \JSONModel
             unset( $data['meetConditions'] );
         }
         parent::setAttributes( $data );
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getMakeLeader()
-    {
-        return $this->makeLeader;
     }
 
     /**
@@ -78,6 +65,7 @@ class CharacterAmbition extends \JSONModel
                 break;
             }
         }
+
         return $test;
     }
 

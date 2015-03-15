@@ -4,6 +4,11 @@ namespace diplomacy\modules\vestria\models;
  * Class Request
  *
  * Класс заявки игрока
+ *
+ * @method Request setCharacterId( int $characterId )
+ * @method int getCharacterId()
+ * @method Request setLastPositionId( int $id )
+ * @method int getLastPositionId()
  */
 class Request extends \JSONModel
 {
@@ -50,29 +55,11 @@ class Request extends \JSONModel
     }
 
     /**
-     * @param int $characterId
-     *
-     * @return Request
-     */
-    public function setCharacterId($characterId)
-    {
-        $this->characterId = $characterId;
-        return $this;
-    }
-    /**
-     * @return int
-     */
-    public function getCharacterId()
-    {
-        return $this->characterId;
-    }
-
-    /**
      * @return Character|null
      */
     public function getCharacter()
     {
-        if (empty( $this->character )) {
+        if (empty( $this->character ) || $this->character->getId() != $this->characterId) {
             $this->character = $this->game->getCharacter( $this->characterId );
         }
         return $this->character;

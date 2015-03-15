@@ -4,6 +4,20 @@ namespace diplomacy\modules\vestria\models;
  * Class Province
  *
  * Класс провинции
+ *
+ * @method Province setId( int $id )
+ * @method int getId()
+ * @method Province setName( string $name )
+ * @method string getName()
+ * @method Province setOwnerId( int $ownerId )
+ * @method int getOwnerId()
+ * @method Province setNameX( int $nameX )
+ * @method int getNameX()
+ * @method Province setNameY( int $nameY )
+ * @method int getNameY()
+ * @method Province setNameSize( int $nameSize )
+ * @method int getNameSize()
+ *
  */
 class Province extends \JSONModel
 {
@@ -35,81 +49,13 @@ class Province extends \JSONModel
         parent::__construct( $data );
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return Province
-     */
-    public function setName( $name )
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNameX()
-    {
-        return $this->nameX;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNameY()
-    {
-        return $this->nameY;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNameSize()
-    {
-        return $this->nameSize;
-    }
-
-    /**
-     * @param null|int $factionId
-     *
-     * @return Province
-     */
-    public function setOwnerId($factionId)
-    {
-        $this->ownerId = $factionId;
-        return $this;
-    }
-    /**
-     * @return int
-     */
-    public function getOwnerId()
-    {
-        return $this->ownerId;
-    }
 
     /**
      * @return Faction
      */
     public function getOwner()
     {
-        if (empty( $this->owner )) {
+        if (empty( $this->owner ) || $this->owner->getId() != $this->ownerId) {
             $this->owner = $this->game->getFaction( $this->ownerId );
         }
 

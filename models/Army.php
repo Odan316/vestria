@@ -1,9 +1,22 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
 /**
  * Class Army
  *
  * Класс армии
+ *
+ * @method Army setId( int $id )
+ * @method int getId()
+ * @method Army setName( string $name )
+ * @method string getName()
+ * @method Army setOfficerId( int $officerId )
+ * @method int getOfficerId()
+ * @method Army setStrength( int $strength )
+ * @method int getStrength()
+ * @method Army setMorale( int $morale )
+ * @method int getMorale()
+ *
  */
 class Army extends \JSONModel
 {
@@ -24,6 +37,8 @@ class Army extends \JSONModel
     /** @var Character */
     protected $officer;
 
+    const DEFAULT_MORALE = 50;
+
     /**
      * @param Game $game
      * @param [] $data
@@ -35,35 +50,11 @@ class Army extends \JSONModel
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOfficerId()
-    {
-        return $this->officerId;
-    }
-
-    /**
      * @return Character|null
      */
     public function getOfficer()
     {
-        if (empty( $this->officer )) {
+        if (empty( $this->officer ) || $this->officer->getId() != $this->officerId) {
             $this->officer = $this->game->getCharacter( $this->officerId );
         }
 
@@ -71,29 +62,13 @@ class Army extends \JSONModel
     }
 
     /**
-     * @return int
-     */
-    public function getStrength()
-    {
-        return $this->strength;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMorale()
-    {
-        return $this->morale;
-    }
-
-    /**
      * Задает дефолтные параметры для персонажа
      *
      * @return Army
      */
-    public function setupAsNew( )
+    public function setupAsNew()
     {
-        $this->morale = 50;
+        $this->setMorale(self::DEFAULT_MORALE);
 
         return $this;
     }
@@ -104,26 +79,27 @@ class Army extends \JSONModel
     public function jsonSerialize()
     {
         return [
-            "id" => $this->id,
-            "name" => $this->name,
+            "id"        => $this->id,
+            "name"      => $this->name,
             "officerId" => $this->officerId,
-            "strength" => $this->strength,
-            "morale" => $this->morale
+            "strength"  => $this->strength,
+            "morale"    => $this->morale
         ];
     }
 
     /**
      * @inheritdoc
      */
-    protected function onAttributeChange($attributeName, $oldValue, $newValue)
+    protected function onAttributeChange( $attributeName, $oldValue, $newValue )
     {
-        switch($attributeName) {
+        switch ($attributeName) {
             case 'officerId':
                 $newLeader = $this->game->getCharacter( $newValue );
                 $newLeader->setArmyId( $this->id );
                 $oldLeader = $this->game->getCharacter( $oldValue );
-                if(is_object($oldLeader))
+                if (is_object( $oldLeader )) {
                     $oldLeader->setArmyId( 0 );
+                }
                 break;
             default:
                 break;

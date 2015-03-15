@@ -8,6 +8,15 @@ use diplomacy\modules\vestria\components\WithModifiers;
  * Class Faction
  *
  * Класс фракции
+ *
+ * @method Faction setId( int $id )
+ * @method int getId()
+ * @method Faction setName( string $name )
+ * @method string getName()
+ * @method Faction setLeaderId( int $leaderId )
+ * @method int getLeaderId()
+ * @method Faction setColor( string $colorHexCode )
+ * @method string getColor()
  */
 class Faction extends \JSONModel implements WithFlags, WithModifiers
 {
@@ -26,9 +35,9 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
     private $leader;
 
     /** @var [] */
-    private $flags = [];
+    private $flags = [ ];
     /** @var Modifier[] */
-    private $modifiers = [];
+    private $modifiers = [ ];
 
     /**
      * @param Game $game
@@ -41,76 +50,11 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return string Faction
-     */
-    public function setName( $name )
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param int $characterId
-     *
-     * @return Faction
-     */
-    public function setLeaderId($characterId)
-    {
-        $this->leaderId = $characterId;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLeaderId()
-    {
-        return $this->leaderId;
-    }
-
-    /**
-     * @param string $color
-     *
-     * @return Faction
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    /**
      * @return Character|null
      */
     public function getLeader()
     {
-        if (empty( $this->leader )) {
+        if (empty( $this->leader ) || $this->leader->getId() != $this->leaderId) {
             $this->leader = $this->game->getCharacter( $this->leaderId );
         }
 
@@ -122,7 +66,7 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
      *
      * @return Faction
      */
-    public function setupAsNew( )
+    public function setupAsNew()
     {
         return $this;
     }
@@ -130,11 +74,12 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
     /**
      * @param string $name
      */
-    public function setFlag($name)
+    public function setFlag( $name )
     {
-        foreach($this->flags as $key => $flagName){
-            if($flagName == $name)
+        foreach ($this->flags as $key => $flagName) {
+            if ($flagName == $name) {
                 return;
+            }
         }
         $this->flags[] = $name;
     }
@@ -144,9 +89,9 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
      *
      * @return bool
      */
-    public function hasFlag($name)
+    public function hasFlag( $name )
     {
-        return in_array($name, $this->flags);
+        return in_array( $name, $this->flags );
     }
 
     /**
@@ -156,16 +101,17 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
      */
     public function removeFlag( $name )
     {
-        foreach($this->flags as $key => $flagName){
-            if($flagName == $name)
-                unset($this->flags[$key]);
+        foreach ($this->flags as $key => $flagName) {
+            if ($flagName == $name) {
+                unset( $this->flags[$key] );
+            }
         }
     }
 
     /**
      * @inheritdoc
      */
-    public function setModifier($modifier)
+    public function setModifier( $modifier )
     {
         $this->modifiers[] = $modifier;
     }
@@ -177,9 +123,10 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
     {
         $modValue = 0;
         // get faction modifiers
-        foreach($this->modifiers as $modifier){
-            if($modifier->getName() == $modifierName)
+        foreach ($this->modifiers as $modifier) {
+            if ($modifier->getName() == $modifierName) {
                 $modValue += $modifier->getValue();
+            }
         }
 
         return $modValue;
@@ -201,9 +148,9 @@ class Faction extends \JSONModel implements WithFlags, WithModifiers
     /**
      * @inheritdoc
      */
-    protected function onAttributeChange($attributeName, $oldValue, $newValue)
+    protected function onAttributeChange( $attributeName, $oldValue, $newValue )
     {
-        switch($attributeName) {
+        switch ($attributeName) {
             case 'leaderId':
                 $newLeader = $this->game->getCharacter( $newValue );
                 $newLeader->setFactionId( $this->id );

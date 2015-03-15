@@ -5,6 +5,19 @@ namespace diplomacy\modules\vestria\models;
  * Class Game
  *
  * Модель для работы с игрой
+ *
+ * @method Game setId( int $id )
+ * @method int getId()
+ * @method GameConfig getConfig()
+ * @method Game setTurn( int $turn )
+ * @method int getTurn()
+ * @method Game setLastCharacterId( int $id )
+ * @method int getLastCharacterId()
+ * @method Game setLastFactionId( int $id )
+ * @method int getLastFactionId()
+ * @method Game setLastArmyId( int $id )
+ * @method int getLastArmyId()
+ *
  */
 class Game extends \JSONModel implements \GameInterface
 {
@@ -64,7 +77,7 @@ class Game extends \JSONModel implements \GameInterface
         $this->turn = $turn;
         $this->load();
         $this->config = new GameConfig( $this->id );
-        $this->map = new Map($this, $this->config->getConfigAsArray("map"));
+        $this->map    = new Map( $this, $this->config->getConfigAsArray( "map" ) );
     }
 
     /**
@@ -141,8 +154,8 @@ class Game extends \JSONModel implements \GameInterface
         }
 
         $this->lastCharacterId = $this->rawData['lastCharacterId'];
-        $this->lastFactionId = $this->rawData['lastFactionId'];
-        $this->lastArmyId = $this->rawData['lastArmyId'];
+        $this->lastFactionId   = $this->rawData['lastFactionId'];
+        $this->lastArmyId      = $this->rawData['lastArmyId'];
     }
 
     /**
@@ -150,17 +163,18 @@ class Game extends \JSONModel implements \GameInterface
      */
     public function createNewGame()
     {
-        $provincesConfig = $this->getConfig()->getConfigAsArray("provinces");
-        foreach($provincesConfig['elements'] as $province){
+        $provincesConfig = $this->getConfig()->getConfigAsArray( "provinces" );
+        foreach ($provincesConfig['elements'] as $province) {
             $newProv = [
-                "id" => $province['id'],
-                "name" => $province['name'],
-                "nameX" => $province['nameX'],
-                "nameY" => $province['nameY'],
+                "id"      => $province['id'],
+                "name"    => $province['name'],
+                "nameX"   => $province['nameX'],
+                "nameY"   => $province['nameY'],
                 "ownerId" => null,
             ];
-            if(isset($province["nameSize"]))
+            if (isset( $province["nameSize"] )) {
                 $newProv["nameSize"] = $province['nameSize'];
+            }
             $this->provinces[] = $newProv;
         }
         $this->save();
@@ -177,62 +191,14 @@ class Game extends \JSONModel implements \GameInterface
     }
 
     /**
-     * @param int $gameId
-     *
-     * @return Game
-     */
-    public function setId( $gameId )
-    {
-        $this->id = $gameId;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param integer $turn
-     *
-     * @return Game
-     */
-    public function setTurn( $turn )
-    {
-        $this->turn = $turn;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTurn()
-    {
-        return $this->turn;
-    }
-
-    /**
-     * @return GameConfig
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
      * @param [] $criteria
      * @param bool $asArray
      *
      * @return Province[]|[]
      */
-    public function getProvinces( $criteria = [], $asArray = false )
+    public function getProvinces( $criteria = [ ], $asArray = false )
     {
-        return $this->getModelsList($this->provinces, $criteria, $asArray);
+        return $this->getModelsList( $this->provinces, $criteria, $asArray );
     }
 
     /**
@@ -257,9 +223,9 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return Character[]|[]
      */
-    public function getCharacters( $criteria = [], $asArray = false )
+    public function getCharacters( $criteria = [ ], $asArray = false )
     {
-        return $this->getModelsList($this->characters, $criteria, $asArray);
+        return $this->getModelsList( $this->characters, $criteria, $asArray );
     }
 
     /**
@@ -281,6 +247,7 @@ class Game extends \JSONModel implements \GameInterface
                 $list[] = ( $asArray ? $character->jsonSerialize() : $character );
             }
         }
+
         return $list;
     }
 
@@ -306,9 +273,9 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return Faction[]|[]
      */
-    public function getFactions( $criteria = [], $asArray = false )
+    public function getFactions( $criteria = [ ], $asArray = false )
     {
-        return $this->getModelsList($this->factions, $criteria, $asArray);
+        return $this->getModelsList( $this->factions, $criteria, $asArray );
     }
 
     /**
@@ -333,9 +300,9 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return Army[]
      */
-    public function getArmies( $criteria = [], $asArray = false )
+    public function getArmies( $criteria = [ ], $asArray = false )
     {
-        return $this->getModelsList($this->armies, $criteria, $asArray);
+        return $this->getModelsList( $this->armies, $criteria, $asArray );
     }
 
     /**
@@ -360,9 +327,9 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return Request[]|[]
      */
-    public function getRequests( $criteria = [], $asArray = false )
+    public function getRequests( $criteria = [ ], $asArray = false )
     {
-        return $this->getModelsList($this->requests, $criteria, $asArray);
+        return $this->getModelsList( $this->requests, $criteria, $asArray );
     }
 
     /**
@@ -379,6 +346,7 @@ class Game extends \JSONModel implements \GameInterface
                 return $character;
             }
         }
+
         return null;
     }
 
@@ -396,6 +364,7 @@ class Game extends \JSONModel implements \GameInterface
                 return $request;
             }
         }
+
         return null;
     }
 
@@ -430,8 +399,10 @@ class Game extends \JSONModel implements \GameInterface
         $model = $this->getCharacter( $data['id'] );
         if ( ! empty( $model )) {
             $model->setAttributes( $data );
+
             return $this->save();
         }
+
         return false;
     }
 
@@ -468,8 +439,10 @@ class Game extends \JSONModel implements \GameInterface
         $model = $this->getFaction( $data['id'] );
         if ( ! empty( $model )) {
             $model->setAttributes( $data );
+
             return $this->save();
         }
+
         return false;
     }
 
@@ -480,24 +453,32 @@ class Game extends \JSONModel implements \GameInterface
      */
     public function destroyFaction( $id )
     {
-        foreach($this->factions as $key => $faction) {
-            if($faction->getId() == $id)
-                unset($this->factions[$key]);
+        foreach ($this->factions as $key => $faction) {
+            if ($faction->getId() == $id) {
+                unset( $this->factions[$key] );
+            }
         }
-        foreach($this->getCharacters(["factionId" => $id]) as $character) {
-            $character->setFactionId(null);
+        foreach ($this->getCharacters( [ "factionId" => $id ] ) as $character) {
+            $character->setFactionId( null );
         }
-        foreach($this->getProvinces(["ownerId" => $id]) as $province) {
-            $province->setOwnerId(null);
+        foreach ($this->getProvinces( [ "ownerId" => $id ] ) as $province) {
+            $province->setOwnerId( null );
         }
     }
 
+    /**
+     * Создает новую армию и сохраняет игру
+     *
+     * @param [] $data
+     *
+     * @return Army
+     */
     public function createArmy( $data )
     {
         $data["id"] = $this->lastArmyId;
-        $this->lastArmyId++;
+        $this->lastArmyId ++;
 
-        $model = new Army ($this, $data);
+        $model = new Army ( $this, $data );
         $model->setupAsNew();
 
         $this->armies[] = $model;
@@ -514,13 +495,15 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return bool
      */
-    public function updateProvince($data)
+    public function updateProvince( $data )
     {
         $model = $this->getProvince( $data['id'] );
         if ( ! empty( $model )) {
             $model->setAttributes( $data );
+
             return $this->save();
         }
+
         return false;
     }
 
@@ -533,7 +516,7 @@ class Game extends \JSONModel implements \GameInterface
      */
     public function createRequest( $data )
     {
-        $model = new Request( $this, $data );
+        $model            = new Request( $this, $data );
         $this->requests[] = $model;
 
         $this->save();
@@ -553,8 +536,10 @@ class Game extends \JSONModel implements \GameInterface
         $model = $this->getRequestByCharacterId( $data['characterId'] );
         if ( ! empty( $model )) {
             $model->setAttributes( $data );
+
             return $this->save();
         }
+
         return false;
     }
 
@@ -577,26 +562,26 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return array
      */
-    public function getModels( $modelsName, $criteria = [], $asArray = false )
+    public function getModels( $modelsName, $criteria = [ ], $asArray = false )
     {
-        switch($modelsName){
+        switch ($modelsName) {
             case "Army":
-                return $this->getArmies($criteria, $asArray);
+                return $this->getArmies( $criteria, $asArray );
                 break;
             case "Character":
-                return $this->getCharacters($criteria, $asArray);
+                return $this->getCharacters( $criteria, $asArray );
                 break;
             case "Faction":
-                return $this->getFactions($criteria, $asArray);
+                return $this->getFactions( $criteria, $asArray );
                 break;
             case "Province":
-                return $this->getProvinces($criteria, $asArray);
+                return $this->getProvinces( $criteria, $asArray );
                 break;
             case "Request":
-                return $this->getRequests($criteria, $asArray);
+                return $this->getRequests( $criteria, $asArray );
                 break;
             default:
-                return [];
+                return [ ];
                 break;
         }
     }
@@ -607,18 +592,19 @@ class Game extends \JSONModel implements \GameInterface
      *
      * @return \JSONModel
      */
-    public function getObject($objAlias, $objectId)
+    public function getObject( $objAlias, $objectId )
     {
-        if(!empty($objAlias)){
-            $objAlias = explode(".", $objAlias);
-            $model = call_user_func( [ $this, "get" . array_shift($objAlias) ], $objectId );
-            foreach($objAlias as $modelName){
+        if ( ! empty( $objAlias )) {
+            $objAlias = explode( ".", $objAlias );
+            $model    = call_user_func( [ $this, "get" . array_shift( $objAlias ) ], $objectId );
+            foreach ($objAlias as $modelName) {
                 $model = call_user_func( [ $model, "get" . $modelName ] );
             }
 
             return $model;
-        } else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -628,7 +614,7 @@ class Game extends \JSONModel implements \GameInterface
      */
     public function randomizeCharactersOrder()
     {
-        shuffle($this->characters);
+        shuffle( $this->characters );
     }
 
     /**
@@ -636,6 +622,6 @@ class Game extends \JSONModel implements \GameInterface
      */
     public function clearRequests()
     {
-        $this->requests = [];
+        $this->requests = [ ];
     }
 } 

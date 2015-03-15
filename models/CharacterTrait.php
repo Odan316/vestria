@@ -1,12 +1,24 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
 /**
  * Class CharacterTrait
  *
  * Класс Черты персонажа (конфиг)
+ *
+ * @method CharacterTrait setId( int $id )
+ * @method int getId()
+ * @method CharacterTrait setName( string $name )
+ * @method string getName()
+ *
+ * @method Condition[] getTakeConditions()
+ * @method Effect[] getSetupEffects()
+ * @method Effect[] getOnTurnEffects()
+ *
  */
 
-class CharacterTrait extends \JSONModel {
+class CharacterTrait extends \JSONModel
+{
 
     /** @var  int */
     protected $id;
@@ -15,9 +27,9 @@ class CharacterTrait extends \JSONModel {
     /** @var Condition[] */
     protected $takeConditions = [ ];
     /** @var Effect[] */
-    protected $setupEffects = [];
+    protected $setupEffects = [ ];
     /** @var Effect[] */
-    protected $onTurnEffects = [];
+    protected $onTurnEffects = [ ];
 
     /**
      * @inheritdoc
@@ -46,22 +58,6 @@ class CharacterTrait extends \JSONModel {
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * @param Character $character
      *
      * @return bool
@@ -75,6 +71,7 @@ class CharacterTrait extends \JSONModel {
                 break;
             }
         }
+
         return $test;
     }
 
@@ -83,10 +80,10 @@ class CharacterTrait extends \JSONModel {
      *
      * @return void
      */
-    public function applySetupEffects($character)
+    public function applySetupEffects( $character )
     {
-        foreach($this->setupEffects as $effect) {
-            $effect->apply($character->getGame(), ["characterId" => $character->getId()]);
+        foreach ($this->setupEffects as $effect) {
+            $effect->apply( $character->getGame(), [ "characterId" => $character->getId() ] );
         }
     }
 

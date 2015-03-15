@@ -1,9 +1,18 @@
 <?php
 namespace diplomacy\modules\vestria\models;
+
 /**
  * Class CharacterClass
  *
  * Класс Класса персонажа (конфиг)
+ *
+ * @method CharacterClass setId( int $id )
+ * @method int getId()
+ * @method CharacterClass setName( string $name )
+ * @method string getName()
+ *
+ * @method Effect[] getSetupEffects()
+ *
  */
 class CharacterClass extends \JSONModel
 {
@@ -18,7 +27,7 @@ class CharacterClass extends \JSONModel
     /** @var  string */
     protected $name;
     /** @var Effect[] */
-    protected $setupEffects = [];
+    protected $setupEffects = [ ];
 
     /**
      * @inheritdoc
@@ -35,30 +44,14 @@ class CharacterClass extends \JSONModel
     }
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * @param Character $character
      *
      * @return void
      */
-    public function applySetupEffects($character)
+    public function applySetupEffects( $character )
     {
-        foreach($this->setupEffects as $effect) {
-            $effect->apply($character->getGame(), ["characterId" => $character->getId()]);
+        foreach ($this->setupEffects as $effect) {
+            $effect->apply( $character->getGame(), [ "characterId" => $character->getId() ] );
         }
     }
 }
