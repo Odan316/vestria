@@ -666,6 +666,44 @@
       ]
     },
     {
+      "id": 302,
+      "name": "Пополнить армию",
+      "type": 4,
+      "phase": 1,
+      "conditions": [
+        {
+          "type": "propertyValue",
+          "object": "Character",
+          "property": "armyId",
+          "is": "notEmpty"
+        }
+      ],
+      "parameters": [
+        {
+          "type": "hiddenValue",
+          "name": "armyId",
+          "value": "Character.armyId"
+        },
+        {
+          "type": "exactValue",
+          "name": "addRecruits",
+          "label": "Рекруты :",
+          "min": 50,
+          "max": "Character.recruits"
+        }
+      ],
+      "effects": [
+        {
+          "type": "propertyChange",
+          "object": "Army",
+          "objectId": "armyId",
+          "property": "strength",
+          "operation": "add",
+          "valueParameter": "addRecruits"
+        }
+      ]
+    },
+    {
       "id": 400,
       "name": "Собрать доп. подати",
       "type": 3,
