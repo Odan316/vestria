@@ -456,6 +456,7 @@ class Game extends \JSONModel implements \GameInterface
         foreach ($this->factions as $key => $faction) {
             if ($faction->getId() == $id) {
                 unset( $this->factions[$key] );
+                break;
             }
         }
         foreach ($this->getCharacters( [ "factionId" => $id ] ) as $character) {
@@ -486,6 +487,27 @@ class Game extends \JSONModel implements \GameInterface
         $this->save();
 
         return $model;
+    }
+
+    /**
+     * Находит существующую армию и удаляет ее и чистит связанные с ней объекты
+     *
+     * @param int $id
+     */
+    public function destroyArmy( $id )
+    {
+        $recruits = 0;
+        foreach ($this->armies as $key => $army) {
+            if ($army->getId() == $id) {
+                $recruits = $army->getStrength();
+                unset( $this->factions[$key] );
+                break;
+            }
+        }
+        foreach ($this->getCharacters( [ "armyId" => $id ] ) as $character) {
+            $character->setArmyId( null );
+            $character->setRecruits( $recruits );
+        }
     }
 
     /**

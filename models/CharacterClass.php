@@ -20,7 +20,7 @@ class CharacterClass extends \JSONModel
     const CLASS_OFFICER = 2;
     const CLASS_CAPITALIST = 3;
     const CLASS_MOB_LEADER = 4;
-    const CLASS_PRIEST = 5;
+    const CLASS_CLERGYMAN = 5;
 
     /** @var  int */
     protected $id;

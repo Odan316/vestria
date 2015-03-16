@@ -136,6 +136,9 @@ class Effect extends \JSONModel
                     case "Faction":
                         $this->destroyFaction();
                         break;
+                    case "Army":
+                        $this->destroyArmy();
+                        break;
                 }
                 break;
             case "factionRequest":
@@ -290,5 +293,13 @@ class Effect extends \JSONModel
                 "strength" => $this->getParameterValue("strength")
             ]
         );
+    }
+
+    /**
+     * Destroys Army
+     */
+    private function destroyArmy()
+    {
+        $this->game->destroyArmy($this->getParameterValue("armyId"));
     }
 }
