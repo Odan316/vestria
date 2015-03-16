@@ -23,9 +23,11 @@ namespace diplomacy\modules\vestria\models;
 class CharacterAction extends \JSONModel
 {
     const PHASE_COMMON = 1;
-    const PHASE_SPENDING = 2;
-    const PHASE_MANEUVRES = 3;
-    const PHASE_AFTER_MANEUVRES = 3;
+    const PHASE_IMMEDIATE_INCOME = 2;
+    const PHASE_SPENDING = 3;
+    const PHASE_MANOEUVRES = 4;
+    const PHASE_AFTER_MANOEUVRES = 5;
+    const PHASE_INCOME = 6;
 
     const TYPE_COMMON = 1;
     const TYPE_FACTION = 2;

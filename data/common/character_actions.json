@@ -8,6 +8,14 @@
       "3": "TYPE_CHARACTER",
       "4": "TYPE_ARMY"
     },
+    "phases": {
+      "1": "PHASE_COMMON",
+      "2": "PHASE_IMMEDIATE_INCOME",
+      "3": "PHASE_SPENDING",
+      "4": "PHASE_MANOEUVRES",
+      "5": "PHASE_AFTER_MANOEUVRES",
+      "6": "PHASE_INCOME"
+    },
     "ids": {
       "100-199": "Common actions",
       "200-299": "Factions actions",
@@ -20,20 +28,14 @@
       "1300-1399": "Capitalists actions",
       "1400-1499": "Mob leaders actions",
       "1400-1499": "Clergymans actions"
-    },
-    "phases": {
-      "1": "PHASE_COMMON",
-      "2": "PHASE_SPENDING",
-      "3": "PHASE_MANEUVRES",
-      "4": "PHASE_AFTER_MANEUVRES"
     }
   },
   "elements": [
     {
       "id": 100,
-      "name": "Переехать в провинцию",
+      "name": "Двигаться в провинцию",
       "type": 1,
-      "phase": 1,
+      "phase": 4,
       "conditions": [],
       "parameters": [
         {
@@ -117,7 +119,7 @@
       "id": 102,
       "name": "Благотворительность",
       "type": 3,
-      "phase": 1,
+      "phase": 3,
       "conditions": [
         {
           "type": "propertyValue",
@@ -490,7 +492,7 @@
       "id": 300,
       "name": "Создать армию",
       "type": 4,
-      "phase": 2,
+      "phase": 3,
       "conditions": [
         {
           "type": "hasFlag",
@@ -549,7 +551,7 @@
       "id": 301,
       "name": "Передать рекрутов",
       "type": 4,
-      "phase": 1,
+      "phase": 2,
       "conditions": [
         {
           "type": "propertyValue",
@@ -603,7 +605,7 @@
       "id": 302,
       "name": "Распустить армию",
       "type": 4,
-      "phase": 1,
+      "phase": 2,
       "conditions": [
         {
           "type": "propertyValue",
@@ -669,7 +671,7 @@
       "id": 302,
       "name": "Пополнить армию",
       "type": 4,
-      "phase": 1,
+      "phase": 3,
       "conditions": [
         {
           "type": "propertyValue",
@@ -827,7 +829,7 @@
       "id": 403,
       "name": "Призывать крестьян",
       "type": 3,
-      "phase": 1,
+      "phase": 6,
       "conditions": [
         {
           "type": "propertyValue",
@@ -876,7 +878,7 @@
       "id": 404,
       "name": "Продать владение",
       "type": 3,
-      "phase": 1,
+      "phase": 2,
       "conditions": [
         {
           "type": "propertyValue",
@@ -925,10 +927,10 @@
       ]
     },
     {
-      "id": 405
+      "id": 405,
       "name": "Продать предприятие",
       "type": 3,
-      "phase": 1,
+      "phase": 2,
       "conditions": [
         {
           "type": "propertyValue",
@@ -980,7 +982,7 @@
       "id": 1000,
       "name": "Вербовать горожан",
       "type": 3,
-      "phase": 1,
+      "phase": 6,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1037,7 +1039,7 @@
       "id": 1001,
       "name": "Сбор пожертвований",
       "type": 3,
-      "phase": 4,
+      "phase": 6,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1086,7 +1088,7 @@
       "id": 1100,
       "name": "Купить владение",
       "type": 3,
-      "phase": 1,
+      "phase": 3,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1126,7 +1128,7 @@
       "id": 1200,
       "name": "Развивать предприятия",
       "type": 3,
-      "phase": 1,
+      "phase": 3,
       "conditions": [
         {
           "type": "propertyValue",
@@ -1173,7 +1175,7 @@
       "id": 1300,
       "name": "Открыть предприятие",
       "type": 3,
-      "phase": 1,
+      "phase": 3,
       "conditions": [
         {
           "type": "propertyValue",
