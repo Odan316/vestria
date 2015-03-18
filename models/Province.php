@@ -63,6 +63,14 @@ class Province extends \JSONModel
     }
 
     /**
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
      * @inheritdoc
      */
     public function jsonSerialize()

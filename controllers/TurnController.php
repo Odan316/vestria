@@ -1,8 +1,9 @@
 <?php
 namespace diplomacy\modules\vestria\controllers;
 
-use diplomacy\modules\vestria\components\ModelsFinder;
 use diplomacy\modules\vestria\components\VesController;
+use diplomacy\modules\vestria\components\Battle;
+use diplomacy\modules\vestria\models\Character;
 use diplomacy\modules\vestria\models\CharacterAction;
 use diplomacy\modules\vestria\models\RequestPosition;
 
@@ -105,6 +106,12 @@ class TurnController extends VesController
         //die();
     }
 
+    /**
+     * @param Character $character
+     * @param int[] $phases
+     *
+     * @return RequestPosition[]
+     */
     private function getPositionsByPhases($character, $phases)
     {
         $request = $this->game->getRequestByCharacterId($character->getId());
@@ -136,13 +143,29 @@ class TurnController extends VesController
      * - двигаются армии по одной
      * - если в провинции назначения есть армия чужой фракции - происходит бой
      */
-    public function manoeuvresAndBattles()
+    private function manoeuvresAndBattles()
     {
         foreach($this->game->getCharacters() as $character) {
             $positions = $this->getPositionsByPhases($character, [CharacterAction::PHASE_MANOEUVRES]);
             foreach($positions as $position){
                 $position->apply();
-                // battle check!!
+                $commandersInProvince = $this->game->getCharacters(["provinceId" => $character->getProvinceId(), "armyId" => ["notEmpty"]]);
+                $needBattle = false;
+                foreach($commandersInProvince as $commander){
+                    foreach($commandersInProvince as $commander2){
+                        if($commander->getFactionId() != $commander2->getFactionId()){
+                            $needBattle = true;
+                            break;
+                        }
+                    }
+                    if($needBattle)
+                        break;
+                }
+                if($needBattle){
+                    $battle = new Battle($character->getProvince());
+                    $battle->setAttacker($character);
+                    $battle->calculateResult();
+                }
             }
 
         }
