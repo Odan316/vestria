@@ -167,7 +167,20 @@ class Battle {
     private function calculateRetreat()
     {
         foreach($this->retreated as $retreated) {
-
+            $successfullyRetreated = false;
+            $neighbourProvinces = $retreated->getProvince()->getConnections();
+            foreach($neighbourProvinces as $connection){
+                $provinceTo = $this->game->getProvince($connection["provinceId"]);
+                if($provinceTo->getOwnerId() == $retreated->getFactionId()){
+                    $successfullyRetreated = true;
+                    $retreated->setProvinceId($connection["provinceId"]);
+                    break;
+                }
+            }
+            if(!$successfullyRetreated){
+                $this->game->destroyArmy($retreated->getArmyId());
+                // логика отступления персонажа без армии
+            }
         }
     }
 }

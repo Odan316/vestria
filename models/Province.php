@@ -25,7 +25,10 @@ class Province extends \JSONModel
     protected $id;
     /** @var string */
     protected $name;
-    /** @var int */
+    /**
+     * Owner Faction ID
+     * @var int
+     */
     protected $ownerId;
     /** @var int */
     protected $nameX;
@@ -33,10 +36,15 @@ class Province extends \JSONModel
     protected $nameY;
     /** @var string */
     protected $nameSize;
+    /** @var array */
+    protected $connections = [];
 
     /** @var Game */
     private $game;
-    /** @var Faction */
+    /**
+     * Owner Faction
+     * @var Faction
+     */
     private $owner;
 
     /**
@@ -70,6 +78,11 @@ class Province extends \JSONModel
         return $this->game;
     }
 
+    public function getConnections()
+    {
+        return $this->connections;
+    }
+
     /**
      * @inheritdoc
      */
@@ -81,7 +94,8 @@ class Province extends \JSONModel
             "ownerId" => $this->ownerId,
             "nameX" => $this->nameX,
             "nameY" => $this->nameY,
-            "nameSize" => $this->nameSize
+            "nameSize" => $this->nameSize,
+            "connections" => $this->connections
         ];
     }
 }
