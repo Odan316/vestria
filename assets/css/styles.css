@@ -123,6 +123,10 @@ svg text {
 #edit_character_gm label, #edit_faction_gm label {
     font-weight: bold;
 }
+#gm_turn_actions {
+    text-align: center;
+}
+
 
 /* Player's Panel*/
 #left_panel, #central_panel, #right_panel {

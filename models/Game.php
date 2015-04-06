@@ -33,6 +33,10 @@ class Game extends \JSONModel implements \GameInterface
      * @var int ИД хода
      */
     protected $turn;
+    /**
+     * @var Log Лог
+     */
+    protected $log;
 
     /**
      * @var Province[] Провинции
@@ -77,6 +81,7 @@ class Game extends \JSONModel implements \GameInterface
         $this->turn = $turn;
         $this->load();
         $this->config = new GameConfig( $this->id );
+        $this->log = new Log( $this, $this->turn );
         $this->map    = new Map( $this, $this->config->getConfigAsArray( "map" ) );
     }
 
@@ -188,6 +193,20 @@ class Game extends \JSONModel implements \GameInterface
     public function isReady()
     {
         return true;
+    }
+
+    /**
+     * @param int $turn
+     *
+     * @return Log
+     */
+    public function getLog($turn = 0)
+    {
+        if($turn == 0){
+            return $this->log;
+        } else {
+            return new Log($this, $turn);
+        }
     }
 
     /**

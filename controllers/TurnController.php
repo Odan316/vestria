@@ -34,6 +34,7 @@ class TurnController extends VesController
      */
     private function makeTurn()
     {
+        $this->game->getLog()->addRow("Ход номер ".$this->game->getTurn());
         // предобработка хода
         $this->preprocessTurn();
         // общие заявки
