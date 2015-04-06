@@ -130,11 +130,14 @@ class TurnController extends VesController
     private function budgetSpending()
     {
         foreach($this->game->getCharacters() as $character) {
-            $armyStrength = $character->getArmy()->getStrength();
-            $armyUpkeepModifier = $character->getModifier("armyUpkeep");
-            $armyUpkeep = $armyStrength * self::ARMY_BASE_UPKEEP * (1+$armyUpkeepModifier);
+            // Army upkeep
+            if(is_object($character->getArmy())){
+                $armyStrength = $character->getArmy()->getStrength();
+                $armyUpkeepModifier = $character->getModifier("armyUpkeep");
+                $armyUpkeep = $armyStrength * self::ARMY_BASE_UPKEEP * (1+$armyUpkeepModifier);
 
-            $character->setCash($character->getCash() - $armyUpkeep);
+                $character->setCash($character->getCash() - $armyUpkeep);
+            }
         }
     }
 
